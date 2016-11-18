@@ -9,4 +9,6 @@
     <context:component-scan base-package="com.haulmont.sdbmt"/>
     <bean id="cuba_EclipseLinkDescriptorEventListener"
           class="com.haulmont.sdbmt.core.sys.persistence.MtEclipseLinkDescriptorEventListener"/>
+    <bean id="cuba_Security" name="cuba_PersistenceSecurity"
+          class="com.haulmont.sdbmt.core.sys.MtPersistenceSecurityImpl"/>
 </beans>
