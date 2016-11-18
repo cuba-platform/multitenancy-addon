@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editCaption"
+        class="com.haulmont.sdbmt.web.company.CompanyEdit"
+        datasource="companyDs"
+        focusComponent="fieldGroup"
+        messagesPack="com.haulmont.sdbmt.web.company">
+    <dsContext>
+        <datasource id="companyDs"
+                    class="com.haulmont.sdbmt.entity.Company"
+                    view="_local"/>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="companyDs">
+            <column width="250px">
+                <field id="name"/>
+                <field id="test"/>
+                <field id="tenantId"/>
+            </column>
+        </fieldGroup>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

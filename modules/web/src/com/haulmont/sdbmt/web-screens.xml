@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <screen-config xmlns="http://schemas.haulmont.com/cuba/screens.xsd">
-
     <include file="com/haulmont/sdbmt/screens.xml"/>
-
+    <screen id="sdbmt$Tenant.browse"
+            template="com/haulmont/sdbmt/web/tenant/tenant-browse.xml"/>
+    <screen id="sdbmt$Tenant.edit"
+            template="com/haulmont/sdbmt/web/tenant/tenant-edit.xml"/>
+    <screen id="sdbmt$Company.edit"
+            template="com/haulmont/sdbmt/web/company/company-edit.xml"/>
+    <screen id="sdbmt$Company.browse"
+            template="com/haulmont/sdbmt/web/company/company-browse.xml"/>
 </screen-config>

@@ -23,7 +23,16 @@ public class Tenant extends StandardEntity {
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ACCESS_GROUP_ID", unique = true)
-    protected Group accessGroup;
+    protected MtGroup accessGroup;
+    public MtGroup getAccessGroup() {
+        return accessGroup;
+    }
+
+    public void setAccessGroup(MtGroup accessGroup) {
+        this.accessGroup = accessGroup;
+    }
+
+
 
     public void setName(String name) {
         this.name = name;
@@ -41,11 +50,5 @@ public class Tenant extends StandardEntity {
         return tenantId;
     }
 
-    public void setAccessGroup(Group accessGroup) {
-        this.accessGroup = accessGroup;
-    }
 
-    public Group getAccessGroup() {
-        return accessGroup;
-    }
 }
