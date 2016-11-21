@@ -6,7 +6,11 @@
 package com.haulmont.sdbmt.web.tenant;
 
 import com.haulmont.cuba.gui.components.AbstractEditor;
+import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.sdbmt.entity.Tenant;
 
+import java.util.List;
+
 public class TenantEdit extends AbstractEditor<Tenant> {
+
 }

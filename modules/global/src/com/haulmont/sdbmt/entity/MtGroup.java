@@ -17,7 +17,7 @@ import javax.persistence.DiscriminatorValue;
 @DiscriminatorValue("MT")
 @Extends(Group.class)
 @Entity(name = "sdbmt$MtGroup")
-public class MtGroup extends Group {
+public class MtGroup extends Group implements HasTenant {
     private static final long serialVersionUID = 8099135318007454563L;
 
     @Column(name = "TENANT_ID")

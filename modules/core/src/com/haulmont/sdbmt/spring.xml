@@ -11,4 +11,5 @@
           class="com.haulmont.sdbmt.core.sys.persistence.MtEclipseLinkDescriptorEventListener"/>
     <bean id="cuba_Security" name="cuba_PersistenceSecurity"
           class="com.haulmont.sdbmt.core.sys.MtPersistenceSecurityImpl"/>
+    <bean id="cuba_UserSessionManager" class="com.haulmont.sdbmt.core.sys.MtUserSessionManager"/>
 </beans>

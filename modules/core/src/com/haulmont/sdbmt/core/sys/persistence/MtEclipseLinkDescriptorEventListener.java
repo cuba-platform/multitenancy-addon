@@ -25,12 +25,7 @@ public class MtEclipseLinkDescriptorEventListener extends EclipseLinkDescriptorE
 
     private void assignTenantId(HasTenant entity) {
         String tenantId = AppBeans.get(UserSessionSource.class).getUserSession().getAttribute("tenant_id");
-        if (tenantId == null) {
-            //allow manual setting of tenant ID
-            if (entity.getTenantId() == null) {
-                throw new IllegalStateException("'tenant_id' user session attribute is absent. Log in as a tenant's user.");
-            }
-        } else {
+        if (tenantId != null) {
             entity.setTenantId(tenantId);
         }
     }
