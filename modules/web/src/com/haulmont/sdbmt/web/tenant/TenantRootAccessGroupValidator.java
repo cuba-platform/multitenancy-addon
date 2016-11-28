@@ -13,7 +13,7 @@ import com.haulmont.cuba.core.global.Messages;
 import com.haulmont.cuba.gui.components.Field;
 import com.haulmont.cuba.gui.components.ValidationException;
 import com.haulmont.cuba.security.entity.GroupHierarchy;
-import com.haulmont.sdbmt.entity.MtGroup;
+import com.haulmont.sdbmt.entity.SbdmtGroup;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class TenantRootAccessGroupValidator implements Field.Validator {
         }
 
         DataManager dm = AppBeans.get(DataManager.class);
-        MtGroup group = dm.reload((MtGroup) value, "group-tenant-and-hierarchy");
+        SbdmtGroup group = dm.reload((SbdmtGroup) value, "group-tenant-and-hierarchy");
 
         if (group.getTenant() != null) {
             throw new ValidationException(messages.getMessage(TenantRootAccessGroupValidator.class, "validation.hasTenant"));
@@ -43,18 +43,18 @@ public class TenantRootAccessGroupValidator implements Field.Validator {
         }
     }
 
-    private boolean hasOtherTenantSubgroups(MtGroup group) {
-        LoadContext<MtGroup> ctx = new LoadContext<>(MtGroup.class);
+    private boolean hasOtherTenantSubgroups(SbdmtGroup group) {
+        LoadContext<SbdmtGroup> ctx = new LoadContext<>(SbdmtGroup.class);
         ctx.setQueryString("select e.group from sec$GroupHierarchy e where e.parent.id = :group and e.group.tenant is not null")
                 .setParameter("group", group.getId());
 
         return dataManager.getCount(ctx) > 0;
     }
 
-    private boolean subgroupOfOtherTenantGroup(MtGroup group) {
+    private boolean subgroupOfOtherTenantGroup(SbdmtGroup group) {
         List<GroupHierarchy> hierarchyList = group.getHierarchyList();
         for (GroupHierarchy hierarchy : hierarchyList) {
-            MtGroup parent = (MtGroup) hierarchy.getParent();
+            SbdmtGroup parent = (SbdmtGroup) hierarchy.getParent();
             if (parent.getTenant() != null) {
                 return true;
             }
@@ -62,7 +62,7 @@ public class TenantRootAccessGroupValidator implements Field.Validator {
         return false;
     }
 
-    private boolean isRootGroup(MtGroup group) {
+    private boolean isRootGroup(SbdmtGroup group) {
         return group.getParent() == null;
     }
 }

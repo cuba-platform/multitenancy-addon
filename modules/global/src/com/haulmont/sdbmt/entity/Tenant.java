@@ -8,7 +8,6 @@ package com.haulmont.sdbmt.entity;
 import javax.persistence.*;
 
 import com.haulmont.cuba.core.entity.annotation.Listeners;
-import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.cuba.core.entity.StandardEntity;
 
 @Table(name = "SDBMT_TENANT")
@@ -25,12 +24,13 @@ public class Tenant extends StandardEntity {
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ACCESS_GROUP_ID", unique = true)
-    protected MtGroup accessGroup;
-    public MtGroup getAccessGroup() {
+    protected SbdmtGroup accessGroup;
+
+    public SbdmtGroup getAccessGroup() {
         return accessGroup;
     }
 
-    public void setAccessGroup(MtGroup accessGroup) {
+    public void setAccessGroup(SbdmtGroup accessGroup) {
         this.accessGroup = accessGroup;
     }
 
@@ -49,6 +49,4 @@ public class Tenant extends StandardEntity {
     public String getTenantId() {
         return tenantId;
     }
-
-
 }

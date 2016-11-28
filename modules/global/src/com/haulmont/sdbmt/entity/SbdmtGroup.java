@@ -5,24 +5,24 @@
  */
 package com.haulmont.sdbmt.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
+
 import com.haulmont.cuba.core.entity.annotation.Extends;
 import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.sdbmt.core.HasTenant;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.DiscriminatorValue;
+import com.haulmont.sdbmt.core.TenantId;
 
 @DiscriminatorValue("MT")
 @Extends(Group.class)
-@Entity(name = "sdbmt$MtGroup")
-public class MtGroup extends Group implements HasTenant {
+@Entity(name = "sdbmt$SbdmtGroup")
+public class SbdmtGroup extends Group implements HasTenant {
     private static final long serialVersionUID = 8099135318007454563L;
 
+    @TenantId
     @Column(name = "TENANT_ID")
     protected String tenantId;
 
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "accessGroup")
     protected Tenant tenant;
 

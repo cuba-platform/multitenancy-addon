@@ -15,7 +15,7 @@
             <property name="parent" view="_minimal"/>
         </property>
     </view>
-    <view class="com.haulmont.sdbmt.entity.MtGroup"
+    <view class="com.haulmont.sdbmt.entity.SbdmtGroup"
           extends="_local"
           name="group-tenant-and-hierarchy">
         <property name="tenant" view="_minimal"/>
@@ -25,12 +25,12 @@
             <property name="parent" view="group-with-tenant"/>
         </property>
     </view>
-    <view class="com.haulmont.sdbmt.entity.MtGroup"
+    <view class="com.haulmont.sdbmt.entity.SbdmtGroup"
           extends="_minimal"
           name="group-with-tenant">
         <property name="tenant" view="_minimal"/>
     </view>
-    <view class="com.haulmont.sdbmt.entity.MtGroup"
+    <view class="com.haulmont.sdbmt.entity.SbdmtGroup"
           extends="_minimal"
           name="group-with-tenantId">
         <property name="tenantId"/>

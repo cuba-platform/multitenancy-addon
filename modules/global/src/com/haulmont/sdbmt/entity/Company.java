@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.sdbmt.core.HasTenant;
+import com.haulmont.sdbmt.core.TenantId;
 
 @Table(name = "SDBMT_COMPANY")
 @Entity(name = "sdbmt$Company")
@@ -22,6 +23,7 @@ public class Company extends StandardEntity implements HasTenant {
     @Column(name = "TEST")
     protected String test;
 
+    @TenantId
     @Column(name = "TENANT_ID", nullable = false)
     protected String tenantId;
 
