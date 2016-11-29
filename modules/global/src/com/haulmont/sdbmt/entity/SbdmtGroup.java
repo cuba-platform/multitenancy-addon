@@ -22,8 +22,7 @@ public class SbdmtGroup extends Group implements HasTenant {
     @Column(name = "TENANT_ID")
     protected String tenantId;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "accessGroup")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "group")
     protected Tenant tenant;
 
     public void setTenant(Tenant tenant) {

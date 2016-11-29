@@ -35,7 +35,7 @@
             <columns>
                 <column id="name"/>
                 <column id="tenantId"/>
-                <column id="accessGroup"/>
+                <column id="group"/>
             </columns>
             <rows datasource="tenantsDs"/>
             <rowsCount/>

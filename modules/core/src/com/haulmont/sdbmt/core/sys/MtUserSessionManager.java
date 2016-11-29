@@ -7,12 +7,14 @@
 package com.haulmont.sdbmt.core.sys;
 
 import com.haulmont.chile.core.model.MetaClass;
+import com.haulmont.chile.core.model.MetaProperty;
 import com.haulmont.cuba.core.EntityManager;
 import com.haulmont.cuba.core.TypedQuery;
 import com.haulmont.cuba.security.entity.*;
 import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.cuba.security.sys.UserSessionManager;
 import com.haulmont.sdbmt.core.HasTenant;
+import com.haulmont.sdbmt.core.TenantId;
 import com.haulmont.sdbmt.entity.SbdmtGroup;
 import com.haulmont.sdbmt.entity.Tenant;
 
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class MtUserSessionManager extends UserSessionManager {
 
     public static final int PERMISSON_PROHIBIT = 0;
+    public static final int PERMISSON_HIDE = 0;
 
     @Override
     protected void compileSessionAttributes(UserSession session, Group group) {
@@ -44,6 +47,28 @@ public class MtUserSessionManager extends UserSessionManager {
             return;
         }
 
+        createEntityWritePermissions(session);
+        createTenantIdFieldPermissions(session);
+    }
+
+    private void createTenantIdFieldPermissions(UserSession session) {
+        Collection<MetaClass> entitiesWithTenant = getEntitiesWithTenant();
+        for (MetaClass e : entitiesWithTenant) {
+            addHideTenantIdPermission(session, e);
+        }
+    }
+
+    private void addHideTenantIdPermission(UserSession session, MetaClass metaClass) {
+        for (MetaProperty p : metaClass.getProperties()) {
+            if (p.getAnnotatedElement().getAnnotation(TenantId.class) != null) {
+                session.addPermission(PermissionType.ENTITY_ATTR,
+                        metaClass.getName() + Permission.TARGET_PATH_DELIMETER + p.getName(),
+                        null, PERMISSON_HIDE);
+            }
+        }
+    }
+
+    private void createEntityWritePermissions(UserSession session) {
         Collection<MetaClass> readOnlyEntities = getEntitiesWithoutTenant();
         for (MetaClass e : readOnlyEntities) {
             addProhibitEntityCreatePermission(session, e);
@@ -52,16 +77,24 @@ public class MtUserSessionManager extends UserSessionManager {
         }
     }
 
-    private Collection<MetaClass> getEntitiesWithoutTenant() {
+    private Collection<MetaClass> getEntitiesWithTenant() {
         Collection<MetaClass> allEntities = metadata.getClasses();
         return allEntities.stream()
-                .filter(this::isEntityWithoutTenantId)
+                .filter(this::isEntityWithTenantId)
                 .filter(e -> e.getJavaClass().getAnnotation(Entity.class) != null)
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
-    private boolean isEntityWithoutTenantId(MetaClass metaClass) {
-        return !HasTenant.class.isAssignableFrom(metaClass.getJavaClass());
+    private Collection<MetaClass> getEntitiesWithoutTenant() {
+        Collection<MetaClass> allEntities = metadata.getClasses();
+        return allEntities.stream()
+                .filter(e -> !isEntityWithTenantId(e))
+                .filter(e -> e.getJavaClass().getAnnotation(Entity.class) != null)
+                .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    private boolean isEntityWithTenantId(MetaClass metaClass) {
+        return HasTenant.class.isAssignableFrom(metaClass.getJavaClass());
     }
 
     protected void addProhibitEntityUpdatePermission(UserSession session, MetaClass metaClass) {

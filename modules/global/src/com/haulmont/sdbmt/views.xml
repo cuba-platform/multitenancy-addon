@@ -3,13 +3,13 @@
     <view class="com.haulmont.sdbmt.entity.Tenant"
           extends="_local"
           name="tenant-browse">
-        <property name="accessGroup"
+        <property name="group"
                   view="_minimal"/>
     </view>
     <view class="com.haulmont.sdbmt.entity.Tenant"
           extends="_local"
           name="tenant-edit">
-        <property name="accessGroup"
+        <property name="group"
                   view="_minimal">
             <property name="tenant" view="_minimal"/>
             <property name="parent" view="_minimal"/>

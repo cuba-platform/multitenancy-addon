@@ -19,15 +19,15 @@ public class TenantListener implements BeforeUpdateEntityListener<Tenant>, Befor
 
     @Override
     public void onBeforeInsert(Tenant entity, EntityManager entityManager) {
-        if (PersistenceHelper.isLoaded(entity, "accessGroup") && entity.getAccessGroup() != null) {
-            updateAccessGroupTenantId(entity.getAccessGroup(), entity.getTenantId(), entityManager);
+        if (PersistenceHelper.isLoaded(entity, "group") && entity.getGroup() != null) {
+            updateAccessGroupTenantId(entity.getGroup(), entity.getTenantId(), entityManager);
         }
     }
 
     @Override
     public void onBeforeUpdate(Tenant entity, EntityManager entityManager) {
-        if (PersistenceHelper.isLoaded(entity, "accessGroup") && entity.getAccessGroup() != null) {
-            updateAccessGroupTenantId(entity.getAccessGroup(), entity.getTenantId(), entityManager);
+        if (PersistenceHelper.isLoaded(entity, "group") && entity.getGroup() != null) {
+            updateAccessGroupTenantId(entity.getGroup(), entity.getTenantId(), entityManager);
         }
     }
 

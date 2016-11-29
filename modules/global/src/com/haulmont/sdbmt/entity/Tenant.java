@@ -24,14 +24,14 @@ public class Tenant extends StandardEntity {
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ACCESS_GROUP_ID", unique = true)
-    protected SbdmtGroup accessGroup;
+    protected SbdmtGroup group;
 
-    public SbdmtGroup getAccessGroup() {
-        return accessGroup;
+    public SbdmtGroup getGroup() {
+        return group;
     }
 
-    public void setAccessGroup(SbdmtGroup accessGroup) {
-        this.accessGroup = accessGroup;
+    public void setGroup(SbdmtGroup group) {
+        this.group = group;
     }
 
     public void setName(String name) {
