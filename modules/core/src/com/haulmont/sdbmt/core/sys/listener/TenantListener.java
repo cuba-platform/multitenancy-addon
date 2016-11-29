@@ -10,7 +10,7 @@ import com.haulmont.cuba.core.EntityManager;
 import com.haulmont.cuba.core.global.PersistenceHelper;
 import com.haulmont.cuba.core.listener.BeforeInsertEntityListener;
 import com.haulmont.cuba.core.listener.BeforeUpdateEntityListener;
-import com.haulmont.sdbmt.entity.SbdmtGroup;
+import com.haulmont.sdbmt.entity.SdbmtGroup;
 import com.haulmont.sdbmt.entity.Tenant;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +31,7 @@ public class TenantListener implements BeforeUpdateEntityListener<Tenant>, Befor
         }
     }
 
-    private void updateAccessGroupTenantId(SbdmtGroup accessGroup, String tenantId, EntityManager em) {
+    private void updateAccessGroupTenantId(SdbmtGroup accessGroup, String tenantId, EntityManager em) {
         accessGroup = em.reload(accessGroup, "group-with-tenantId");
         if (accessGroup != null) {
             accessGroup.setTenantId(tenantId);

@@ -14,8 +14,8 @@ import com.haulmont.sdbmt.core.TenantId;
 
 @DiscriminatorValue("MT")
 @Extends(Group.class)
-@Entity(name = "sdbmt$SbdmtGroup")
-public class SbdmtGroup extends Group implements HasTenant {
+@Entity(name = "sdbmt$SdbmtGroup")
+public class SdbmtGroup extends Group implements HasTenant {
     private static final long serialVersionUID = 8099135318007454563L;
 
     @TenantId

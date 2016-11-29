@@ -15,7 +15,7 @@ import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.cuba.security.sys.UserSessionManager;
 import com.haulmont.sdbmt.core.HasTenant;
 import com.haulmont.sdbmt.core.TenantId;
-import com.haulmont.sdbmt.entity.SbdmtGroup;
+import com.haulmont.sdbmt.entity.SdbmtGroup;
 import com.haulmont.sdbmt.entity.Tenant;
 
 import javax.persistence.Entity;
@@ -123,8 +123,8 @@ public class MtUserSessionManager extends UserSessionManager {
     }
 
     private Tenant findGroupTenant(Group group) {
-        if (((SbdmtGroup)group).getTenant() != null) {
-            return ((SbdmtGroup)group).getTenant();
+        if (((SdbmtGroup)group).getTenant() != null) {
+            return ((SdbmtGroup)group).getTenant();
         }
         EntityManager em = persistence.getEntityManager();
         TypedQuery<Tenant> q = em.createQuery("select t from sec$GroupHierarchy h join h.parent.tenant t " +
