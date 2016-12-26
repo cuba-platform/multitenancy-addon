@@ -14,6 +14,7 @@ import com.haulmont.cuba.gui.components.Field;
 import com.haulmont.cuba.gui.components.ValidationException;
 import com.haulmont.cuba.security.entity.GroupHierarchy;
 import com.haulmont.sdbmt.entity.SdbmtGroup;
+import com.haulmont.sdbmt.entity.Tenant;
 
 import java.util.List;
 
@@ -21,6 +22,12 @@ public class TenantRootAccessGroupValidator implements Field.Validator {
 
     private Messages messages = AppBeans.get(Messages.class);
     private DataManager dataManager = AppBeans.get(DataManager.class);
+    private Tenant tenant;
+
+    public TenantRootAccessGroupValidator(Tenant tenant) {
+        this.tenant = tenant;
+    }
+
     @Override
     public void validate(Object value) throws ValidationException {
         if (value == null) {
@@ -30,7 +37,7 @@ public class TenantRootAccessGroupValidator implements Field.Validator {
         DataManager dm = AppBeans.get(DataManager.class);
         SdbmtGroup group = dm.reload((SdbmtGroup) value, "group-tenant-and-hierarchy");
 
-        if (group.getTenant() != null) {
+        if (group.getTenant() != null && !group.getTenant().equals(tenant)) {
             throw new ValidationException(messages.getMessage(TenantRootAccessGroupValidator.class, "validation.hasTenant"));
         } else if (isRootGroup(group)) {
             throw new ValidationException(messages.getMessage(TenantRootAccessGroupValidator.class, "validation.rootGroup"));
@@ -55,7 +62,7 @@ public class TenantRootAccessGroupValidator implements Field.Validator {
         List<GroupHierarchy> hierarchyList = group.getHierarchyList();
         for (GroupHierarchy hierarchy : hierarchyList) {
             SdbmtGroup parent = (SdbmtGroup) hierarchy.getParent();
-            if (parent.getTenant() != null) {
+            if (parent.getTenant() != null && !parent.getTenant().equals(tenant)) {
                 return true;
             }
         }

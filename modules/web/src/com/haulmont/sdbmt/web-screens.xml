@@ -9,4 +9,16 @@
             template="com/haulmont/sdbmt/web/company/company-edit.xml"/>
     <screen id="sdbmt$Company.browse"
             template="com/haulmont/sdbmt/web/company/company-browse.xml"/>
+    <screen id="sdbmt$MenuItem.browse"
+            template="com/haulmont/sdbmt/web/menuitem/menu-item-browse.xml"/>
+    <screen id="sdbmt$MenuItem.edit"
+            template="com/haulmont/sdbmt/web/menuitem/menu-item-edit.xml"/>
+    <screen id="sdbmt$Order.browse"
+            template="com/haulmont/sdbmt/web/order/order-browse.xml"/>
+    <screen id="sdbmt$Order.edit"
+            template="com/haulmont/sdbmt/web/order/order-edit.xml"/>
+    <screen id="sdbmt$OrderItem.edit"
+            template="com/haulmont/sdbmt/web/orderitem/order-item-edit.xml"/>
+    <screen id="sdbmt$OrderItem.browse"
+            template="com/haulmont/sdbmt/web/orderitem/order-item-browse.xml"/>
 </screen-config>

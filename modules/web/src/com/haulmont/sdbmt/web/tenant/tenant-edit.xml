@@ -19,9 +19,8 @@
             <column width="250px">
                 <field id="name"/>
                 <field id="tenantId"/>
-                <field id="accessGroup">
-                    <validator class="com.haulmont.sdbmt.web.tenant.TenantRootAccessGroupValidator"/>
-                </field>
+                <field id="group"/>
+                <field id="admin"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        class="com.haulmont.sdbmt.gui.app.security.role.edit.SdbmtRoleEditor"
+        extends="/com/haulmont/cuba/gui/app/security/role/edit/role-edit.xml"
+        messagesPack="com.haulmont.sdbmt.gui.app.security.role.edit">
+    <layout>
+        <tabSheet id="permissionsTabsheet">
+            <tab id="screenPermissionsTab">
+                <frame src="/com/haulmont/sdbmt/gui/app/security/role/edit/tabs/screen-permission-tab.xml"
+                       id="screensTabFrame"/>
+            </tab>
+            <tab id="entityPermissionsTab">
+                <frame src="/com/haulmont/sdbmt/gui/app/security/role/edit/tabs/entities-permission-tab.xml"
+                       id="entitiesTabFrame"/>
+            </tab>
+            <tab id="propertyPermissionsTab">
+                <frame src="/com/haulmont/sdbmt/gui/app/security/role/edit/tabs/attributes-permission-tab.xml"
+                       id="attributesTabFrame"/>
+            </tab>
+            <!--<tab id="specificPermissionsTab" caption="msg://specific-permissions" lazy="true">-->
+                <!--<frame src="/com/haulmont/cuba/gui/app/security/role/edit/tabs/specific-permission-tab.xml"-->
+                       <!--id="specificTabFrame" width="100%" height="100%"/>-->
+            <!--</tab>-->
+            <!--<tab id="uiPermissionsTab" caption="msg://ui-permissions" lazy="true">-->
+                <!--<frame src="/com/haulmont/cuba/gui/app/security/role/edit/tabs/ui-permission-tab.xml"-->
+                       <!--id="uiTabFrame" width="100%" height="100%"/>-->
+            <!--</tab>-->
+        </tabSheet>
+    </layout>
+</window>

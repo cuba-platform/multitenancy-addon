@@ -6,5 +6,20 @@
         <class>com.haulmont.sdbmt.entity.SdbmtGroup</class>
         <class>com.haulmont.sdbmt.entity.Company</class>
         <class>com.haulmont.sdbmt.entity.Tenant</class>
+        <class>com.haulmont.sdbmt.entity.SdbmtCategory</class>
+        <class>com.haulmont.sdbmt.entity.SdbmtCategoryAttribute</class>
+        <class>com.haulmont.sdbmt.entity.Car</class>
+        <class>com.haulmont.sdbmt.entity.SdbmtUser</class>
+        <class>com.haulmont.sdbmt.entity.SdbmtRole</class>
+        <class>com.haulmont.sdbmt.entity.SdbmtFileDescriptor</class>
+        <class>com.haulmont.sdbmt.entity.SdbmtSendingMessage</class>
+        <class>com.haulmont.sdbmt.entity.SdbmtSendingAttachment</class>
+        <class>com.haulmont.sdbmt.entity.SdbmtUserRole</class>
+        <class>com.haulmont.sdbmt.entity.SdbmtUserSessionEntity</class>
+        <class>com.haulmont.sdbmt.entity.SdbmtFilterEntity</class>
+        <class>com.haulmont.sdbmt.entity.SdbmtCategoryAttributeValue</class>
+        <class>com.haulmont.sdbmt.entity.MenuItem</class>
+        <class>com.haulmont.sdbmt.entity.Order</class>
+        <class>com.haulmont.sdbmt.entity.OrderItem</class>
     </persistence-unit>
 </persistence>

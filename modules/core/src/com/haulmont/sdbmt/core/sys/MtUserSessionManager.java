@@ -61,11 +61,30 @@ public class MtUserSessionManager extends UserSessionManager {
     private void addHideTenantIdPermission(UserSession session, MetaClass metaClass) {
         for (MetaProperty p : metaClass.getProperties()) {
             if (p.getAnnotatedElement().getAnnotation(TenantId.class) != null) {
+//                session.addPermission(PermissionType.ENTITY_ATTR,
+//                        metaClass.getName() + Permission.TARGET_PATH_DELIMETER + p.getName(),
+//                        null, PERMISSON_HIDE);
+
+                MetaClass originalMetaClass = metadata.getExtendedEntities().getOriginalMetaClass(metaClass);
+                if (originalMetaClass != null) {
+                    metaClass = originalMetaClass;
+                }
+//                if (metaClass != null) {
+//                }
                 session.addPermission(PermissionType.ENTITY_ATTR,
                         metaClass.getName() + Permission.TARGET_PATH_DELIMETER + p.getName(),
                         null, PERMISSON_HIDE);
             }
         }
+    }
+
+    private String getExtendedEntityName(MetaClass metaClass) {
+        Class extendedClass = metadata.getExtendedEntities().getExtendedClass(metaClass);
+        if (extendedClass != null) {
+            MetaClass extMetaClass = metadata.getClassNN(extendedClass);
+            return extMetaClass.getName();
+        }
+        return metaClass.getName();
     }
 
     private void createEntityWritePermissions(UserSession session) {

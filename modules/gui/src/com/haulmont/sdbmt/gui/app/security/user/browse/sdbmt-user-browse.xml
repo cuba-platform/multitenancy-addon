@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        class="com.haulmont.sdbmt.gui.app.security.user.browse.SdbmtUserBrowser"
+        extends="/com/haulmont/cuba/gui/app/security/user/browse/user-browse.xml"
+        messagesPack="com.haulmont.sdbmt.gui.app.security.user.browse">
+    <layout>
+        <filter id="genericFilter"/>
+        <groupTable id="usersTable">
+            <columns>
+                <column id="tenantId"/>
+            </columns>
+        </groupTable>
+    </layout>
+</window>

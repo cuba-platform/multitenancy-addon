@@ -12,4 +12,5 @@
     <bean id="cuba_Security" name="cuba_PersistenceSecurity"
           class="com.haulmont.sdbmt.core.sys.MtPersistenceSecurityImpl"/>
     <bean id="cuba_UserSessionManager" class="com.haulmont.sdbmt.core.sys.MtUserSessionManager"/>
+    <bean id="cuba_UserSessions" class="com.haulmont.sdbmt.security.app.SdbmtUserSessions"/>
 </beans>

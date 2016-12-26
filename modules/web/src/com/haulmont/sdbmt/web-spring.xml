@@ -7,5 +7,5 @@
 
     <!-- Annotation-based beans -->
     <context:component-scan base-package="com.haulmont.sdbmt"/>
-
+    <bean id="cuba_DynamicAttributesGuiTools" class="com.haulmont.sdbmt.gui.dynamicattributes.SdbmtDynamicAttributesGuiTools"/>
 </beans>

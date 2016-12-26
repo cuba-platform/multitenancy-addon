@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <screen-config xmlns="http://schemas.haulmont.com/cuba/screens.xsd">
-
+    <screen id="sec$Role.edit"
+            template="com/haulmont/sdbmt/gui/app/security/role/edit/role-edit.xml"/>
+    <screen id="sec$UserSessionEntity.browse"
+            template="com/haulmont/sdbmt/gui/app/security/session/browse/sdbmt-session-browse.xml"/>
+    <screen id="sec$User.edit"
+            template="com/haulmont/sdbmt/gui/app/security/user/edit/sdbmt-user-edit.xml"/>
+    <screen id="sec$User.browse"
+            template="com/haulmont/sdbmt/gui/app/security/user/browse/sdbmt-user-browse.xml"/>
 </screen-config>

@@ -36,6 +36,7 @@
                 <column id="name"/>
                 <column id="tenantId"/>
                 <column id="group"/>
+                <column id="admin"/>
             </columns>
             <rows datasource="tenantsDs"/>
             <rowsCount/>

@@ -26,6 +26,19 @@ public class Tenant extends StandardEntity {
     @JoinColumn(name = "ACCESS_GROUP_ID", unique = true)
     protected SdbmtGroup group;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ADMIN_ID", unique = true)
+    protected SdbmtUser admin;
+
+    public void setAdmin(SdbmtUser admin) {
+        this.admin = admin;
+    }
+
+    public SdbmtUser getAdmin() {
+        return admin;
+    }
+
+
     public SdbmtGroup getGroup() {
         return group;
     }
