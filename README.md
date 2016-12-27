@@ -21,6 +21,7 @@ Tenant root access group can't be a parent of any other tenant's group, i.e. **s
 
 # Tenant permissions
 Tenant permissions are handled by Cuba security subsystem. Tenant permissions are being compiled at runtime during user login and being stored in the user session.
+
 (For implementation see `MtUserSessionManager`)
 
 All the tenants implicitly assigned default tenant role. Default role's purpose is to hide system functionality which no tenant should not have access to (JMX console, Server log etc).
@@ -43,10 +44,12 @@ In order for an entity to be tenant-specific, it should implement the `HasTenant
 In order to make Cuba entity tenant-specific, a developer should extend it in the project and make it implement `HasTenant` interface. A number of Cuba entities have been already extended in the application (see SdbmtUser, SdbmtGroup, SdbmtFilter etc). SQL update scripts can be generated either by Cuba Studio or manually.
 
 Whenever tenant user reads tenant-specific data, the system adds an additional where condition on tenant_id to JPQL query in order to read the data of current tenant only. Data with no tenant id or tenant id different from the tenant id of current user will be omitted.
+
 (For implementation see `MtPersistenceSecurityImpl`)
 
 **There is no automatic filtering for native SQL - thus tenants should not have access to any functionality where it is possible to write native SQL or Groovy code (JMX Console, SQL/Groovy bands in reports etc)**.
 
 There is no need to assign tenant id to entities manually - it is being handled automatically.  
 During login, tenant user session receives session attribute `tenant_id` from Tenant entity. Whenever tenant user creates tenant-specific entity system assigns tenant_id to the newly created entity automatically.
+
 (For implementation see `MtUserSessionManager` and `MtEclipseLinkDescriptorEventListener`)
