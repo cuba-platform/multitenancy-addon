@@ -43,7 +43,7 @@ All tenant-specific tables have additional column `TENANT_ID` to specify the own
 In order for an entity to be tenant-specific, it should implement the `HasTenant` interface.  
 In order to make Cuba entity tenant-specific, a developer should extend it in the project and make it implement `HasTenant` interface. A number of Cuba entities have been already extended in the application (see SdbmtUser, SdbmtGroup, SdbmtFilter etc). SQL update scripts can be generated either by Cuba Studio or manually.
 
-Whenever tenant user reads tenant-specific data, the system adds an additional where condition on tenant_id to JPQL query in order to read the data of current tenant only. Data with no tenant id or with tenant id different from the tenant id of current user will be omitted.
+Whenever tenant user reads tenant-specific data, the system adds an additional **where** condition on tenant_id to JPQL query in order to read the data of current tenant only. Data with no tenant id or with tenant id different from the tenant id of current user will be omitted.
 
 (For implementation see `MtPersistenceSecurityImpl`)
 
