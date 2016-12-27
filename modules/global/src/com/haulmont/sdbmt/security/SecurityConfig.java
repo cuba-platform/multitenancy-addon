@@ -16,9 +16,9 @@ import com.haulmont.cuba.security.entity.Role;
 @Source(type = SourceType.DATABASE)
 public interface SecurityConfig extends Config {
 
-    @Property("sdbmt.security.defaultRegUserRole")
+    @Property("sdbmt.security.defaultTenantRole")
     @Default("sdbmt$SdbmtRole-6ebff3a8-2179-b2a0-f2f3-b0f766680a67")
-    Role getDefaultRegUserRole();
+    Role getDefaultTenantRole();
 
-    void setDefaultRegUserRole(Role role);
+    void setDefaultTenantRole(Role role);
 }

@@ -28,7 +28,7 @@ public class SdbmtUserEntityListener implements BeforeInsertEntityListener<Sdbmt
     @Override
     public void onBeforeInsert(SdbmtUser user, EntityManager entityManager) {
         if (user.getTenantId() != null) {
-            Role tenantDefaultRole = securityConfig.getDefaultRegUserRole();
+            Role tenantDefaultRole = securityConfig.getDefaultTenantRole();
             if (tenantDefaultRole == null) {
                 return;
             }
