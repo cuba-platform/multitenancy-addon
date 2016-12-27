@@ -1,6 +1,6 @@
 # Implementation of single database multi-tenancy support for Cuba applications.
 
-They key idea is to use single application instance to serve multiple tenants - groups of users invisible to each other which don't share any data they have "write" access to.
+They key idea is to use single application instance to serve multiple tenants - groups of users invisible to each other which don't share any data they have **write** access to.
 
 The application supports two types of data - common data (shared across tenants), and tenant-specific data.
 Tenants have read-only access to common data and full access to tenant-specific data. All the tenants have their own admin users which can create tenant users and assign tenant-specific roles and permissions.
