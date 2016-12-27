@@ -54,5 +54,5 @@ During login, tenant user session receives session attribute `tenant_id` from Te
 
 (For implementation see `MtUserSessionManager` and `MtEclipseLinkDescriptorEventListener`)
 
-Developer can add 'tenantId' attribute to tenant-specific entities screens, which can be useful for QA and for global administrators.  
-'tenantId' column/field will be hidden from tenant users as long as 'tenantId' attribute is marked with '@TenantId' annotation in the entity code.
+Developer can add `tenantId` attribute to tenant-specific entities screens, which can be useful for QA and for global administrators.  
+`tenantId` column/field will be hidden from tenant users as long as `tenantId` attribute is marked with `@TenantId` annotation in the entity code.
