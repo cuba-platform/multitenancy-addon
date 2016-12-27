@@ -1,6 +1,6 @@
-# Implementation of single database multi-tenancy support for Cuba applications.
+# Implementation of a single database multi-tenancy support for Cuba applications.
 
-They key idea is to use single application instance to serve multiple tenants - groups of users invisible to each other which don't share any data they have **write** access to.
+They key idea is to use a single application instance to serve multiple tenants - groups of users invisible to each other which don't share any data they have **write** access to.
 
 The application supports two types of data - common data (shared across tenants), and tenant-specific data.
 Tenants have read-only access to common data and full access to tenant-specific data. All the tenants have their own admin users which can create tenant users and assign tenant-specific roles and permissions.
@@ -15,12 +15,12 @@ Tenants are being created and managed by global admins - users which don't belon
 Tenants can be managed using Administration -> Tenants screen.  
 **Each tenant should have unique tenant id, root access group and default administrator assigned**.
 
-Tenant must have access group specified - it serves the role of a root access group for tenant admins. Think **Company** access group, but for tenants.  
+Tenant access group serves a role of a root access group for tenant admins. Think **Company** access group, but for tenants.  
 Tenant root access group can't be a parent of any other tenant's group, i.e. **sub-tenants are not supported**.
 
 
 # Tenant permissions
-Tenant permissions are handled by Cuba security subsystem. Tenant permissions are being compiled at runtime during user login and being stored in the user session.
+Tenant permissions are being handled by Cuba security subsystem. Tenant permissions are being compiled at runtime during user login and being stored in the user session.
 
 (For implementation see `MtUserSessionManager`)
 
@@ -28,7 +28,7 @@ All the tenants implicitly assigned default tenant role. Default role's purpose 
 Default tenant role is specified in `SecurityConfig` (`sdbmt.security.defaultTenantRole`). It is assigned to all tenant users automatically in `SdbmtUserEntityListener`.
 
 Tenants can create their own user Roles, so role editor has been reworked. Additionally to Cuba requirement for users to have access to Permission entity in order to be able to manage permissions system now allows the user to give only those permissions which he owns himself.  
-Meaning if a user has read-only access to some entity, then he can't permit other users to modify it, however, he can prohibit users from reading it.  
+Meaning if the user has read-only access to some entity, then he can't permit other users to modify it, however, he can prohibit users from reading it.  
 **Specific** and **UI** permissions have been hidden from tenants.
 
 
@@ -43,7 +43,7 @@ All tenant-specific tables have additional column `TENANT_ID` to specify the own
 In order for an entity to be tenant-specific, it should implement the `HasTenant` interface.  
 In order to make Cuba entity tenant-specific, a developer should extend it in the project and make it implement `HasTenant` interface. A number of Cuba entities have been already extended in the application (see SdbmtUser, SdbmtGroup, SdbmtFilter etc). SQL update scripts can be generated either by Cuba Studio or manually.
 
-Whenever tenant user reads tenant-specific data, the system adds an additional where condition on tenant_id to JPQL query in order to read the data of current tenant only. Data with no tenant id or tenant id different from the tenant id of current user will be omitted.
+Whenever tenant user reads tenant-specific data, the system adds an additional where condition on tenant_id to JPQL query in order to read the data of current tenant only. Data with no tenant id or with tenant id different from the tenant id of current user will be omitted.
 
 (For implementation see `MtPersistenceSecurityImpl`)
 
@@ -53,3 +53,6 @@ There is no need to assign tenant id to entities manually - it is being handled 
 During login, tenant user session receives session attribute `tenant_id` from Tenant entity. Whenever tenant user creates tenant-specific entity system assigns tenant_id to the newly created entity automatically.
 
 (For implementation see `MtUserSessionManager` and `MtEclipseLinkDescriptorEventListener`)
+
+Developer can add 'tenantId' attribute to tenant-specific entities screens, which can be useful for QA and for global administrators.  
+'tenantId' column/field will be hidden from tenant users as long as 'tenantId' attribute is marked with '@TenantId' annotation in the entity code.
