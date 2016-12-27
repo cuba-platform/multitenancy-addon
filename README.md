@@ -1,4 +1,4 @@
-#Implementation of single database multi-tenancy support for Cuba applications.
+# Implementation of single database multi-tenancy support for Cuba applications.
 
 They key idea is to use single application instance to serve multiple tenants - groups of users invisible to each other which don't share any data they have "write" access to.
 
