@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  ~ Copyright (c) 2016 Haulmont Technology Ltd. All Rights Reserved.
+  ~ Haulmont Technology proprietary and confidential.
+  ~ Use is subject to license terms.
+  -->
+
+<app-component xmlns="http://schemas.haulmont.com/cuba/app-component.xsd"
+               dependsOn="com.haulmont.cuba">
+    <module blocks="*"
+            name="global">
+        <artifact appJar="true"
+                  name="sdbmt-global"/>
+        <property name="cuba.persistenceConfig"
+                  value="+com/haulmont/addon/sdbmt/persistence.xml"/>
+        <property name="cuba.metadataConfig"
+                  value="+com/haulmont/addon/sdbmt/metadata.xml"/>
+        <property name="cuba.viewsConfig"
+                  value="+com/haulmont/addon/sdbmt/views.xml"/>
+    </module>
+    <module blocks="core"
+            dependsOn="global"
+            name="core">
+        <artifact appJar="true"
+                  name="sdbmt-core"/>
+        <artifact classifier="db"
+                  configuration="dbscripts"
+                  ext="zip"
+                  name="sdbmt-core"/>
+        <property name="cuba.springContextConfig"
+                  value="+com/haulmont/addon/sdbmt/spring.xml"/>
+        <property name="cuba.mainMessagePack"
+                  value="+com.haulmont.addon.sdbmt.core"/>
+    </module>
+    <module blocks="web,desktop"
+            dependsOn="global"
+            name="gui">
+        <artifact appJar="true"
+                  name="sdbmt-gui"/>
+    </module>
+    <module blocks="web"
+            dependsOn="gui"
+            name="web">
+        <artifact appJar="true"
+                  name="sdbmt-web"/>
+        <artifact classifier="web"
+                  configuration="webcontent"
+                  ext="zip"
+                  name="sdbmt-web"/>
+        <property name="cuba.springContextConfig"
+                  value="+com/haulmont/addon/sdbmt/web-spring.xml"/>
+        <property name="cuba.dispatcherSpringContextConfig"
+                  value="+com/haulmont/addon/sdbmt/web-dispatcher-spring.xml"/>
+        <property name="cuba.windowConfig"
+                  value="+com/haulmont/addon/sdbmt/web-screens.xml"/>
+        <property name="cuba.menuConfig"
+                  value="+com/haulmont/addon/sdbmt/web-menu.xml"/>
+        <property name="cuba.permissionConfig"
+                  value="+com/haulmont/addon/sdbmt/web-permissions.xml"/>
+        <property name="cuba.mainMessagePack"
+                  value="+com.haulmont.addon.sdbmt.gui com.haulmont.addon.sdbmt.web"/>
+    </module>
+</app-component>

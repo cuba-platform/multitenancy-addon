@@ -1,6 +1,6 @@
 -- begin CUBASDBMT_TENANT
 create table CUBASDBMT_TENANT (
-    ID varchar(36) not null,
+    ID uuid,
     VERSION integer not null,
     CREATE_TS timestamp,
     CREATED_BY varchar(50),
@@ -11,8 +11,8 @@ create table CUBASDBMT_TENANT (
     TENANT_ID varchar(255),
     --
     NAME varchar(255) not null,
-    ACCESS_GROUP_ID varchar(36) not null,
-    ADMIN_ID varchar(36),
+    ACCESS_GROUP_ID uuid not null,
+    ADMIN_ID uuid,
     --
     primary key (ID)
 )^

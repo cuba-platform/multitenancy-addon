@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editCaption"
+        class="com.haulmont.addon.sdbmt.web.tenant.TenantEdit"
+        datasource="tenantDs"
+        focusComponent="nameField"
+        messagesPack="com.haulmont.addon.sdbmt.web.tenant">
+    <dsContext>
+        <datasource id="tenantDs"
+                    class="com.haulmont.addon.sdbmt.entity.Tenant"
+                    view="tenant-edit"/>
+    </dsContext>
+    <dialogMode width="600px"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <grid id="grid" width="450px" spacing="true">
+            <columns>
+                <column/>
+                <column flex="1"/>
+            </columns>
+            <rows>
+                <row>
+                    <label value="msg://Tenant.name" align="MIDDLE_LEFT"/>
+                    <textField id="nameField" datasource="tenantDs" property="name" width="100%"/>
+                </row>
+                <row>
+                    <label value="msg://Tenant.tenantId" align="MIDDLE_LEFT"/>
+                    <textField id="tenantIdField" datasource="tenantDs" property="tenantId" width="100%"/>
+                </row>
+                <row>
+                    <label value="msg://Tenant.group" align="MIDDLE_LEFT"/>
+                    <hbox spacing="true">
+                        <pickerField id="groupField" datasource="tenantDs" property="group" width="100%"/>
+                        <button id="createGroupButton" caption="msg://createTenantRootGroupButton.caption" invoke="onCreateTenantRootGroup"/>
+                    </hbox>
+                </row>
+                <row>
+                    <label value="msg://Tenant.admin" align="MIDDLE_LEFT"/>
+                    <pickerField id="adminField" datasource="tenantDs" property="admin" width="100%"/>
+                </row>
+            </rows>
+        </grid>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.cubaVersion = '6.3-SNAPSHOT'
+    ext.cubaVersion = '6.7.12'
     repositories {
         maven {
             url 'http://repository.haulmont.com:8587/nexus/content/groups/work'
@@ -9,6 +9,13 @@ buildscript {
                 password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : 'Haul2010')
             }
         }
+//        maven {
+//            url 'https://repo.cuba-platform.com/content/groups/work'
+//            credentials {
+//                username(rootProject.hasProperty('repoUser') ? rootProject['repoUser'] : 'cuba')
+//                password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : 'cuba123')
+//            }
+//        }
         maven {
             url 'https://repo.cuba-platform.com/content/groups/premium'
             credentials {
@@ -26,10 +33,10 @@ buildscript {
     }
 }
 
-def globalModule = project(':app-global')
-def coreModule = project(':app-core')
-def guiModule = project(':app-gui')
-def webModule = project(':app-web')
+def globalModule = project(':sdbmt-global')
+def coreModule = project(':sdbmt-core')
+def guiModule = project(':sdbmt-gui')
+def webModule = project(':sdbmt-web')
 
 def servletApi = 'org.apache.tomcat:tomcat-servlet-api:8.0.26'
 
@@ -39,8 +46,8 @@ apply(plugin: 'cuba')
 
 cuba {
     artifact {
-        group = 'com.haulmont.sdbmt'
-        version = '0.1'
+        group = 'com.haulmont.addon.sdbmt'
+        version = "0.7"
         isSnapshot = true
     }
     tomcat {
@@ -49,8 +56,9 @@ cuba {
     ide {
         copyright = '''Copyright (c) 2016 Haulmont Technology Ltd. All Rights Reserved.
 Haulmont Technology proprietary and confidential.
-Use is subject to license terms.'''
+Use is subject to license terms.''' // Copyright Notice for IDEA project  
     }
+    uploadRepository.url='http://repository.haulmont.com:8587/nexus/content/repositories/releases'
 }
 
 def hsql = 'org.hsqldb:hsqldb:2.2.9'
@@ -77,6 +85,13 @@ configure([globalModule, coreModule, guiModule, webModule]) {
 
 configure(globalModule) {
     task enhance(type: CubaEnhancing)
+
+    jar {
+        manifest {
+            attributes('App-Component-Id': cuba.artifact.group)
+            attributes('App-Component-Version': cuba.artifact.version + (cuba.artifact.isSnapshot ? '-SNAPSHOT' : ''))
+        }
+    }
     
     
 }
@@ -97,7 +112,7 @@ configure(coreModule) {
     }
 
     task cleanConf(description: 'Cleans up conf directory') << {
-        def dir = new File(cuba.tomcat.dir, '/conf/app-core')
+        def dir = new File(cuba.tomcat.dir, '/conf/sdbmt-core')
         if (dir.isDirectory()) {
             ant.delete(includeemptydirs: true) {
                 fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
@@ -106,8 +121,8 @@ configure(coreModule) {
     }
 
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
-        appName = 'app-core'
-        appJars('app-global', 'app-core')
+        appName = 'sdbmt-core'
+        appJars('sdbmt-global', 'sdbmt-core')
     }
 
     task createDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
@@ -135,8 +150,8 @@ configure(guiModule) {
 
     task deployConf(type: Copy) {
         from file('src')
-        include "com/haulmont/sdbmt/**"
-        into "$cuba.tomcat.dir/conf/app"
+        include "com/haulmont/addon/sdbmt/**"
+        into "$cuba.tomcat.dir/conf/sdbmt"
     }
 }
 
@@ -163,17 +178,17 @@ configure(webModule) {
 
     task deployConf(type: Copy) {
         from file('src')
-        include "com/haulmont/sdbmt/**"
-        into "$cuba.tomcat.dir/conf/app"
+        include "com/haulmont/addon/sdbmt/**"
+        into "$cuba.tomcat.dir/conf/sdbmt"
     }
 
     task clearMessagesCache(type: CubaClearMessagesCache) {
-        appName = 'app'
+        appName = 'sdbmt'
     }
     deployConf.dependsOn clearMessagesCache
 
     task cleanConf(description: 'Cleans up conf directory') << {
-        def dir = new File(cuba.tomcat.dir, '/conf/app')
+        def dir = new File(cuba.tomcat.dir, '/conf/sdbmt')
         if (dir.isDirectory()) {
             ant.delete(includeemptydirs: true) {
                 fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
@@ -182,21 +197,18 @@ configure(webModule) {
     }
 
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
-        appName = 'app'
-        appJars('app-global', 'app-gui', 'app-web')
+        appName = 'sdbmt'
+        appJars('sdbmt-global', 'sdbmt-gui', 'sdbmt-web')
     }
 }
 
-
-
-
-task undeploy(type: Delete, dependsOn: ':app-web:cleanConf') {
+task undeploy(type: Delete, dependsOn: ':sdbmt-web:cleanConf') {
     delete("$cuba.tomcat.dir/shared")
-    delete("$cuba.tomcat.dir/webapps/app-core")
-    delete("$cuba.tomcat.dir/webapps/app")
+    delete("$cuba.tomcat.dir/webapps/sdbmt-core")
+    delete("$cuba.tomcat.dir/webapps/sdbmt")
 }
 
-task restart(dependsOn: ['stop', ':app-core:deploy', ':app-web:deploy'], description: 'Redeploys applications and restarts local Tomcat') << {
+task restart(dependsOn: ['stop', ':sdbmt-core:deploy', ':sdbmt-web:deploy'], description: 'Redeploys applications and restarts local Tomcat') << {
     ant.waitfor(maxwait: 6, maxwaitunit: 'second', checkevery: 2, checkeveryunit: 'second') {
         not {
             socket(server: 'localhost', port: '8787')
@@ -206,7 +218,7 @@ task restart(dependsOn: ['stop', ':app-core:deploy', ':app-web:deploy'], descrip
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
+    gradleVersion = '3.1'
 }
 
 apply from: 'extra.gradle'

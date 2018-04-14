@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
+    <menu id="tenant-management"
+          insertBefore="administration">
+        <item id="cubasdbmt$Tenant.browse"/>
+    </menu>
+</menu-config>

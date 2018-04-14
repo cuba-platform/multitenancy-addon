@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        class="com.haulmont.addon.sdbmt.gui.app.security.session.browse.SdbmtSessionBrowser"
+        extends="/com/haulmont/cuba/gui/app/security/session/browse/session-browse.xml"
+        messagesPack="com.haulmont.addon.sdbmt.gui.app.security.session.browse">
+    <dsContext/>
+    <layout>
+        <groupTable id="sessionsTable">
+            <columns>
+                <column id="tenantId"/>
+            </columns>
+        </groupTable>
+    </layout>
+</window>

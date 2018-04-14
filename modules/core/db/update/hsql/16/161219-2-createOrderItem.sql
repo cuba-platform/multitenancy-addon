@@ -1,4 +1,0 @@
-alter table SDBMT_ORDER_ITEM add constraint FK_SDBMT_ORDER_ITEM_MENU_ITEM foreign key (MENU_ITEM_ID) references SDBMT_MENU_ITEM(ID);
-alter table SDBMT_ORDER_ITEM add constraint FK_SDBMT_ORDER_ITEM_ORDER foreign key (ORDER_ID) references SDBMT_ORDER(ID);
-create index IDX_SDBMT_ORDER_ITEM_ORDER on SDBMT_ORDER_ITEM (ORDER_ID);
-create index IDX_SDBMT_ORDER_ITEM_MENU_ITEM on SDBMT_ORDER_ITEM (MENU_ITEM_ID);

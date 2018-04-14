@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        xmlns:ext="http://schemas.haulmont.com/cuba/window-ext.xsd"
+        class="com.haulmont.addon.sdbmt.gui.app.security.user.edit.SdbmtUserEditor"
+        extends="/com/haulmont/cuba/gui/app/security/user/edit/user-edit.xml"
+        messagesPack="com.haulmont.addon.sdbmt.gui.app.security.user.edit">
+    <dsContext>
+        <collectionDatasource id="tenantsDs" class="com.haulmont.addon.sdbmt.entity.Tenant" view="tenant-with-group">
+            <query>
+                select e from cubasdbmt$Tenant e
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <layout>
+        <groupBox id="propertiesBox">
+            <grid id="propertiesGrid">
+                <rows>
+                    <row id="propertiesRow">
+                        <fieldGroup id="fieldGroupRight">
+                            <column>
+                                <field id="tenantId" caption="msg://tenant.caption" custom="true" ext:index="0"/>
+                            </column>
+                        </fieldGroup>
+                    </row>
+                </rows>
+            </grid>
+        </groupBox>
+    </layout>
+</window>

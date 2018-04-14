@@ -1,6 +1,6 @@
 rootProject.name = 'SDBMT'
-include(':app-global', ':app-core', ':app-gui', ':app-web')
-project(':app-global').projectDir = new File(settingsDir, 'modules/global')
-project(':app-core').projectDir = new File(settingsDir, 'modules/core')
-project(':app-gui').projectDir = new File(settingsDir, 'modules/gui')
-project(':app-web').projectDir = new File(settingsDir, 'modules/web')
+include(':sdbmt-global', ':sdbmt-core', ':sdbmt-gui', ':sdbmt-web')
+project(':sdbmt-global').projectDir = new File(settingsDir, 'modules/global')
+project(':sdbmt-core').projectDir = new File(settingsDir, 'modules/core')
+project(':sdbmt-gui').projectDir = new File(settingsDir, 'modules/gui')
+project(':sdbmt-web').projectDir = new File(settingsDir, 'modules/web')

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
+    <view class="com.haulmont.addon.sdbmt.entity.Tenant"
+          extends="_local"
+          name="tenant-browse">
+        <property name="group"
+                  view="_minimal"/>
+        <property name="admin"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.addon.sdbmt.entity.Tenant"
+          extends="_local"
+          name="tenant-edit">
+        <property name="group"
+                  view="_minimal">
+            <property name="tenant"
+                      view="_minimal"/>
+            <property name="parent"
+                      view="_minimal"/>
+        </property>
+        <property name="admin"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.addon.sdbmt.entity.Tenant"
+          extends="_local"
+          name="tenant-with-group">
+        <property name="group" view="_minimal"/>
+    </view>
+        <view class="com.haulmont.cuba.security.entity.Group"
+          extends="_local"
+          name="group-tenant-and-hierarchy">
+        <property name="tenant"
+                  view="_minimal"/>
+        <property name="parent"
+                  view="_minimal"/>
+        <property name="hierarchyList"
+                  view="_minimal">
+            <property name="group"
+                      view="_minimal"/>
+            <property name="parent"
+                      view="group-with-tenant"/>
+        </property>
+    </view>
+    <view class="com.haulmont.cuba.security.entity.Group"
+          extends="_minimal"
+          name="group-with-tenant">
+        <property name="tenant"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.cuba.security.entity.Group"
+          extends="_minimal"
+          name="group-with-tenantId">
+        <property name="tenantId"/>
+    </view>
+    <view class="com.haulmont.cuba.security.entity.User"
+          extends="_minimal"
+          name="user-with-tenantId">
+        <property name="tenantId"/>
+    </view>
+</views>
