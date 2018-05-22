@@ -1,3 +1,5 @@
+[![license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
+
 # Implementation of a single database multi-tenancy support for Cuba applications.
 
 They key idea is to use a single application instance to serve multiple tenants - groups of users invisible to each other which don't share any data they have **write** access to.
@@ -10,6 +12,25 @@ This is single database/single schema implementation of multi-tenancy. Tenant-sp
 All tenant-specific entities implement `HasTenant` interface, which simply states that entity should have getter and setter for tenant id attribute.
 
 Sample application, using this component can be found here: https://github.com/igor-korotkov/singledb-multitenancy
+
+## Installation
+
+1. Open component in CUBA studio and invoke Run > Install app component
+1. Open your application in CUBA studio and in project properties in 'Advanced' tab enable 'Use local Maven repository'
+1. Select a version of the add-on which is compatible with the platform version used in your project:
+
+| Platform Version | Add-on Version |
+| ---------------- | -------------- |
+| 6.8.x            | 0.7-SNAPSHOT |
+
+
+The latest version is: 0.7-SNAPSHOT
+
+Add custom application component to your project:
+
+* Artifact group: `com.haulmont.addon.sdbmt`
+* Artifact name: `sdbmt-global`
+* Version: *add-on version*
 
 # Managing tenants
 Tenants are being created and managed by global admins - users which don't belong to any tenant.  
