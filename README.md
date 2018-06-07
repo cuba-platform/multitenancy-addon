@@ -24,16 +24,77 @@ Sample application, using this component can be found here: https://github.com/i
 | 6.8.x            | 0.7-SNAPSHOT |
 
 
-The latest version is: 0.7-SNAPSHOT
+  The latest version is: 0.7-SNAPSHOT
 
-Add custom application component to your project:
+4. Add custom application component to your project:
 
-* Artifact group: `com.haulmont.addon.sdbmt`
-* Artifact name: `sdbmt-global`
-* Version: *add-on version*
+  * Artifact group: `com.haulmont.addon.sdbmt`
+  * Artifact name: `sdbmt-global`
+  * Version: *add-on version*
+
+
+5. Exdend Cuba entity Group in your project. Make the new entity to implement HasTenant and HasTenantInstance interfaces and add tenantId (String) and tenant (Tenant) attributes to it:
+Note that tenantId attribute has @TenantId annotation. It is required for system to hide that attribute from all the screens it may apper on.
+6. If your project already has Group or User extended - implement mentioned interfaces in existing classes instead.
+
+### Optional installation steps
+In order to make your entities tenant-specific - either extent StandardTenantEntity instead of the StandardEntity (StandardTenantEntity basically is CUBA'a StandardEntity but with tenantId column), or implement HasTenant interface and add tenantId column manually.
+
+Note that tenants don't have write access to entites without a tenantId attribute. Naturally, that includes CUBA's system entities as well.
+Some of them are important for proper user experience: roles and permissions, filters on screens, files in the file storage, emails, search folders.
+You can make them tenant-specific simply by extending the entity and implementing HasTenant interface in child classes.
+
+1. Standard functionality and steps to make it tenant-specific:
+
+#### Security roles and permissions: ability for tenants to create their own roles and permissions
+This is technically not required, but practically is: this is an ability for tenants to have hierarchy of users, having different access to the system (admins vs users etc).
+Extend following CUBA entities and make them implementing HasTenant:
+
+com.haulmont.cuba.security.entity.Role
+com.haulmont.cuba.security.entity.UserRole
+com.haulmont.cuba.security.entity.Permission
+com.haulmont.cuba.security.entity.Constraint
+com.haulmont.cuba.security.entity.GroupHierarcy
+
+#### CUBA Filters: ability for tenants to create screen filters
+Extend following CUBA entities and make them implementing HasTenant:
+
+com.haulmont.cuba.security.entity.FilterEntity
+
+
+#### Application folders and Search folders.
+Extend following CUBA entities and make them implementing HasTenant:
+
+com.haulmont.cuba.security.entity.SearchFolder
+com.haulmont.cuba.security.entity.AppFolder
+
+
+#### User sessions: for tenants to see the list of logged in users and their sessions
+Extend following CUBA entities and make them implementing HasTenant:
+
+com.haulmont.cuba.security.entity.UserSessionEntity
+
+Note that this is a non-persistent entity, so the definition of tenantId entity will have @MetaProperty annotation instead of @Column:
+    @TenantId
+    @MetaProperty
+    protected String tenantId;
+
+add the following line into spring.xml:
+<bean id="cuba_UserSessions" class="com.haulmont.addon.sdbmt.security.app.SdbmtUserSessions"/>
+
+#### Dynamic Attributes: ability for tenant admins to add dynamic attributes to tenant-specific entities
+Extend following CUBA entities and make them implementing HasTenant:
+
+com.haulmont.cuba.core.entity.Category
+com.haulmont.cuba.core.entity.CategoryAttribute
+com.haulmont.cuba.core.entity.CategoryAttributeValue
+
+add the following line into web-spring.xml:
+<bean id="cuba_DynamicAttributesGuiTools" class="com.haulmont.addon.sdbmt.gui.dynamicattributes.MultiTenancyDynamicAttributesGuiTools"/>
+
 
 # Managing tenants
-Tenants are being created and managed by global admins - users which don't belong to any tenant.  
+Tenants are being created and managed by global admins - users that don't belong to any tenant.  
 Tenants can be managed using Tenant management -> Tenants screen.  
 **Each tenant should have unique tenant id, root access group and default administrator assigned**.
 
