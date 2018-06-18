@@ -33,7 +33,7 @@ apply(plugin: 'cuba')
 cuba {
     artifact {
         group = 'com.haulmont.addon.sdbmt'
-        version = "0.7"
+        version = "1.0"
         isSnapshot = true
     }
     tomcat {
