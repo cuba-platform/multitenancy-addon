@@ -19,12 +19,12 @@ Sample application, using this component can be found here: https://github.com/i
 1. Open your application in CUBA studio and in project properties in 'Advanced' tab enable 'Use local Maven repository'
 1. Select a version of the add-on which is compatible with the platform version used in your project:
 
-| Platform Version | Add-on Version |
-| ---------------- | -------------- |
-| 6.8.x            | 0.7-SNAPSHOT |
+| Platform Version | Add-on Version | Branch         |
+| ---------------- | -------------- | -------------- |
+| 6.8.x            | 1.0-SNAPSHOT   | release_1_0    |
+| 6.9.x            | 1.1-SNAPSHOT   | master         |
 
-
-  The latest version is: 0.7-SNAPSHOT
+  The latest version is: 1.1-SNAPSHOT
 
 4. Add custom application component to your project:
 
