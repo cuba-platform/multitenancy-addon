@@ -74,13 +74,17 @@ Extend following CUBA entities and make them implementing HasTenant:
 
 com.haulmont.cuba.security.entity.UserSessionEntity
 
-Note that this is a non-persistent entity, so the definition of tenantId entity will have @MetaProperty annotation instead of @Column:
-    @TenantId
-    @MetaProperty
-    protected String tenantId;
+Note that this is a non-persistent entity, so the definition of tenantId entity will have `@MetaProperty` annotation instead of `@Column`:
+```java
+@TenantId
+@MetaProperty
+protected String tenantId;
+```
 
 add the following line into spring.xml:
+```xml
 <bean id="cuba_UserSessions" class="com.haulmont.addon.sdbmt.security.app.SdbmtUserSessions"/>
+```
 
 #### Dynamic Attributes: ability for tenant admins to add dynamic attributes to tenant-specific entities
 Extend following CUBA entities and make them implementing HasTenant:
@@ -90,7 +94,9 @@ com.haulmont.cuba.core.entity.CategoryAttribute
 com.haulmont.cuba.core.entity.CategoryAttributeValue
 
 add the following line into web-spring.xml:
+```xml
 <bean id="cuba_DynamicAttributesGuiTools" class="com.haulmont.addon.sdbmt.gui.dynamicattributes.MultiTenancyDynamicAttributesGuiTools"/>
+```
 
 
 # Managing tenants
