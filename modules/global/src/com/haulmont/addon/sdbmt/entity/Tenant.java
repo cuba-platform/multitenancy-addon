@@ -33,7 +33,7 @@ public class Tenant extends StandardTenantEntity {
     @JoinColumn(name = "ACCESS_GROUP_ID", unique = true)
     protected Group group;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ADMIN_ID", unique = true)
     protected User admin;
 

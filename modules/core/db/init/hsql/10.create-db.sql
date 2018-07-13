@@ -12,7 +12,7 @@ create table CUBASDBMT_TENANT (
     --
     NAME varchar(255) not null,
     ACCESS_GROUP_ID varchar(36) not null,
-    ADMIN_ID varchar(36),
+    ADMIN_ID varchar(36) not null,
     --
     primary key (ID)
 )^
