@@ -4,13 +4,6 @@
         class="com.haulmont.addon.sdbmt.gui.app.security.user.edit.SdbmtUserEditor"
         extends="/com/haulmont/cuba/gui/app/security/user/edit/user-edit.xml"
         messagesPack="com.haulmont.addon.sdbmt.gui.app.security.user.edit">
-    <dsContext>
-        <collectionDatasource id="tenantsDs" class="com.haulmont.addon.sdbmt.entity.Tenant" view="tenant-with-group">
-            <query>
-                select e from cubasdbmt$Tenant e
-            </query>
-        </collectionDatasource>
-    </dsContext>
     <layout>
         <groupBox id="propertiesBox">
             <grid id="propertiesGrid">
@@ -18,7 +11,9 @@
                     <row id="propertiesRow">
                         <fieldGroup id="fieldGroupRight">
                             <column>
-                                <field id="tenantId" caption="msg://tenant.caption" custom="true" ext:index="0"/>
+                                <field id="tenantIdField" caption="msg://tenant.caption" ext:index="0">
+                                    <lookupField id="tenantId"/>
+                                </field>
                             </column>
                         </fieldGroup>
                     </row>
