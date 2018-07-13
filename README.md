@@ -107,6 +107,7 @@ Tenants can be managed using Tenant management -> Tenants screen.
 Tenant access group serves a role of a root access group for tenant admins. Think **Company** access group, but for tenants.  
 Tenant root access group can't be a parent of any other tenant's group, i.e. **sub-tenants are not supported**.
 
+During tenant creation process use tenant's admin access group which is the same as `Root Access Group`. In next versions of addon this preconditions will be set automatically
 
 # Tenant permissions
 Tenant permissions are being handled by Cuba security subsystem. Tenant permissions are being compiled at runtime during user login and being stored in the user session.
