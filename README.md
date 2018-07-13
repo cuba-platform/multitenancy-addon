@@ -35,7 +35,8 @@ Sample application, using this component can be found here: https://github.com/i
 
 5. Exdend Cuba entity Group in your project. Make the new entity to implement HasTenant and HasTenantInstance interfaces and add tenantId (String) and tenant (Tenant) attributes to it:
 Note that tenantId attribute has @TenantId annotation. It is required for system to hide that attribute from all the screens it may apper on.
-6. If your project already has Group or User extended - implement mentioned interfaces in existing classes instead.
+6. If your project already has Group or User extended - implement mentioned interfaces in existing classes instead. 
+7. For custom User class add `@Listeners("cubasdbmt_SdbmtUserEntityListener")`
 
 ### Optional installation steps
 In order to make your entities tenant-specific - either extent StandardTenantEntity instead of the StandardEntity (StandardTenantEntity basically is CUBA'a StandardEntity but with tenantId column), or implement HasTenant interface and add tenantId column manually.
