@@ -29,7 +29,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
-@Component
+@Component("cubasdbmt_MultiTenancySecurityHandler")
 public class MultiTenancySecurityHandler implements AppContext.Listener {
 
     public static final int PERMISSON_PROHIBIT = 0;
