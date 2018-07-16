@@ -42,7 +42,7 @@ public class TenantListener implements BeforeUpdateEntityListener<Tenant>, Befor
         updateTenantAdmin(tenant, entityManager);
     }
 
-    private void updateTenantAdmin(Tenant tenant, EntityManager em) {
+    protected void updateTenantAdmin(Tenant tenant, EntityManager em) {
         User admin = tenant.getAdmin();
         if (admin != null) {
             admin = em.reloadNN(admin, "user.edit");
@@ -52,7 +52,7 @@ public class TenantListener implements BeforeUpdateEntityListener<Tenant>, Befor
         }
     }
 
-    private void assignDefaultTenantRole(User user, EntityManager em) {
+    protected void assignDefaultTenantRole(User user, EntityManager em) {
         Role tenantDefaultRole = tenantConfig.getDefaultTenantRole();
         if (tenantDefaultRole == null) {
             throw new RuntimeException("Default tenant role not found");
@@ -67,7 +67,7 @@ public class TenantListener implements BeforeUpdateEntityListener<Tenant>, Befor
         }
     }
 
-    private void updateAccessGroupTenantId(Tenant tenant, EntityManager em) {
+    protected void updateAccessGroupTenantId(Tenant tenant, EntityManager em) {
         if (tenant.getGroup() != null) {
             Group accessGroup = em.reload(tenant.getGroup(), "group-with-tenantId");
             if (accessGroup != null) {
@@ -76,7 +76,7 @@ public class TenantListener implements BeforeUpdateEntityListener<Tenant>, Befor
         }
     }
 
-    private boolean userHasRole(User user, Role role) {
+    protected boolean userHasRole(User user, Role role) {
         if (user.getUserRoles() == null || user.getUserRoles().isEmpty()) {
             return false;
         }
