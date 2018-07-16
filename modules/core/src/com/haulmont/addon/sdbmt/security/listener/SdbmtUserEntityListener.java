@@ -45,7 +45,7 @@ public class SdbmtUserEntityListener implements BeforeInsertEntityListener<User>
         }
     }
 
-    private boolean userHasRole(User user, Role role) {
+    protected boolean userHasRole(User user, Role role) {
         if (user.getUserRoles() == null || user.getUserRoles().isEmpty()) {
             return false;
         }

@@ -80,7 +80,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         compileTenantPermissions(session);
     }
 
-    private void compileTenantConstraints(UserSession session, Group group) {
+    protected void compileTenantConstraints(UserSession session, Group group) {
         Tenant tenant = findGroupTenant(session.getUser().getGroup());
         if (tenant == null) {
             return;
@@ -96,7 +96,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         }
     }
 
-    private void compileTenantPermissions(UserSession session) {
+    protected void compileTenantPermissions(UserSession session) {
         if (!groupHasTenant(session.getUser().getGroup())) {
             return;
         }
@@ -105,23 +105,23 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         createTenantIdPermissions(session);
     }
 
-    private boolean groupHasTenant(Group group) {
+    protected boolean groupHasTenant(Group group) {
         return findGroupTenant(group) != null;
     }
 
-    private boolean validTenantId(String tenantId) {
+    protected boolean validTenantId(String tenantId) {
         //only word characters (0-9a-zA-z_) and whitespaces are allowed
         return !Strings.isNullOrEmpty(tenantId) && tenantId.matches("[\\w|\\s]+");
     }
 
-    private void createTenantIdPermissions(UserSession session) {
+    protected void createTenantIdPermissions(UserSession session) {
         Collection<MetaClass> entitiesWithTenant = getEntitiesWithTenant();
         for (MetaClass e : entitiesWithTenant) {
             addHideTenantIdPermission(session, e);
         }
     }
 
-    private void addTenantIdConstraint(UserSession session, Group group, String tenantId, MetaClass entityMetaClass) {
+    protected void addTenantIdConstraint(UserSession session, Group group, String tenantId, MetaClass entityMetaClass) {
         Preconditions.checkNotNullArgument(tenantId);
 
         entityMetaClass = metadata.getExtendedEntities().getOriginalOrThisMetaClass(entityMetaClass);
@@ -139,7 +139,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         session.addConstraint(c);
     }
 
-    private void addHideTenantIdPermission(UserSession session, MetaClass metaClass) {
+    protected void addHideTenantIdPermission(UserSession session, MetaClass metaClass) {
         for (MetaProperty p : metaClass.getProperties()) {
             if (p.getAnnotatedElement().getAnnotation(TenantId.class) != null) {
                 MetaClass originalMetaClass = metadata.getExtendedEntities().getOriginalMetaClass(metaClass);
@@ -153,7 +153,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         }
     }
 
-    private String getExtendedEntityName(MetaClass metaClass) {
+    protected String getExtendedEntityName(MetaClass metaClass) {
         Class extendedClass = metadata.getExtendedEntities().getExtendedClass(metaClass);
         if (extendedClass != null) {
             MetaClass extMetaClass = metadata.getClassNN(extendedClass);
@@ -162,7 +162,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         return metaClass.getName();
     }
 
-    private void createEntityWritePermissions(UserSession session) {
+    protected void createEntityWritePermissions(UserSession session) {
         Collection<MetaClass> readOnlyEntities = getEntitiesWithoutTenant();
         for (MetaClass e : readOnlyEntities) {
             addProhibitEntityCreatePermission(session, e);
@@ -171,7 +171,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         }
     }
 
-    private Collection<MetaClass> getEntitiesWithTenant() {
+    protected Collection<MetaClass> getEntitiesWithTenant() {
         Collection<MetaClass> allEntities = metadata.getClasses();
         return allEntities.stream()
                 .filter(this::isEntityWithTenantId)
@@ -179,7 +179,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
-    private Collection<MetaClass> getEntitiesWithoutTenant() {
+    protected Collection<MetaClass> getEntitiesWithoutTenant() {
         Collection<MetaClass> allEntities = metadata.getClasses();
         return allEntities.stream()
                 .filter(e -> !isEntityWithTenantId(e))
@@ -187,7 +187,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
-    private boolean isEntityWithTenantId(MetaClass metaClass) {
+    protected boolean isEntityWithTenantId(MetaClass metaClass) {
         return HasTenant.class.isAssignableFrom(metaClass.getJavaClass());
     }
 
@@ -203,20 +203,20 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         createEntityOpProhibitPermission(session, metaClass, EntityOp.DELETE);
     }
 
-    private void createEntityOpProhibitPermission(UserSession session, MetaClass metaClass, EntityOp entityOp) {
+    protected void createEntityOpProhibitPermission(UserSession session, MetaClass metaClass, EntityOp entityOp) {
         session.addPermission(PermissionType.ENTITY_OP,
                 metaClass.getName() + Permission.TARGET_PATH_DELIMETER + entityOp.getId(),
                 null, PERMISSON_PROHIBIT);
     }
 
-    private void setTenantIdAttribute(UserSession session, Group group) {
+    protected void setTenantIdAttribute(UserSession session, Group group) {
         Tenant tenant = findGroupTenant(group);
         if (tenant != null) {
             session.setAttribute("tenant_id", tenant.getTenantId());
         }
     }
 
-    private Tenant findGroupTenant(Group group) {
+    protected Tenant findGroupTenant(Group group) {
         Tenant tenant = getGroupTenant(group);
         if (tenant != null) {
             return tenant;
@@ -230,7 +230,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         });
     }
 
-    private Tenant getGroupTenant(Group group) {
+    protected Tenant getGroupTenant(Group group) {
         //to prevent user from having to create a new Group view that includes Tenant
         return persistence.callInTransaction(em ->
                 em.createQuery("select group.tenant from sec$Group group where group.id = ?1", Tenant.class)
