@@ -19,12 +19,12 @@ Sample application, using this component can be found here: https://github.com/i
 1. Open your application in CUBA studio and in project properties in 'Advanced' tab enable 'Use local Maven repository'
 1. Select a version of the add-on which is compatible with the platform version used in your project:
 
-| Platform Version | Add-on Version |
-| ---------------- | -------------- |
-| 6.8.x            | 0.7-SNAPSHOT |
+| Platform Version | Add-on Version | 
+| ---------------- | -------------- | 
+| 6.8.x            | 1.0.0          | 
+| 6.9.x            | 1.1.0          | 
 
-
-  The latest version is: 0.7-SNAPSHOT
+  The latest version is: 1.1-SNAPSHOT
 
 4. Add custom application component to your project:
 
@@ -35,7 +35,8 @@ Sample application, using this component can be found here: https://github.com/i
 
 5. Exdend Cuba entity Group in your project. Make the new entity to implement HasTenant and HasTenantInstance interfaces and add tenantId (String) and tenant (Tenant) attributes to it:
 Note that tenantId attribute has @TenantId annotation. It is required for system to hide that attribute from all the screens it may apper on.
-6. If your project already has Group or User extended - implement mentioned interfaces in existing classes instead.
+6. If your project already has Group or User extended - implement mentioned interfaces in existing classes instead. 
+7. For custom User class add `@Listeners("cubasdbmt_SdbmtUserEntityListener")`
 
 ### Optional installation steps
 In order to make your entities tenant-specific - either extent StandardTenantEntity instead of the StandardEntity (StandardTenantEntity basically is CUBA'a StandardEntity but with tenantId column), or implement HasTenant interface and add tenantId column manually.
@@ -107,6 +108,7 @@ Tenants can be managed using Tenant management -> Tenants screen.
 Tenant access group serves a role of a root access group for tenant admins. Think **Company** access group, but for tenants.  
 Tenant root access group can't be a parent of any other tenant's group, i.e. **sub-tenants are not supported**.
 
+During tenant creation process use tenant's admin access group which is the same as `Root Access Group`. In next versions of addon this preconditions will be set automatically
 
 # Tenant permissions
 Tenant permissions are being handled by Cuba security subsystem. Tenant permissions are being compiled at runtime during user login and being stored in the user session.
