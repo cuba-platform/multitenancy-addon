@@ -1,15 +1,15 @@
 [![license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
-# Implementation of a single database multi-tenancy support for Cuba applications.
+# Implementation of a single database multi-tenancy support for CUBA applications.
 
-They key idea is to use a single application instance to serve multiple tenants - groups of users invisible to each other which don't share any data they have **write** access to.
+The key idea is to use a single application instance to serve multiple tenants - groups of users invisible to each other which don't share any data they have **write** access to.
 
 The application supports two types of data - common data (shared across tenants), and tenant-specific data.
 Tenants have read-only access to common data and full access to tenant-specific data. All the tenants have their own admin users which can create tenant users and assign tenant-specific roles and permissions.
 
 This is single database/single schema implementation of multi-tenancy. Tenant-specific data owner is specified by the means of column `TENANT_ID` in tenant tables.
 
-All tenant-specific entities implement `HasTenant` interface, which simply states that entity should have getter and setter for tenant id attribute.
+All tenant-specific entities implement `HasTenant` interface, which simply states that an entity should have getter and setter for tenant id attribute.
 
 Sample application, using this component can be found here: https://github.com/igor-korotkov/singledb-multitenancy
 
@@ -33,7 +33,7 @@ Sample application, using this component can be found here: https://github.com/i
   * Version: *add-on version*
 
 
-5. Exdend Cuba entity Group in your project. Make the new entity to implement HasTenant and HasTenantInstance interfaces and add tenantId (String) and tenant (Tenant) attributes to it:
+5. Exdend CUBA entity Group in your project. Make the new entity to implement HasTenant and HasTenantInstance interfaces and add tenantId (String) and tenant (Tenant) attributes to it:
 Note that tenantId attribute has @TenantId annotation. It is required for system to hide that attribute from all the screens it may apper on.
 6. If your project already has Group or User extended - implement mentioned interfaces in existing classes instead. 
 7. For custom User class add `@Listeners("cubasdbmt_SdbmtUserEntityListener")`
@@ -111,14 +111,14 @@ Tenant root access group can't be a parent of any other tenant's group, i.e. **s
 During tenant creation process use tenant's admin access group which is the same as `Root Access Group`. In next versions of addon this preconditions will be set automatically
 
 # Tenant permissions
-Tenant permissions are being handled by Cuba security subsystem. Tenant permissions are being compiled at runtime during user login and being stored in the user session.
+Tenant permissions are being handled by CUBA security subsystem. Tenant permissions are being compiled at runtime during user login and being stored in the user session.
 
 (For implementation see `LoginEventListener`, `MultiTenancySecurityHandler`)
 
 All the tenants are implicitly assigned with a default tenant role. Default role's purpose is to hide system functionality which no tenant should not have access to (JMX console, Server log etc).
 Default tenant role is specified in `TenantConfig` (`cubasdbmt.defaultTenantRole`). It is assigned to all tenant users automatically in `SdbmtUserEntityListener`.
 
-Tenants can create their own user Roles, so role editor has been modified. Additionally to Cuba requirement for users to have access to Permission entity, system now allows the user to give only those permissions which he owns himself.  
+Tenants can create their own user Roles, so role editor has been modified. Additionally to CUBA requirement for users to have access to Permission entity, system now allows the user to give only those permissions which he owns himself.  
 Meaning if the user has read-only access to some entity, he can't permit other users to modify it, however, he can prohibit users from reading it.  
 **Specific** and **UI** permissions have been hidden from tenants.
 
