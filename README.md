@@ -11,7 +11,7 @@ This is single database/single schema implementation of multi-tenancy. Tenant-sp
 
 All tenant-specific entities implement `HasTenant` interface, which simply states that entity should have getter and setter for tenant id attribute.
 
-Sample application, using this component can be found here: https://github.com/igor-korotkov/singledb-multitenancy
+Sample application, using this component can be found here: https://github.com/cuba-platform/multitenancy-addon-demo
 
 ## Installation
 
