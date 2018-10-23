@@ -16,8 +16,8 @@ Sample application, using this component can be found here: https://github.com/c
 ## Installation
 
 1. Open component in CUBA studio and invoke Run > Install app component
-1. Open your application in CUBA studio and in project properties in 'Advanced' tab enable 'Use local Maven repository'
-1. Select a version of the add-on which is compatible with the platform version used in your project:
+2. Open your application in CUBA studio and in project properties in 'Advanced' tab enable 'Use local Maven repository'
+3. Select a version of the add-on which is compatible with the platform version used in your project:
 
 | Platform Version | Add-on Version | 
 | ---------------- | -------------- | 
@@ -32,17 +32,28 @@ Sample application, using this component can be found here: https://github.com/c
   * Artifact name: `sdbmt-global`
   * Version: *add-on version*
 
+5. You should extend `Group`, `User`, `UserSessionEntity` standard CUBA entities. 
+There are already predefined classes, which can be used in project. These classes whould be included in `persistence.xml` and `metadata.xml` files. 
+Already configured classes:
+   - `com.haulmont.addon.sdbmt.entity.TenantFilterEntity`
+   - `com.haulmont.addon.sdbmt.entity.TenantGroup`  
+   - `com.haulmont.addon.sdbmt.entity.TenantRole`  
+   - `com.haulmont.addon.sdbmt.entity.TenantUser`  
+   - `com.haulmont.addon.sdbmt.entity.TenantUserRole`  
+   - `com.haulmont.addon.sdbmt.entity.TenantUserSessionEntity` 
 
-5. Extend CUBA entity Group in the project. Check the box 'Replace parent' in cuba studio for entity.
+If you want to use your own classes please follow instruction:     
+
+1. Extend CUBA entity Group in the project. Check the box 'Replace parent' in cuba studio for entity.
    The new entity has to implement HasTenant and HasTenantInstance interfaces. Make sure to add tenantId (String) and tenant (Tenant) attributes to the entity.
    Make sure that tenantId attribute has @TenantId annotation to hide the attribute from all screens where the one may appear.
    Make sure to add an annotation @OneToOne(fetch = FetchType.LAZY, mappedBy = "group") for the field tenant.
    The entity should have a discriminator value (annotation @DiscriminatorValue).
-6. Extend CUBA entity User in the project. Check the box 'Replace parent' in cuba studio for entity.
+2. Extend CUBA entity User in the project. Check the box 'Replace parent' in cuba studio for entity.
    The new entity has to implement HasTenant interface. Make sure to add tenantId (String) attribute to the entity.
    Make sure that tenantId attribute has @TenantId annotation to hide the attribute from all screens where the one may appear.
    The entity should have a discriminator value (annotation @DiscriminatorValue).
-7. For custom User class add `@Listeners("cubasdbmt_SdbmtUserEntityListener")` and `@NamePattern("#getCaption|login,name,tenantId")` annotations
+3. For custom User class add `@Listeners("cubasdbmt_SdbmtUserEntityListener")` and `@NamePattern("#getCaption|login,name,tenantId")` annotations
 
 ### Optional installation steps
 In order to make your entities tenant-specific - either extent StandardTenantEntity instead of the StandardEntity (StandardTenantEntity basically is CUBA'a StandardEntity but with tenantId column), or implement HasTenant interface and add tenantId column manually.

@@ -10,7 +10,10 @@ import com.haulmont.addon.sdbmt.core.TenantId;
 import com.haulmont.cuba.core.entity.annotation.Extends;
 import com.haulmont.cuba.security.entity.Group;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 
 @Extends(Group.class)
 @Entity(name = "cubasdbmt$TenantGroup")

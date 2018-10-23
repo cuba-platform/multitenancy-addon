@@ -11,7 +11,6 @@ import com.haulmont.cuba.core.entity.annotation.Extends;
 import com.haulmont.cuba.security.entity.UserRole;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Extends(UserRole.class)
