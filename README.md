@@ -42,7 +42,7 @@ Sample application, using this component can be found here: https://github.com/c
    The new entity has to implement HasTenant interface. Make sure to add tenantId (String) attribute to the entity.
    Make sure that tenantId attribute has @TenantId annotation to hide the attribute from all screens where the one may appear.
    The entity should have a discriminator value (annotation @DiscriminatorValue).
-7. For custom User class add `@Listeners("cubasdbmt_SdbmtUserEntityListener")`
+7. For custom User class add `@Listeners("cubasdbmt_SdbmtUserEntityListener")` and `@NamePattern("#getCaption|login,name,tenantId")` annotations
 
 ### Optional installation steps
 In order to make your entities tenant-specific - either extent StandardTenantEntity instead of the StandardEntity (StandardTenantEntity basically is CUBA'a StandardEntity but with tenantId column), or implement HasTenant interface and add tenantId column manually.
