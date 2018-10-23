@@ -32,15 +32,7 @@ Sample application, using this component can be found here: https://github.com/c
   * Artifact name: `sdbmt-global`
   * Version: *add-on version*
 
-5. You should extend `Group`, `User`, `UserSessionEntity` standard CUBA entities. 
-There are already predefined classes, which can be used in project. These classes whould be included in `persistence.xml` and `metadata.xml` files. 
-Already configured classes:
-   - `com.haulmont.addon.sdbmt.entity.TenantFilterEntity`
-   - `com.haulmont.addon.sdbmt.entity.TenantGroup`  
-   - `com.haulmont.addon.sdbmt.entity.TenantRole`  
-   - `com.haulmont.addon.sdbmt.entity.TenantUser`  
-   - `com.haulmont.addon.sdbmt.entity.TenantUserRole`  
-   - `com.haulmont.addon.sdbmt.entity.TenantUserSessionEntity` 
+Please note that `Group`, `User`, `UserSessionEntity` standard CUBA entities anready extended in component to have tenant id. 
 
 If you want to use your own classes please follow instruction:     
 

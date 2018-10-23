@@ -7,6 +7,8 @@
 
 <metadata xmlns="http://schemas.haulmont.com/cuba/metadata.xsd">
 
-    <metadata-model root-package="com.haulmont.addon.sdbmt" namespace="cubasdbmt"/>
+    <metadata-model root-package="com.haulmont.addon.sdbmt" namespace="cubasdbmt">
+        <class>com.haulmont.addon.sdbmt.entity.TenantUserSessionEntity</class>
+    </metadata-model>
 
 </metadata>

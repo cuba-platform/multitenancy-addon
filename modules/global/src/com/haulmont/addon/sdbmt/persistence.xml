@@ -5,5 +5,7 @@
                       transaction-type="RESOURCE_LOCAL">
         <class>com.haulmont.addon.sdbmt.entity.StandardTenantEntity</class>
         <class>com.haulmont.addon.sdbmt.entity.Tenant</class>
+        <class>com.haulmont.addon.sdbmt.entity.TenantGroup</class>
+        <class>com.haulmont.addon.sdbmt.entity.TenantUser</class>
     </persistence-unit>
 </persistence>
