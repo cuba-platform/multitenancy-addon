@@ -21,8 +21,10 @@ Sample application, using this component can be found here: https://github.com/c
 
 | Platform Version | Add-on Version | 
 | ---------------- | -------------- | 
+| 6.10.x            | 1.2.0          | 
+| 6.9.x            | 1.1.1          | 
 | 6.8.x            | 1.0.0          | 
-| 6.9.x            | 1.1.0          | 
+
 
   The latest version is: 1.1-SNAPSHOT
 
