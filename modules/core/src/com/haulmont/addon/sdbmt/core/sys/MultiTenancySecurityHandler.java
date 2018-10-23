@@ -7,6 +7,7 @@
 package com.haulmont.addon.sdbmt.core.sys;
 
 import com.google.common.base.Strings;
+import com.haulmont.addon.sdbmt.config.TenantConfig;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.chile.core.model.MetaProperty;
@@ -40,6 +41,9 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
 
     @Inject
     protected Persistence persistence;
+
+    @Inject
+    protected TenantConfig tenantConfig;
 
     @PostConstruct
     public void init() {
@@ -212,7 +216,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
     protected void setTenantIdAttribute(UserSession session, Group group) {
         Tenant tenant = findGroupTenant(group);
         if (tenant != null) {
-            session.setAttribute("tenant_id", tenant.getTenantId());
+            session.setAttribute(tenantConfig.getTenantIdName(), tenant.getTenantId());
         }
     }
 
