@@ -33,9 +33,15 @@ Sample application, using this component can be found here: https://github.com/c
   * Version: *add-on version*
 
 
-5. Exdend CUBA entity Group in your project. Make the new entity to implement HasTenant and HasTenantInstance interfaces and add tenantId (String) and tenant (Tenant) attributes to it:
-Note that tenantId attribute has @TenantId annotation. It is required for system to hide that attribute from all the screens it may apper on.
-6. If your project already has Group or User extended - implement mentioned interfaces in existing classes instead. 
+5. Extend CUBA entity Group in the project. Check the box 'Replace parent' in cuba studio for entity.
+   The new entity has to implement HasTenant and HasTenantInstance interfaces. Make sure to add tenantId (String) and tenant (Tenant) attributes to the entity.
+   Make sure that tenantId attribute has @TenantId annotation to hide the attribute from all screens where the one may appear.
+   Make sure to add an annotation @OneToOne(fetch = FetchType.LAZY, mappedBy = "group") for the field tenant.
+   The entity should have a discriminator value (annotation @DiscriminatorValue).
+6. Extend CUBA entity User in the project. Check the box 'Replace parent' in cuba studio for entity.
+   The new entity has to implement HasTenant interface. Make sure to add tenantId (String) attribute to the entity.
+   Make sure that tenantId attribute has @TenantId annotation to hide the attribute from all screens where the one may appear.
+   The entity should have a discriminator value (annotation @DiscriminatorValue).
 7. For custom User class add `@Listeners("cubasdbmt_SdbmtUserEntityListener")`
 
 ### Optional installation steps
@@ -55,7 +61,7 @@ com.haulmont.cuba.security.entity.Role
 com.haulmont.cuba.security.entity.UserRole
 com.haulmont.cuba.security.entity.Permission
 com.haulmont.cuba.security.entity.Constraint
-com.haulmont.cuba.security.entity.GroupHierarcy
+com.haulmont.cuba.security.entity.GroupHierarchy
 
 #### CUBA Filters: ability for tenants to create screen filters
 Extend following CUBA entities and make them implementing HasTenant:
