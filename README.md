@@ -34,7 +34,7 @@ Sample application, using this component can be found here: https://github.com/c
   * Artifact name: `sdbmt-global`
   * Version: *add-on version*
 
-Please note that `Group`, `User`, `UserSessionEntity` standard CUBA entities anready extended in component to have tenant id. 
+Please note that `Group`, `User`, `UserSessionEntity` standard CUBA entities already extended in the component to have tenant id.  
 
 If you want to use your own classes please extend your classes from `TenantGroup`, `TenantUser`, `TenantUserSessionEntity`
 
