@@ -36,18 +36,7 @@ Sample application, using this component can be found here: https://github.com/c
 
 Please note that `Group`, `User`, `UserSessionEntity` standard CUBA entities anready extended in component to have tenant id. 
 
-If you want to use your own classes please follow instruction:     
-
-1. Extend CUBA entity Group in the project. Check the box 'Replace parent' in cuba studio for entity.
-   The new entity has to implement HasTenant and HasTenantInstance interfaces. Make sure to add tenantId (String) and tenant (Tenant) attributes to the entity.
-   Make sure that tenantId attribute has @TenantId annotation to hide the attribute from all screens where the one may appear.
-   Make sure to add an annotation @OneToOne(fetch = FetchType.LAZY, mappedBy = "group") for the field tenant.
-   The entity should have a discriminator value (annotation @DiscriminatorValue).
-2. Extend CUBA entity User in the project. Check the box 'Replace parent' in cuba studio for entity.
-   The new entity has to implement HasTenant interface. Make sure to add tenantId (String) attribute to the entity.
-   Make sure that tenantId attribute has @TenantId annotation to hide the attribute from all screens where the one may appear.
-   The entity should have a discriminator value (annotation @DiscriminatorValue).
-3. For custom User class add `@Listeners("cubasdbmt_SdbmtUserEntityListener")` and `@NamePattern("#getCaption|login,name,tenantId")` annotations
+If you want to use your own classes please extend your classes from `TenantGroup`, `TenantUser`, `TenantUserSessionEntity`
 
 ### Optional installation steps
 In order to make your entities tenant-specific - either extent StandardTenantEntity instead of the StandardEntity (StandardTenantEntity basically is CUBA'a StandardEntity but with tenantId column), or implement HasTenant interface and add tenantId column manually.
