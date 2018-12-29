@@ -6,19 +6,20 @@
 package com.haulmont.addon.sdbmt.web.tenant;
 
 import com.google.common.base.Strings;
+import com.haulmont.addon.sdbmt.config.TenantConfig;
+import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.addon.sdbmt.entity.TenantUser;
+import com.haulmont.addon.sdbmt.web.tenant.validators.TenantAdminValidator;
+import com.haulmont.addon.sdbmt.web.tenant.validators.TenantRootAccessGroupValidator;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.Metadata;
+import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.components.AbstractEditor;
 import com.haulmont.cuba.gui.components.PickerField;
 import com.haulmont.cuba.gui.components.TextField;
 import com.haulmont.cuba.gui.data.Datasource;
 import com.haulmont.cuba.security.entity.Group;
-import com.haulmont.addon.sdbmt.entity.Tenant;
-import com.haulmont.addon.sdbmt.config.TenantConfig;
-import com.haulmont.addon.sdbmt.web.tenant.validators.TenantAdminValidator;
-import com.haulmont.addon.sdbmt.web.tenant.validators.TenantRootAccessGroupValidator;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
@@ -56,13 +57,16 @@ public class TenantEdit extends AbstractEditor<Tenant> {
     @Inject
     private DataManager dataManager;
 
+    @Inject
+    private Notifications notifications;
+
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);
 
         nameField.addValueChangeListener(e -> {
             if (Strings.isNullOrEmpty(tenantIdField.getValue())) {
-                tenantIdField.setValue(generateTenantId((String) e.getValue()));
+                tenantIdField.setValue(generateTenantId(e.getValue()));
             }
         });
 
@@ -91,7 +95,9 @@ public class TenantEdit extends AbstractEditor<Tenant> {
     public void onCreateTenantRootGroup() {
         String groupName = nameField.getValue();
         if (Strings.isNullOrEmpty(groupName)) {
-            showNotification(messages.getMessage(getClass(), "validation.cannotGenerateGroupNameIsNull"), NotificationType.WARNING);
+            notifications.create(Notifications.NotificationType.WARNING)
+                    .withCaption(getMessage("validation.cannotGenerateGroupNameIsNull"))
+                    .show();
             return;
         }
 
@@ -101,7 +107,9 @@ public class TenantEdit extends AbstractEditor<Tenant> {
         }
 
         if (tenantGroupExist(groupName, tenantParentGroup)) {
-            showNotification(messages.formatMessage(getClass(), "validation.tenantGroupAlreadyExist", groupName), NotificationType.WARNING);
+            notifications.create(Notifications.NotificationType.WARNING)
+                    .withCaption(formatMessage("validation.tenantGroupAlreadyExist", groupName))
+                    .show();
             return;
         }
 

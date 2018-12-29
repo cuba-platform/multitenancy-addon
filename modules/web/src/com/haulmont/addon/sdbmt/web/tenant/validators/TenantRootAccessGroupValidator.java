@@ -6,20 +6,20 @@
 
 package com.haulmont.addon.sdbmt.web.tenant.validators;
 
+import com.haulmont.addon.sdbmt.entity.HasTenantInstance;
+import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.Messages;
-import com.haulmont.cuba.gui.components.Field;
 import com.haulmont.cuba.gui.components.ValidationException;
 import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.cuba.security.entity.GroupHierarchy;
-import com.haulmont.addon.sdbmt.entity.HasTenantInstance;
-import com.haulmont.addon.sdbmt.entity.Tenant;
 
 import java.util.List;
+import java.util.function.Consumer;
 
-public class TenantRootAccessGroupValidator implements Field.Validator {
+public class TenantRootAccessGroupValidator implements Consumer<Group> {
 
     private Messages messages = AppBeans.get(Messages.class);
     private DataManager dataManager = AppBeans.get(DataManager.class);
@@ -30,13 +30,13 @@ public class TenantRootAccessGroupValidator implements Field.Validator {
     }
 
     @Override
-    public void validate(Object value) throws ValidationException {
+    public void accept(Group value) throws ValidationException {
         if (value == null) {
             return;
         }
 
         DataManager dm = AppBeans.get(DataManager.class);
-        Group group = dm.reload((Group)value, "group-tenant-and-hierarchy");
+        Group group = dm.reload(value, "group-tenant-and-hierarchy");
         Tenant groupTenant = ((HasTenantInstance) group).getTenant();
         if (groupTenant != null && !groupTenant.equals(tenant)) {
             throw new ValidationException(messages.getMessage(TenantRootAccessGroupValidator.class, "validation.hasTenant"));
