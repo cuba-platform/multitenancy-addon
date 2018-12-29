@@ -53,8 +53,8 @@ public class TenantRootAccessGroupValidator implements Field.Validator {
 
     private boolean hasOtherTenantSubgroups(Group group) {
         LoadContext<Group> ctx = new LoadContext<>(Group.class);
-        ctx.setQueryString("select e.group from sec$GroupHierarchy e where e.parent.id = :group and e.group.tenant is not null")
-                .setParameter("group", group.getId());
+        ctx.setQueryString("select e.group from sec$GroupHierarchy e where e.parent = :group and e.group.tenant is not null")
+                .setParameter("group", group);
 
         return dataManager.getCount(ctx) > 0;
     }

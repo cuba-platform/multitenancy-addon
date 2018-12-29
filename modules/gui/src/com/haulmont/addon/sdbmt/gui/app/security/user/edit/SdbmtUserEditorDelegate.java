@@ -44,13 +44,13 @@ public class SdbmtUserEditorDelegate<T extends User & HasTenant> {
         initTenantField(userScreen.getTenantField(), userScreen.getUser());
     }
 
-    private void initTenantField(OptionsField tenantField, T user) {
+    private void initTenantField(OptionsField<Tenant,Tenant> tenantField, T user) {
         List<Tenant> tenants = createOptionList();
         tenantField.setOptionsList(tenants);
         tenantField.setValue(findTenantByTenantId(tenants, user.getTenantId()));
 
         tenantField.addValueChangeListener(v -> {
-            Tenant tenant = (Tenant) v.getValue();
+            Tenant tenant = v.getValue();
             user.setTenantId(Optional.ofNullable(tenant).map(Tenant::getTenantId).orElse(null));
             if (tenant != null) {
                 user.setGroup(tenant.getGroup());

@@ -6,6 +6,7 @@
 package com.haulmont.addon.sdbmt.web.tenant;
 
 import com.google.common.base.Strings;
+import com.haulmont.addon.sdbmt.entity.TenantUser;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.Metadata;
@@ -18,7 +19,7 @@ import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.addon.sdbmt.config.TenantConfig;
 import com.haulmont.addon.sdbmt.web.tenant.validators.TenantAdminValidator;
 import com.haulmont.addon.sdbmt.web.tenant.validators.TenantRootAccessGroupValidator;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,16 +33,16 @@ public class TenantEdit extends AbstractEditor<Tenant> {
     private Datasource<Tenant> tenantDs;
 
     @Inject
-    private TextField nameField;
+    private TextField<String> nameField;
 
     @Inject
-    private PickerField groupField;
+    private PickerField<Group> groupField;
 
     @Inject
-    private PickerField adminField;
+    private PickerField<TenantUser> adminField;
 
     @Inject
-    private TextField tenantIdField;
+    private TextField<String> tenantIdField;
 
     @Named("adminField.lookup")
     private PickerField.LookupAction adminLookupAction;
@@ -113,7 +114,7 @@ public class TenantEdit extends AbstractEditor<Tenant> {
 
     private boolean tenantGroupExist(String groupName, Group tenantsParentGroup) {
         LoadContext<Group> ctx = new LoadContext<>(Group.class);
-        ctx.setQueryString("select e from sec$Group e where e.parent.id = :parent and e.name = :name")
+        ctx.setQueryString("select e from sec$Group e where e.parent = :parent and e.name = :name")
                 .setParameter("parent", tenantsParentGroup)
                 .setParameter("name", groupName);
         return dataManager.getCount(ctx) > 0;

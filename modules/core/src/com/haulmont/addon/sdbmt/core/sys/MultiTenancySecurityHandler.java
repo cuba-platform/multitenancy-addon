@@ -228,7 +228,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
 
         return persistence.callInTransaction(em -> {
             TypedQuery<Tenant> q = em.createQuery("select t from sec$GroupHierarchy h join h.parent.tenant t " +
-                    "where h.group.id = ?1", Tenant.class);
+                    "where h.group = ?1", Tenant.class);
             q.setParameter(1, group);
             return q.getFirstResult();
         });
@@ -237,7 +237,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
     protected Tenant getGroupTenant(Group group) {
         //to prevent user from having to create a new Group view that includes Tenant
         return persistence.callInTransaction(em ->
-                em.createQuery("select group.tenant from sec$Group group where group.id = ?1", Tenant.class)
+                em.createQuery("select group.tenant from sec$Group group where group = ?1", Tenant.class)
                 .setParameter(1, group)
                 .setViewName(View.LOCAL)
                 .getFirstResult());
