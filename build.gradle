@@ -160,6 +160,14 @@ configure(coreModule) {
         dbPassword = ''
     }
 
+    task startDb(description: 'Starts local HSQLDB server', type: CubaHsqlStart) {
+        dbName = dbNameParam
+    }
+
+    task stopDb(description: 'Stops local HSQLDB server', type: CubaHsqlStop) {
+        dbName = dbNameParam
+    }
+
     task startTestDb(description: 'Starts local HSQLDB server', type: CubaHsqlStart) {
         dbName = dbTestNameParam
     }
