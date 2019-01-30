@@ -5,11 +5,11 @@
  */
 package com.haulmont.addon.sdbmt.gui.app.security.role.edit;
 
+import com.haulmont.addon.sdbmt.MultiTenancyTools;
 import com.haulmont.cuba.gui.app.security.role.edit.RoleEditor;
 import com.haulmont.cuba.gui.components.LookupField;
 import com.haulmont.cuba.gui.components.TabSheet;
 import com.haulmont.cuba.security.entity.RoleType;
-import com.haulmont.addon.sdbmt.MultiTenancyTools;
 
 import javax.inject.Inject;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ public class SdbmtRoleEditor extends RoleEditor {
     private TabSheet permissionsTabsheet;
 
     @Inject
-    private LookupField typeLookup;
+    private LookupField<RoleType> typeLookup;
 
     @Override
     protected void postInit() {

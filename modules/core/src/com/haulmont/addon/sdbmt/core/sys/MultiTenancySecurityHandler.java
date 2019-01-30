@@ -8,6 +8,9 @@ package com.haulmont.addon.sdbmt.core.sys;
 
 import com.google.common.base.Strings;
 import com.haulmont.addon.sdbmt.config.TenantConfig;
+import com.haulmont.addon.sdbmt.core.TenantId;
+import com.haulmont.addon.sdbmt.entity.HasTenant;
+import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.chile.core.model.MetaProperty;
@@ -18,9 +21,6 @@ import com.haulmont.cuba.core.global.View;
 import com.haulmont.cuba.core.sys.AppContext;
 import com.haulmont.cuba.security.entity.*;
 import com.haulmont.cuba.security.global.UserSession;
-import com.haulmont.addon.sdbmt.core.TenantId;
-import com.haulmont.addon.sdbmt.entity.HasTenant;
-import com.haulmont.addon.sdbmt.entity.Tenant;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -228,7 +228,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
 
         return persistence.callInTransaction(em -> {
             TypedQuery<Tenant> q = em.createQuery("select t from sec$GroupHierarchy h join h.parent.tenant t " +
-                    "where h.group.id = ?1", Tenant.class);
+                    "where h.group = ?1", Tenant.class);
             q.setParameter(1, group);
             return q.getFirstResult();
         });
@@ -237,7 +237,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
     protected Tenant getGroupTenant(Group group) {
         //to prevent user from having to create a new Group view that includes Tenant
         return persistence.callInTransaction(em ->
-                em.createQuery("select group.tenant from sec$Group group where group.id = ?1", Tenant.class)
+                em.createQuery("select group.tenant from sec$Group group where group = ?1", Tenant.class)
                 .setParameter(1, group)
                 .setViewName(View.LOCAL)
                 .getFirstResult());

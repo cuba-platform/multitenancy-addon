@@ -6,6 +6,7 @@
 package com.haulmont.addon.sdbmt.gui.app.security.user.edit;
 
 import com.haulmont.addon.sdbmt.entity.HasTenant;
+import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.cuba.gui.app.security.user.edit.UserEditor;
 import com.haulmont.cuba.gui.components.LookupField;
 import com.haulmont.cuba.gui.components.OptionsField;
@@ -19,7 +20,7 @@ public class SdbmtUserEditor<T extends User & HasTenant> extends UserEditor impl
     private SdbmtUserEditorDelegate<T> sdbmtUserEditorDelegate;
 
     @Inject
-    private LookupField tenantId;
+    private LookupField<Tenant> tenantId;
 
     @Override
     public void ready() {
@@ -27,7 +28,7 @@ public class SdbmtUserEditor<T extends User & HasTenant> extends UserEditor impl
     }
 
     @Override
-    public OptionsField getTenantField() {
+    public OptionsField<Tenant, Tenant> getTenantField() {
         return tenantId;
     }
 
