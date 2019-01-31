@@ -53,7 +53,6 @@ dependencies {
 def hsql = 'org.hsqldb:hsqldb:2.2.9'
 
 def dbNameParam = 'sdbmt'
-def dbTestNameParam = 'sdbmt-test'
 
 configure([globalModule, coreModule, guiModule, webModule]) {
     apply(plugin: 'java')
@@ -141,37 +140,6 @@ configure(coreModule) {
         dbms = 'hsql'
         host = 'localhost'
         dbName = dbNameParam
-        dbUser = 'sa'
-        dbPassword = ''
-    }
-
-    task startDb(description: 'Starts local HSQLDB server', type: CubaHsqlStart) {
-        dbName = dbNameParam
-    }
-
-    task stopDb(description: 'Stops local HSQLDB server', type: CubaHsqlStop) {
-        dbName = dbNameParam
-    }
-
-    task startTestDb(description: 'Starts local HSQLDB server', type: CubaHsqlStart) {
-        dbName = dbTestNameParam
-    }
-
-    task stopTestDb(description: 'Stops local HSQLDB server', type: CubaHsqlStop) {
-        dbName = dbTestNameParam
-    }
-
-    task removeDb(description: 'Removes local HSQL database', type: Delete) {
-        delete new File("$rootProject.projectDir/data")
-    }
-
-    task killDb(description: 'Kill local HSQLDB server process running on port 9001', type: CubaKillProcess) {
-        port = 9001
-    }
-
-    task createTestDb(dependsOn: assembleDbScripts, description: 'Creates local HSQL database', type: CubaDbCreation) {
-        dbms = 'hsql'
-        dbName = dbTestNameParam
         dbUser = 'sa'
         dbPassword = ''
     }
