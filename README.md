@@ -26,7 +26,7 @@ See [sample application](https://github.com/cuba-platform/multitenancy-addon-dem
 
 3. Paste the add-on coordinates in the coordinates field as follows: `group:name:version`. For example:
 
- `com.haulmont.addon.sdbmt:sdbmt-global:1.0.0`
+ `com.haulmont.addon.sdbmt:sdbmt-global:1.3.0`
 
  Specify the add-on version compatible with the used version of the CUBA platform.
 
