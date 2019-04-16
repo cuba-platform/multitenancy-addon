@@ -1,7 +1,6 @@
-
 buildscript {
     ext.cubaVersion = '7.0.0'
-    repositories { 
+    repositories {
         mavenLocal()
 
         if (System.getenv('HAULMONT_REPOSITORY_URL')) {
@@ -13,7 +12,7 @@ buildscript {
                 url System.getenv('HAULMONT_REPOSITORY_URL')
             }
         }
-        
+
         maven {
             url 'https://repo.cuba-platform.com/content/groups/work'
             credentials {
@@ -51,9 +50,19 @@ cuba {
     }
     ide {
         vcs = 'Git'
-        copyright = '''Copyright (c) 2016 Haulmont Technology Ltd. All Rights Reserved.
-Haulmont Technology proprietary and confidential.
-Use is subject to license terms.''' // Copyright Notice for IDEA project  
+        copyright = '''Copyright (c) 2008-$today.year Haulmont.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.'''
     }
 }
 
@@ -92,7 +101,7 @@ configure([globalModule, coreModule, guiModule, webModule]) {
     artifacts {
         archives sourceJar
     }
-    
+
 }
 
 configure(globalModule) {
@@ -106,8 +115,8 @@ configure(globalModule) {
             attributes('App-Component-Version': cuba.artifact.version + (cuba.artifact.isSnapshot ? '-SNAPSHOT' : ''))
         }
     }
-    
-    
+
+
 }
 
 configure(coreModule) {
@@ -178,7 +187,7 @@ configure(webModule) {
         compile(guiModule)
 
     }
-    
+
     task webArchive(type: Zip) {
         from file("$buildDir/web")
         from file('web')
