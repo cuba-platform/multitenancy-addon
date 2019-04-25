@@ -1,42 +1,3 @@
--- begin CUBASDBMT_TENANT
-create table CUBASDBMT_TENANT (
-    ID uuid,
-    VERSION integer not null,
-    CREATE_TS timestamp,
-    CREATED_BY varchar(50),
-    UPDATE_TS timestamp,
-    UPDATED_BY varchar(50),
-    DELETE_TS timestamp,
-    DELETED_BY varchar(50),
-    TENANT_ID varchar(255),
-    --
-    NAME varchar(255) not null,
-    ACCESS_GROUP_ID uuid not null,
-    ADMIN_ID uuid,
-    --
-    primary key (ID)
-)^
-
-------------------------------------------------------------------------------------------------------------
-
-alter table SEC_GROUP add column TENANT_ID varchar(255) ^
-alter table SEC_GROUP add column DTYPE varchar(100) ^
-update SEC_GROUP set DTYPE = 'cubasdbmt$TenantGroup' where DTYPE is null ^
-
-alter table SEC_USER add column TENANT_ID varchar(255) ^
-alter table SEC_USER add column DTYPE varchar(100) ^
-update SEC_USER set DTYPE = 'cubasdbmt$TenantUser' where DTYPE is null ^
-
-------------------------------------------------------------------------------------------------------------
-
-alter table CUBASDBMT_TENANT add constraint FK_CUBASDBMT_TENANT_ACCESS_GROUP foreign key (ACCESS_GROUP_ID) references SEC_GROUP(ID)^
-alter table CUBASDBMT_TENANT add constraint FK_CUBASDBMT_TENANT_ADMIN foreign key (ADMIN_ID) references SEC_USER(ID)^
-create unique index IDX_CUBASDBMT_TENANT_UK_ADMIN_ID on CUBASDBMT_TENANT (ADMIN_ID) where DELETE_TS is null ^
-create unique index IDX_CUBASDBMT_TENANT_UK_ACCESS_GROUP_ID on CUBASDBMT_TENANT (ACCESS_GROUP_ID) where DELETE_TS is null ^
-create unique index IDX_CUBASDBMT_TENANT_UK_NAME on CUBASDBMT_TENANT (NAME) where DELETE_TS is null ^
-
-------------------------------------------------------------------------------------------------------------
-
 insert into SEC_ROLE
 (ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, LOC_NAME, DESCRIPTION, ROLE_TYPE, IS_DEFAULT_ROLE)
 values ('6ebff3a8-2179-b2a0-f2f3-b0f766680a67', 3, '2016-12-16 13:11:09', 'admin', '2016-12-26 17:05:57', 'admin', null, null, 'Tenant Default Role', null, null, 0, true)^
@@ -136,4 +97,3 @@ values ('4babd552-8fe0-5846-0725-d274c34cb17d', 1, '2016-12-19 20:53:54', 'admin
 insert into SEC_PERMISSION
 (ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PERMISSION_TYPE, TARGET, VALUE_, ROLE_ID)
 values ('517151db-9e70-774b-d966-612214a136cb', 1, '2016-12-19 04:27:01', 'admin', '2016-12-19 04:27:01', null, null, null, 20, 'cubasdbmt$Tenant:update', 0, '6ebff3a8-2179-b2a0-f2f3-b0f766680a67')^
-
