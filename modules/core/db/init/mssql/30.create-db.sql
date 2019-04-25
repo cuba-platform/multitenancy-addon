@@ -97,4 +97,3 @@ values ('4babd552-8fe0-5846-0725-d274c34cb17d', 1, '2016-12-19 20:53:54', 'admin
 insert into SEC_PERMISSION
 (ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PERMISSION_TYPE, TARGET, VALUE_, ROLE_ID)
 values ('517151db-9e70-774b-d966-612214a136cb', 1, '2016-12-19 04:27:01', 'admin', '2016-12-19 04:27:01', null, null, null, 20, 'cubasdbmt$Tenant:update', 0, '6ebff3a8-2179-b2a0-f2f3-b0f766680a67')^
-
