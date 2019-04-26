@@ -1,6 +1,6 @@
 insert into SEC_ROLE
 (ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, NAME, LOC_NAME, DESCRIPTION, ROLE_TYPE, IS_DEFAULT_ROLE)
-values ('6ebff3a8-2179-b2a0-f2f3-b0f766680a67', 3, '2016-12-16 13:11:09', 'admin', '2016-12-26 17:05:57', 'admin', null, null, 'Tenant Default Role', null, null, 0, true)^
+values ('6ebff3a8-2179-b2a0-f2f3-b0f766680a67', 3, '2016-12-16 13:11:09', 'admin', '2016-12-26 17:05:57', 'admin', null, null, 'Tenant Default Role', null, null, 0, 1)^
 
 insert into SEC_PERMISSION
 (ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PERMISSION_TYPE, TARGET, VALUE_, ROLE_ID)
