@@ -23,15 +23,23 @@ See [sample application](https://github.com/cuba-platform/multitenancy-addon-dem
 
 # Installation
 
-1. Open your application in CUBA Studio and click *Edit* in the *Project properties* panel.
+1. Open your application in CUBA Studio.
 
-2. On the *App components* panel click the *Plus* button next to *Custom components*.
+2. Edit *Project properties*.
 
-3. Paste the add-on coordinates in the coordinates field as follows: `group:name:version`. For example:
+3. Click the *Plus* button in the *App components* section of the *Main* tab.
 
- `com.haulmont.addon.sdbmt:sdbmt-global:1.3.0`
+    ![Adding custom component1](img/adding_component1.png)
 
- Specify the add-on version compatible with the used version of the CUBA platform.
+4. Specify the coordinates of the component in the corresponding field as follows: group:name:version.
+
+   ![Adding component2](img/adding_component2.png)
+
+   * Artifact group: *com.haulmont.addon.sdbmt*
+   * Artifact name: *sdbmt-global*
+   * Version: *add-on version*
+
+  When specifying the component version, you should select the one, which is compatible with the platform version used in your project.
 
 | Platform Version  | Component Version |
 |-------------------|-------------------|
@@ -40,9 +48,7 @@ See [sample application](https://github.com/cuba-platform/multitenancy-addon-dem
 | 6.9.x             | 1.1.1             |
 | 6.8.x             | 1.0.0             |
 
-4. Click *OK* in the dialog. Studio will try to find the add-on binaries in the repository currently selected for the project. In case they are found, the dialog will be closed and the add-on will appear in the list of custom components.
-
-5. Click *OK* to save the project properties.
+5. Click *OK* to confirm the operation.
 
 # Setting
 
@@ -136,7 +142,7 @@ Each tenant must have unique *Tenant Id*, *Root Access Group* and default admini
 Tenant access group serves the role of a root access group for tenant admins. Think **Company** access group, but for tenants.  
 Tenant root access group can't be a parent of any other tenant's group, that is **sub-tenants are not supported**.
 
-Creating tenants use tenant admin access group which is the same as *Root Access Group*. In the next versions of addon this preconditions will be set automatically.
+Creating tenants use tenant admin access group which is the same as *Root Access Group*. In the next versions of the add-on this preconditions will be set automatically.
 
 # Tenant permissions
 
