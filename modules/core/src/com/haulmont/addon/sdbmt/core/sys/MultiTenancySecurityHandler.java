@@ -8,13 +8,17 @@ package com.haulmont.addon.sdbmt.core.sys;
 
 import com.google.common.base.Strings;
 import com.haulmont.addon.sdbmt.config.TenantConfig;
+import com.haulmont.addon.sdbmt.core.TenantId;
+import com.haulmont.addon.sdbmt.entity.HasTenant;
+import com.haulmont.addon.sdbmt.entity.Tenant;
+import com.haulmont.addon.sdbmt.entity.TenantGroup;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.chile.core.model.MetaProperty;
 import com.haulmont.cuba.core.Persistence;
+import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.TypedQuery;
 import com.haulmont.cuba.core.global.Metadata;
-import com.haulmont.cuba.core.global.View;
 import com.haulmont.cuba.core.sys.AppContext;
 import com.haulmont.cuba.security.entity.*;
 import com.haulmont.cuba.security.global.UserSession;
@@ -236,10 +240,11 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
 
     protected Tenant getGroupTenant(Group group) {
         //to prevent user from having to create a new Group view that includes Tenant
-        return persistence.callInTransaction(em ->
-                em.createQuery("select group.tenant from sec$Group group where group.id = ?1", Tenant.class)
-                .setParameter(1, group)
-                .setViewName(View.LOCAL)
-                .getFirstResult());
+        TenantGroup tenantGroup = persistence.createTransaction().execute((Transaction.Callable<TenantGroup>) em ->
+                em.find(TenantGroup.class, group.getId(), "group-tenant-and-hierarchy"));
+        if (tenantGroup.getTenant() == null && tenantGroup.getParent() != null) {
+            return getGroupTenant(tenantGroup.getParent());
+        }
+        return tenantGroup.getTenant();
     }
 }
