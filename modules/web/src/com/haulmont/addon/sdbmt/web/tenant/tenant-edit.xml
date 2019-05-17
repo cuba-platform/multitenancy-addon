@@ -25,13 +25,16 @@
                 </row>
                 <row>
                     <label value="msg://Tenant.tenantId" align="MIDDLE_LEFT"/>
-                    <textField id="tenantIdField" datasource="tenantDs" property="tenantId" width="100%"/>
+                    <textField id="tenantIdField" datasource="tenantDs" property="tenantId" width="100%">
+                        <validator class="com.haulmont.addon.sdbmt.web.tenant.validators.TenantIdValidator"/>
+                    </textField>
                 </row>
                 <row>
                     <label value="msg://Tenant.group" align="MIDDLE_LEFT"/>
                     <hbox spacing="true">
                         <pickerField id="groupField" datasource="tenantDs" property="group" width="100%"/>
-                        <button id="createGroupButton" caption="msg://createTenantRootGroupButton.caption" invoke="onCreateTenantRootGroup"/>
+                        <button id="createGroupButton" caption="msg://createTenantRootGroupButton.caption"
+                                invoke="onCreateTenantRootGroup"/>
                     </hbox>
                 </row>
                 <row>
