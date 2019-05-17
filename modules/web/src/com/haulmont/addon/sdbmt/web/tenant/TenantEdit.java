@@ -6,6 +6,10 @@
 package com.haulmont.addon.sdbmt.web.tenant;
 
 import com.google.common.base.Strings;
+import com.haulmont.addon.sdbmt.config.TenantConfig;
+import com.haulmont.addon.sdbmt.entity.Tenant;
+import com.haulmont.addon.sdbmt.web.tenant.validators.TenantAdminValidator;
+import com.haulmont.addon.sdbmt.web.tenant.validators.TenantRootAccessGroupValidator;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.Metadata;
@@ -14,10 +18,6 @@ import com.haulmont.cuba.gui.components.PickerField;
 import com.haulmont.cuba.gui.components.TextField;
 import com.haulmont.cuba.gui.data.Datasource;
 import com.haulmont.cuba.security.entity.Group;
-import com.haulmont.addon.sdbmt.entity.Tenant;
-import com.haulmont.addon.sdbmt.config.TenantConfig;
-import com.haulmont.addon.sdbmt.web.tenant.validators.TenantAdminValidator;
-import com.haulmont.addon.sdbmt.web.tenant.validators.TenantRootAccessGroupValidator;
 import org.apache.commons.lang.StringUtils;
 
 import javax.inject.Inject;
@@ -59,15 +59,21 @@ public class TenantEdit extends AbstractEditor<Tenant> {
     public void init(Map<String, Object> params) {
         super.init(params);
 
+        //allow creating users from lookup screen for convenience
+        adminLookupAction.setLookupScreen("sec$User.browse");
+        //TODO: allow creating groups from lookup screen for convenience
+    }
+
+    @Override
+    protected void initNewItem(Tenant item) {
+        super.initNewItem(item);
+
         nameField.addValueChangeListener(e -> {
             if (Strings.isNullOrEmpty(tenantIdField.getValue())) {
                 tenantIdField.setValue(generateTenantId((String) e.getValue()));
             }
         });
 
-        //allow creating users from lookup screen for convenience
-        adminLookupAction.setLookupScreen("sec$User.browse");
-        //TODO: allow creating groups from lookup screen for convenience
     }
 
     private String generateTenantId(String tenantName) {
