@@ -74,15 +74,21 @@ public class TenantEdit extends AbstractEditor<Tenant> {
     public void init(Map<String, Object> params) {
         super.init(params);
 
+        //allow creating users from lookup screen for convenience
+        adminLookupAction.setLookupScreen("sec$User.browse");
+        //TODO: allow creating groups from lookup screen for convenience
+    }
+
+    @Override
+    protected void initNewItem(Tenant item) {
+        super.initNewItem(item);
+
         nameField.addValueChangeListener(e -> {
             if (Strings.isNullOrEmpty(tenantIdField.getValue())) {
                 tenantIdField.setValue(generateTenantId(e.getValue()));
             }
         });
 
-        //allow creating users from lookup screen for convenience
-        adminLookupAction.setLookupScreen("sec$User.browse");
-        //TODO: allow creating groups from lookup screen for convenience
     }
 
     private String generateTenantId(String tenantName) {
