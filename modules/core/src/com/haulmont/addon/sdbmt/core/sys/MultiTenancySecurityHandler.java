@@ -22,9 +22,6 @@ import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.sys.AppContext;
 import com.haulmont.cuba.security.entity.*;
 import com.haulmont.cuba.security.global.UserSession;
-import com.haulmont.addon.sdbmt.core.TenantId;
-import com.haulmont.addon.sdbmt.entity.HasTenant;
-import com.haulmont.addon.sdbmt.entity.Tenant;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -191,12 +188,17 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         Collection<MetaClass> allEntities = metadata.getClasses();
         return allEntities.stream()
                 .filter(e -> !isEntityWithTenantId(e))
+                .filter(e -> !isEntityWithUserSubstitution(e))
                 .filter(e -> e.getJavaClass().getAnnotation(Entity.class) != null)
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
     protected boolean isEntityWithTenantId(MetaClass metaClass) {
         return HasTenant.class.isAssignableFrom(metaClass.getJavaClass());
+    }
+
+    protected boolean isEntityWithUserSubstitution(MetaClass metaClass) {
+        return UserSubstitution.class.isAssignableFrom(metaClass.getJavaClass());
     }
 
     protected void addProhibitEntityUpdatePermission(UserSession session, MetaClass metaClass) {
