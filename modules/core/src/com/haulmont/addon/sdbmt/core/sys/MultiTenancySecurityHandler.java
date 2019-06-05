@@ -198,12 +198,17 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         Collection<MetaClass> allEntities = metadata.getClasses();
         return allEntities.stream()
                 .filter(e -> !isEntityWithTenantId(e))
+                .filter(e -> !isEntityWithUserSubstitution(e))
                 .filter(e -> e.getJavaClass().getAnnotation(Entity.class) != null)
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
     protected boolean isEntityWithTenantId(MetaClass metaClass) {
         return HasTenant.class.isAssignableFrom(metaClass.getJavaClass());
+    }
+
+    protected boolean isEntityWithUserSubstitution(MetaClass metaClass) {
+        return UserSubstitution.class.isAssignableFrom(metaClass.getJavaClass());
     }
 
     protected void addProhibitEntityUpdatePermission(UserSession session, MetaClass metaClass) {
