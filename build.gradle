@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.cubaVersion = '6.10.2'
+    ext.cubaVersion = '6.10.10'
     repositories {
         maven {
             url 'https://repo.cuba-platform.com/content/groups/work'
@@ -12,10 +12,6 @@ buildscript {
     }
     dependencies {
         classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
-
-        classpath "com.haulmont.cuba:cuba-global:$cubaVersion"
-
-        
     }
 }
 
@@ -36,9 +32,6 @@ cuba {
         version = "1.2"
         isSnapshot = true
     }
-    tomcat {
-        dir = "$project.rootDir/build/tomcat"
-    }
     ide {
         copyright = '''Copyright (c) 2016 Haulmont Technology Ltd. All Rights Reserved.
 Haulmont Technology proprietary and confidential.
@@ -46,7 +39,11 @@ Use is subject to license terms.''' // Copyright Notice for IDEA project
     }
 }
 
-def hsql = 'org.hsqldb:hsqldb:2.2.9'
+dependencies {
+    appComponent("com.haulmont.cuba:cuba-global:$cubaVersion")
+}
+
+def hsql = 'org.hsqldb:hsqldb:2.4.1'
 
 configure([globalModule, coreModule, guiModule, webModule]) {
     apply(plugin: 'java')
@@ -136,7 +133,7 @@ configure(coreModule) {
 
     task createDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
         dbms = 'hsql'
-        host = 'localhost'
+        host = 'localhost:9010'
         dbName = dbNameParam
         dbUser = 'sa'
         dbPassword = ''
@@ -144,7 +141,7 @@ configure(coreModule) {
 
     task updateDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
         dbms = 'hsql'
-        host = 'localhost'
+        host = 'localhost:9010'
         dbName = dbNameParam
         dbUser = 'sa'
         dbPassword = ''
@@ -152,10 +149,12 @@ configure(coreModule) {
 
     task startDb(description: 'Starts local HSQLDB server', type: CubaHsqlStart) {
         dbName = dbNameParam
+        dbPort = 9010
     }
 
     task stopDb(description: 'Stops local HSQLDB server', type: CubaHsqlStop) {
         dbName = dbNameParam
+        dbPort = 9010
     }    
 
     task startTestDb(description: 'Starts local HSQLDB server', type: CubaHsqlStart) {
@@ -171,7 +170,7 @@ configure(coreModule) {
     }
 
     task killDb(description: 'Kill local HSQLDB server process running on port 9001', type: CubaKillProcess) {
-        port = 9001
+        port = 9010
     }
 
     task createTestDb(dependsOn: assembleDbScripts, description: 'Creates local HSQL database', type: CubaDbCreation) {
