@@ -17,6 +17,7 @@
 buildscript {
     ext.cubaVersion = '7.1.0'
     repositories {
+
         mavenLocal()
 
         if (System.getenv('HAULMONT_REPOSITORY_URL')) {
