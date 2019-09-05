@@ -43,6 +43,7 @@ See [sample application](https://github.com/cuba-platform/multitenancy-addon-dem
 
 | Platform Version  | Component Version |
 |-------------------|-------------------|
+| 7.1.x             | 1.4.0             |
 | 7.0.x             | 1.3.2             |
 | 6.10.x            | 1.2.1             |
 | 6.9.x             | 1.1.1             |
