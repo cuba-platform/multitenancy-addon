@@ -16,13 +16,17 @@
 
 package com.haulmont.addon.sdbmt.entity;
 
-import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.addon.sdbmt.core.TenantId;
+import com.haulmont.cuba.core.entity.StandardEntity;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+/**
+ * @deprecated Use {@link com.haulmont.cuba.core.entity.StandardTenantEntity} instead
+ */
 @MappedSuperclass
+@Deprecated
 public abstract class StandardTenantEntity extends StandardEntity implements HasTenant {
     private static final long serialVersionUID = -1215037188627831268L;
 

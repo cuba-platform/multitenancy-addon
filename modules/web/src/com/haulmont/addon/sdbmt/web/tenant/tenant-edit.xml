@@ -23,10 +23,11 @@
         messagesPack="com.haulmont.addon.sdbmt.web.tenant">
     <dsContext>
         <datasource id="tenantDs"
-                    class="com.haulmont.addon.sdbmt.entity.Tenant"
+                    class="com.haulmont.cuba.security.entity.Tenant"
                     view="tenant-edit"/>
     </dsContext>
-    <dialogMode width="600px"/>
+    <dialogMode width="600px"
+                forceDialog="true"/>
     <layout expand="windowActions"
             spacing="true">
         <grid id="grid" width="450px" spacing="true">

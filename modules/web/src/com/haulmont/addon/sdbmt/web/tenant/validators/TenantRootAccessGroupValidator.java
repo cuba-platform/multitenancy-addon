@@ -16,8 +16,7 @@
 
 package com.haulmont.addon.sdbmt.web.tenant.validators;
 
-import com.haulmont.addon.sdbmt.entity.HasTenantInstance;
-import com.haulmont.addon.sdbmt.entity.Tenant;
+import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
@@ -25,6 +24,7 @@ import com.haulmont.cuba.core.global.Messages;
 import com.haulmont.cuba.gui.components.ValidationException;
 import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.cuba.security.entity.GroupHierarchy;
+import com.haulmont.cuba.security.entity.Tenant;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -47,8 +47,8 @@ public class TenantRootAccessGroupValidator implements Consumer<Group> {
 
         DataManager dm = AppBeans.get(DataManager.class);
         Group group = dm.reload(value, "group-tenant-and-hierarchy");
-        Tenant groupTenant = ((HasTenantInstance) group).getTenant();
-        if (groupTenant != null && !groupTenant.equals(tenant)) {
+        Tenant groupTenant = getTenantGroup(group);
+        if (group.getTenantId() != null && groupTenant != null && !groupTenant.equals(tenant) && !group.getTenantId().equals(TenantProvider.TENANT_ADMIN)) {
             throw new ValidationException(messages.getMessage(TenantRootAccessGroupValidator.class, "validation.hasTenant"));
         } else if (isRootGroup(group)) {
             throw new ValidationException(messages.getMessage(TenantRootAccessGroupValidator.class, "validation.rootGroup"));
@@ -63,7 +63,7 @@ public class TenantRootAccessGroupValidator implements Consumer<Group> {
 
     private boolean hasOtherTenantSubgroups(Group group) {
         LoadContext<Group> ctx = new LoadContext<>(Group.class);
-        ctx.setQueryString("select e.group from sec$GroupHierarchy e where e.parent = :group and e.group.tenant is not null")
+        ctx.setQueryString("select e.group from sec$GroupHierarchy e where e.parent = :group and e.group.tenantId is not null")
                 .setParameter("group", group);
 
         return dataManager.getCount(ctx) > 0;
@@ -72,12 +72,24 @@ public class TenantRootAccessGroupValidator implements Consumer<Group> {
     private boolean subgroupOfOtherTenantGroup(Group group) {
         List<GroupHierarchy> hierarchyList = group.getHierarchyList();
         for (GroupHierarchy hierarchy : hierarchyList) {
-            Tenant groupTenant = ((HasTenantInstance)hierarchy.getParent()).getTenant();
-            if (groupTenant != null && !groupTenant.equals(tenant)) {
+            Tenant groupTenant = getTenantGroup(hierarchy.getParent());
+
+            if (group.getTenantId() != null && groupTenant != null && !groupTenant.equals(tenant)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private Tenant getTenantGroup(Group group) {
+        try {
+            return dataManager.load(Tenant.class)
+                    .query("select e from sec$Tenant e where e.tenantId = :tenantId")
+                    .parameter("tenantId", group.getTenantId())
+                    .one();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private boolean isRootGroup(Group group) {

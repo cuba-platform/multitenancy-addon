@@ -15,7 +15,52 @@
  */
 package com.haulmont.addon.sdbmt.web.tenant;
 
+import com.haulmont.addon.sdbmt.config.TenantConfig;
+import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.gui.components.AbstractLookup;
+import com.haulmont.cuba.gui.components.Table;
+import com.haulmont.cuba.gui.components.actions.RemoveAction;
+import com.haulmont.cuba.gui.screen.Subscribe;
+import com.haulmont.cuba.security.entity.Tenant;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TenantBrowse extends AbstractLookup {
+
+    @Inject
+    private Table<Tenant> tenantsTable;
+
+    @Inject
+    protected TenantConfig tenantConfig;
+
+    @Named("tenantsTable.remove")
+    protected RemoveAction removeAction;
+
+    @Subscribe
+    protected void onBeforeShow(BeforeShowEvent event) {
+        initEnabledRules();
+    }
+
+    protected void initEnabledRules(){
+        removeAction.addEnabledRule(() -> {
+            Set<Tenant> selected = tenantsTable.getSelected();
+            if (selected.isEmpty())
+                return false;
+
+            List<String> tenants = selected.stream()
+                    .map(Tenant::getTenantId)
+                    .collect(Collectors.toList());
+
+            return isTenantsRemovingAllowed(tenants);
+        });
+    }
+
+    protected boolean isTenantsRemovingAllowed(Collection<String> tenants) {
+        return !tenants.contains(TenantProvider.TENANT_ADMIN);
+    }
 }

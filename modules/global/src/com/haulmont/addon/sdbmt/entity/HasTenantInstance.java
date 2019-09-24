@@ -19,7 +19,11 @@ package com.haulmont.addon.sdbmt.entity;
 /**
  * Interface for entities that have tenant instance.
  * Implementing this interface doesn't make entities tenant-specific, use {@link HasTenant} for that.
+ *
+ * @deprecated Is not required for Multitenancy anymore
+ *
  */
+@Deprecated
 public interface HasTenantInstance {
     void setTenant(Tenant tenant);
     Tenant getTenant();

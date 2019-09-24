@@ -56,15 +56,15 @@ values ('c9dcfc53d44919d120b16565f1fab05d', 1, '2016-12-19 17:19:53', 'admin', '
 
 insert into SEC_PERMISSION
 (ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PERMISSION_TYPE, TARGET, VALUE_, ROLE_ID)
-values ('c894755e74defdd7b15be5a911cd0551', 1, '2016-12-19 04:27:01', 'admin', '2016-12-19 04:27:01', null, null, null, 20, 'cubasdbmt$Tenant:create', 0, '6ebff3a82179b2a0f2f3b0f766680a67')^
+values ('c894755e74defdd7b15be5a911cd0551', 1, '2016-12-19 04:27:01', 'admin', '2016-12-19 04:27:01', null, null, null, 20, 'sec$Tenant:create', 0, '6ebff3a82179b2a0f2f3b0f766680a67')^
 
 insert into SEC_PERMISSION
 (ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PERMISSION_TYPE, TARGET, VALUE_, ROLE_ID)
-values ('569640b50824ac153faf7e1684e3e839', 1, '2016-12-19 04:27:01', 'admin', '2016-12-19 04:27:01', null, null, null, 20, 'cubasdbmt$Tenant:delete', 0, '6ebff3a82179b2a0f2f3b0f766680a67')^
+values ('569640b50824ac153faf7e1684e3e839', 1, '2016-12-19 04:27:01', 'admin', '2016-12-19 04:27:01', null, null, null, 20, 'sec$Tenant:delete', 0, '6ebff3a82179b2a0f2f3b0f766680a67')^
 
 insert into SEC_PERMISSION
 (ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PERMISSION_TYPE, TARGET, VALUE_, ROLE_ID)
-values ('dc884f636b9a42f87252f6690eda501a', 1, '2016-12-19 04:27:01', 'admin', '2016-12-19 04:27:01', null, null, null, 20, 'cubasdbmt$Tenant:read', 0, '6ebff3a82179b2a0f2f3b0f766680a67')^
+values ('dc884f636b9a42f87252f6690eda501a', 1, '2016-12-19 04:27:01', 'admin', '2016-12-19 04:27:01', null, null, null, 20, 'sec$Tenant:read', 0, '6ebff3a82179b2a0f2f3b0f766680a67')^
 
 insert into SEC_PERMISSION
 (ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PERMISSION_TYPE, TARGET, VALUE_, ROLE_ID)
@@ -88,7 +88,7 @@ values ('e9b0e3391387e6ebc66eb67bc0f1f48c', 1, '2017-03-20 11:11:11', 'admin', '
 
 insert into SEC_PERMISSION
 (ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PERMISSION_TYPE, TARGET, VALUE_, ROLE_ID)
-values ('3856bac12b931db023db40eaabc444fc', 1, '2016-12-19 20:23:15', 'admin', '2016-12-19 20:23:15', null, null, null, 10, 'cubasdbmt$Tenant.browse', 0, '6ebff3a82179b2a0f2f3b0f766680a67')^
+values ('3856bac12b931db023db40eaabc444fc', 1, '2016-12-19 20:23:15', 'admin', '2016-12-19 20:23:15', null, null, null, 10, 'sec$Tenant.browse', 0, '6ebff3a82179b2a0f2f3b0f766680a67')^
 
 insert into SEC_PERMISSION
 (ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PERMISSION_TYPE, TARGET, VALUE_, ROLE_ID)
@@ -96,4 +96,4 @@ values ('4babd5528fe058460725d274c34cb17d', 1, '2016-12-19 20:53:54', 'admin', '
 
 insert into SEC_PERMISSION
 (ID, VERSION, CREATE_TS, CREATED_BY, UPDATE_TS, UPDATED_BY, DELETE_TS, DELETED_BY, PERMISSION_TYPE, TARGET, VALUE_, ROLE_ID)
-values ('517151db9e70774bd966612214a136cb', 1, '2016-12-19 04:27:01', 'admin', '2016-12-19 04:27:01', null, null, null, 20, 'cubasdbmt$Tenant:update', 0, '6ebff3a82179b2a0f2f3b0f766680a67')^
+values ('517151db9e70774bd966612214a136cb', 1, '2016-12-19 04:27:01', 'admin', '2016-12-19 04:27:01', null, null, null, 20, 'sec$Tenant:update', 0, '6ebff3a82179b2a0f2f3b0f766680a67')^

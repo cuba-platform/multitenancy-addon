@@ -22,6 +22,10 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * @deprecated Is not required for Multitenancy anymore
+ */
+@Deprecated
 @Target({FIELD})
 @Retention(RUNTIME)
 public @interface TenantId {

@@ -18,7 +18,10 @@ package com.haulmont.addon.sdbmt.entity;
 
 /**
  * Interface to be implemented by entities that have to be tenant-specific
+ *
+ * @deprecated Use {@link com.haulmont.cuba.core.entity.HasTenant} instead
  */
+@Deprecated
 public interface HasTenant {
     String getTenantId();
     void setTenantId(String tenantId);

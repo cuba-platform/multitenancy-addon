@@ -22,12 +22,17 @@ import com.haulmont.cuba.core.config.Source;
 import com.haulmont.cuba.core.config.SourceType;
 import com.haulmont.cuba.core.config.defaults.Default;
 import com.haulmont.cuba.core.config.defaults.DefaultString;
+import com.haulmont.cuba.core.global.GlobalConfig;
 import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.cuba.security.entity.Role;
 
 @Source(type = SourceType.DATABASE)
 public interface TenantConfig extends Config {
 
+    /**
+     * @deprecated Use {@link GlobalConfig#getTenantIdName()} instead
+     */
+    @Deprecated
     @Property("cubasdbmt.tenantIdName")
     @DefaultString("tenant_id")
     String getTenantIdName();

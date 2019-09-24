@@ -22,6 +22,10 @@ import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 
+/**
+ * @deprecated Use {@link com.haulmont.cuba.core.app.multitenancy.TenantProvider} instead
+ */
+@Deprecated
 @Component(MultiTenancyTools.NAME)
 public class MultiTenancyTools {
 

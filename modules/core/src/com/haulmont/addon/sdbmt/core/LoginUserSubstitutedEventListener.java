@@ -34,9 +34,7 @@ public class LoginUserSubstitutedEventListener implements ApplicationListener<Us
     public void onApplicationEvent(UserSubstitutedEvent event) {
         UserSession userSession = event.getSubstitutedSession();
         if (userSession != null) {
-            multiTenancySecurityHandler.compileSessionAttributes(userSession);
             multiTenancySecurityHandler.compilePermissions(userSession);
-            multiTenancySecurityHandler.compileConstraints(userSession);
         }
     }
 }

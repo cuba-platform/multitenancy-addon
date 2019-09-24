@@ -27,7 +27,10 @@ import com.haulmont.cuba.security.entity.User;
  * don't have access to Tenant entity at all. However we have to have a descendant from MappedSuperclass defined in
  * the application component
  * @see <a href="https://youtrack.cuba-platform.com/issue/PL-10474">PL-10474</a>
+ *
+ * @deprecated Use {@link com.haulmont.cuba.security.entity.Tenant} instead
  */
+@Deprecated
 @Table(name = "CUBASDBMT_TENANT")
 @Entity(name = "cubasdbmt$Tenant")
 @Listeners("cubasdbmt_TenantListener")

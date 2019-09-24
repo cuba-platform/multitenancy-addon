@@ -18,6 +18,6 @@
 <menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
     <menu id="tenant-management"
           insertBefore="administration">
-        <item id="cubasdbmt$Tenant.browse"/>
+        <item id="sec$Tenant.browse"/>
     </menu>
 </menu-config>

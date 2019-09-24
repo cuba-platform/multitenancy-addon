@@ -22,4 +22,6 @@
     <!-- Annotation-based beans -->
     <context:component-scan base-package="com.haulmont.addon.sdbmt"/>
     <gui:screens base-packages="com.haulmont.addon.sdbmt.web"/>
+
+    <bean name="cuba_TenantProvider" class="com.haulmont.addon.sdbmt.core.app.multitenancy.MultiTenantProviderBean"/>
 </beans>

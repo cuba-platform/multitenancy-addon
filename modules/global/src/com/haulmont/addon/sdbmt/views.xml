@@ -16,7 +16,7 @@
   -->
 
 <views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
-    <view class="com.haulmont.addon.sdbmt.entity.Tenant"
+    <view class="com.haulmont.cuba.security.entity.Tenant"
           extends="_local"
           name="tenant-browse">
         <property name="group"
@@ -24,29 +24,25 @@
         <property name="admin"
                   view="_minimal"/>
     </view>
-    <view class="com.haulmont.addon.sdbmt.entity.Tenant"
-          extends="_local"
-          name="tenant-edit">
+    <view class="com.haulmont.cuba.security.entity.Tenant"
+          name="tenant-edit"
+          extends="_local">
         <property name="group"
-                  view="_minimal">
-            <property name="tenant"
-                      view="_minimal"/>
+                  view="_local">
             <property name="parent"
-                      view="_minimal"/>
+                      view="_local"/>
         </property>
         <property name="admin"
-                  view="_minimal"/>
+                  view="_local"/>
     </view>
-    <view class="com.haulmont.addon.sdbmt.entity.Tenant"
+    <view class="com.haulmont.cuba.security.entity.Tenant"
           extends="_local"
           name="tenant-with-group">
         <property name="group" view="_minimal"/>
     </view>
-        <view class="com.haulmont.cuba.security.entity.Group"
+    <view class="com.haulmont.cuba.security.entity.Group"
           extends="_local"
           name="group-tenant-and-hierarchy">
-        <property name="tenant"
-                  view="_minimal"/>
         <property name="parent"
                   view="_minimal"/>
         <property name="hierarchyList"
@@ -54,14 +50,8 @@
             <property name="group"
                       view="_minimal"/>
             <property name="parent"
-                      view="group-with-tenant"/>
+                      view="_minimal"/>
         </property>
-    </view>
-    <view class="com.haulmont.cuba.security.entity.Group"
-          extends="_minimal"
-          name="group-with-tenant">
-        <property name="tenant"
-                  view="_minimal"/>
     </view>
     <view class="com.haulmont.cuba.security.entity.Group"
           extends="_minimal"

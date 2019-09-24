@@ -16,14 +16,15 @@
 
 package com.haulmont.addon.sdbmt.gui.app.security.user.edit;
 
-import com.haulmont.addon.sdbmt.MultiTenancyTools;
-import com.haulmont.addon.sdbmt.entity.HasTenant;
-import com.haulmont.addon.sdbmt.entity.Tenant;
+import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
+import com.haulmont.cuba.core.entity.HasTenant;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.PersistenceHelper;
 import com.haulmont.cuba.gui.components.OptionsField;
+import com.haulmont.cuba.security.entity.Tenant;
 import com.haulmont.cuba.security.entity.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -35,18 +36,18 @@ import java.util.Optional;
 public class SdbmtUserEditorDelegate<T extends User & HasTenant> {
 
     @Inject
-    private MultiTenancyTools multiTenancyTools;
+    private TenantProvider tenantProvider;
 
     @Inject
     private DataManager dataManager;
 
     public void ready(SdbmtUserScreen<T> userScreen) {
-        String tenantId = multiTenancyTools.getCurrentUserTenantId();
+        String tenantId = tenantProvider.getTenantId();
         if (PersistenceHelper.isNew(userScreen.getUser())) {
             userScreen.getUser().setTenantId(tenantId);
         }
 
-        if (tenantId != null) {
+        if (!tenantId.equals(TenantProvider.TENANT_ADMIN)) {
             userScreen.getTenantField().setVisible(false);
             return; //do not init tenant ID field if the current user is also a tenant
         }
@@ -70,7 +71,7 @@ public class SdbmtUserEditorDelegate<T extends User & HasTenant> {
 
     private List<Tenant> createOptionList() {
         return dataManager.loadList(LoadContext.create(Tenant.class)
-                .setQuery(LoadContext.createQuery("select e from cubasdbmt$Tenant e"))
+                .setQuery(LoadContext.createQuery("select e from sec$Tenant e"))
                 .setView("tenant-with-group"));
     }
 
