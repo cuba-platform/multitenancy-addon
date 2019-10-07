@@ -15,7 +15,37 @@
  */
 package com.haulmont.addon.sdbmt.gui.app.security.session.browse;
 
+import com.google.common.base.Strings;
+import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.gui.app.security.session.browse.SessionBrowser;
+import com.haulmont.cuba.gui.app.security.session.browse.UserSessionsDatasource;
+import com.haulmont.cuba.security.entity.UserSessionEntity;
+
+import javax.inject.Inject;
+import java.util.Map;
 
 public class SdbmtSessionBrowser extends SessionBrowser {
+
+    @Inject
+    protected UserSessionsDatasource sessionsDs;
+
+    @Inject
+    protected TenantProvider tenantProvider;
+
+    @Override
+    public void init(Map<String, Object> params) {
+        super.init(params);
+        applyTenantChanges();
+    }
+
+    protected void applyTenantChanges() {
+        String tenantId = tenantProvider.getTenantId();
+        if (!Strings.isNullOrEmpty(tenantId)) {
+            sessionsDs.setSessionFilter(e -> hasTenantIdOfCurrentUser(tenantId, e));
+        }
+    }
+
+    protected boolean hasTenantIdOfCurrentUser(String tenantId, UserSessionEntity e) {
+        return tenantId.equals(e.getTenantId()) || tenantId.equals(TenantProvider.TENANT_ADMIN);
+    }
 }
