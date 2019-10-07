@@ -21,6 +21,12 @@
     <!-- Annotation-based beans -->
     <context:component-scan base-package="com.haulmont.addon.sdbmt"/>
 
+    <!-- -->
     <bean name="cuba_TenantProvider" class="com.haulmont.addon.sdbmt.core.app.multitenancy.MultiTenantProviderBean"/>
+
+    <!-- -->
+    <bean name="cuba_RememberMeAuthenticationProvider" class="com.haulmont.addon.sdbmt.security.auth.providers.MultiTenancyLoginPasswordAuthenticationProvider"/>
+    <bean name="cuba_LoginPasswordAuthenticationProvider" class="com.haulmont.addon.sdbmt.security.auth.providers.MultiTenancyRememberMeAuthenticationProvider"/>
+    <bean name="cuba_AnonymousAuthenticationProvider" class="com.haulmont.addon.sdbmt.security.auth.providers.MultiTenancyAnonymousAuthenticationProvider"/>
 
 </beans>

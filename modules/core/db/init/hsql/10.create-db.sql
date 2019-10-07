@@ -14,6 +14,7 @@ create table CUBASDBMT_TENANT (
     ACCESS_GROUP_ID varchar(36) not null,
     ADMIN_ID varchar(36) not null,
     --
-    primary key (ID)
+    primary key (ID),
+    constraint IDX_CUBASDBMT_TENANT_UNIQ_TENANT_ID unique (TENANT_ID, DELETE_TS)
 )^
 -- end CUBASDBMT_TENANT

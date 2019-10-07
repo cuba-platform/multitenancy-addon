@@ -16,7 +16,7 @@
   -->
 
 <views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
-    <view class="com.haulmont.cuba.security.entity.Tenant"
+    <view class="com.haulmont.addon.sdbmt.entity.Tenant"
           extends="_local"
           name="tenant-browse">
         <property name="group"
@@ -24,7 +24,7 @@
         <property name="admin"
                   view="_minimal"/>
     </view>
-    <view class="com.haulmont.cuba.security.entity.Tenant"
+    <view class="com.haulmont.addon.sdbmt.entity.Tenant"
           name="tenant-edit"
           extends="_local">
         <property name="group"
@@ -35,7 +35,7 @@
         <property name="admin"
                   view="_local"/>
     </view>
-    <view class="com.haulmont.cuba.security.entity.Tenant"
+    <view class="com.haulmont.addon.sdbmt.entity.Tenant"
           extends="_local"
           name="tenant-with-group">
         <property name="group" view="_minimal"/>

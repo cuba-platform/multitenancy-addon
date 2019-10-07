@@ -1,0 +1,19 @@
+-- begin CUBASDBMT_TENANT
+create table CUBASDBMT_TENANT (
+    ID uniqueidentifier,
+    VERSION integer not null,
+    CREATE_TS datetime2,
+    CREATED_BY varchar(50),
+    UPDATE_TS datetime2,
+    UPDATED_BY varchar(50),
+    DELETE_TS datetime2,
+    DELETED_BY varchar(50),
+    TENANT_ID varchar(255),
+    --
+    NAME varchar(255) not null,
+    ACCESS_GROUP_ID uniqueidentifier not null,
+    ADMIN_ID uniqueidentifier not null,
+    --
+    primary key nonclustered (ID)
+)^
+-- end CUBASDBMT_TENANT

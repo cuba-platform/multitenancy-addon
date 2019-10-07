@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 
-@Component("cuba_TenantListener")
+@Component("cubasdbmt_TenantListener")
 public class TenantListener implements BeforeUpdateEntityListener<Tenant>, BeforeInsertEntityListener<Tenant> {
 
     @Inject

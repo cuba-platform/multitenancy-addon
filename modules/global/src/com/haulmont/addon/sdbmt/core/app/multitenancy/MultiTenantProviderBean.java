@@ -17,38 +17,28 @@
 package com.haulmont.addon.sdbmt.core.app.multitenancy;
 
 import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
-
-import com.haulmont.cuba.core.global.GlobalConfig;
 import com.haulmont.cuba.core.global.UserSessionSource;
 
 import javax.inject.Inject;
 
 /**
- * The implementation {@link com.haulmont.cuba.core.app.multitenancy.TenantProvider} for Multitenancy.
+ * The implementation {@link TenantProvider} for Multitenancy.
  */
 public class MultiTenantProviderBean implements TenantProvider {
 
     @Inject
     private UserSessionSource userSessionSource;
 
-    @Inject
-    private GlobalConfig globalConfig;
-
     /**
      * Returns the tenant ID of a logged in user.
-     * @return tenant ID of a logged in user, "tenant_admin" if the user doesn't have a tenant ID
-     * @throws IllegalStateException if there is no active user session
+     *
+     * @return tenant ID of a logged in user, 'tenant_admin' if the user doesn't have a tenant ID
      */
     @Override
     public String getTenantId() {
-        if(Boolean.FALSE.equals(userSessionSource.checkCurrentUserSession())){
-            return TENANT_ADMIN;
+        if (userSessionSource.checkCurrentUserSession() && userSessionSource.getUserSession().getAttribute(TENANT_ID_ATTRIBUTE_NAME) != null) {
+            return userSessionSource.getUserSession().getAttribute(TENANT_ID_ATTRIBUTE_NAME);
         }
-
-        String tenantId = userSessionSource.getUserSession().getAttribute(globalConfig.getTenantIdName());
-        if(tenantId == null){
-            return TENANT_ADMIN;
-        }
-        return tenantId;
+        return TENANT_ADMIN;
     }
 }

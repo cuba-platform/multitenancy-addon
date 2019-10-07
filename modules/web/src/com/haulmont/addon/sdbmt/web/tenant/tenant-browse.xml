@@ -23,10 +23,10 @@
         messagesPack="com.haulmont.addon.sdbmt.web.tenant">
     <dsContext>
         <collectionDatasource id="tenantsDs"
-                              class="com.haulmont.cuba.security.entity.Tenant"
+                              class="com.haulmont.addon.sdbmt.entity.Tenant"
                               view="tenant-browse">
             <query>
-                <![CDATA[select e from sec$Tenant e]]>
+                <![CDATA[select e from cubasdbmt$Tenant e]]>
             </query>
         </collectionDatasource>
     </dsContext>

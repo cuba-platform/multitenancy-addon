@@ -16,13 +16,13 @@
 
 package com.haulmont.addon.sdbmt.web.tenant.validators;
 
+import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.core.entity.HasTenant;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.Messages;
 import com.haulmont.cuba.gui.components.ValidationException;
 import com.haulmont.cuba.gui.data.Datasource;
-import com.haulmont.cuba.security.entity.Tenant;
 
 import java.util.Objects;
 import java.util.function.Consumer;

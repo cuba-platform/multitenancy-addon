@@ -16,6 +16,7 @@
 
 package com.haulmont.addon.sdbmt.core.sys;
 
+import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
@@ -130,7 +131,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         }
         try {
             return dataManager.load(Tenant.class)
-                    .query("select e from sec$Tenant e where e.tenantId = :tenantId")
+                    .query("select e from cubasdbmt$Tenant e where e.tenantId = :tenantId")
                     .parameter("tenantId", group.getTenantId())
                     .one();
         } catch (Exception e) {

@@ -16,6 +16,7 @@
 
 package com.haulmont.addon.sdbmt.web.tenant.validators;
 
+import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DataManager;
@@ -24,7 +25,6 @@ import com.haulmont.cuba.core.global.Messages;
 import com.haulmont.cuba.gui.components.ValidationException;
 import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.cuba.security.entity.GroupHierarchy;
-import com.haulmont.cuba.security.entity.Tenant;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -84,7 +84,7 @@ public class TenantRootAccessGroupValidator implements Consumer<Group> {
     private Tenant getTenantGroup(Group group) {
         try {
             return dataManager.load(Tenant.class)
-                    .query("select e from sec$Tenant e where e.tenantId = :tenantId")
+                    .query("select e from cubasdbmt$Tenant e where e.tenantId = :tenantId")
                     .parameter("tenantId", group.getTenantId())
                     .one();
         } catch (Exception e) {

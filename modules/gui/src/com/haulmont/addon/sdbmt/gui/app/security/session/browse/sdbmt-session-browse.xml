@@ -23,7 +23,7 @@
     <layout>
         <groupTable id="sessionsTable">
             <columns>
-                <column id="tenantId"/>
+                <column id="tenantId" caption="msg://com.haulmont.addon.sdbmt.entity/Tenant.tenantId"/>
             </columns>
         </groupTable>
     </layout>

@@ -23,7 +23,7 @@
         messagesPack="com.haulmont.addon.sdbmt.web.tenant">
     <dsContext>
         <datasource id="tenantDs"
-                    class="com.haulmont.cuba.security.entity.Tenant"
+                    class="com.haulmont.addon.sdbmt.entity.Tenant"
                     view="tenant-edit"/>
     </dsContext>
     <dialogMode width="600px"

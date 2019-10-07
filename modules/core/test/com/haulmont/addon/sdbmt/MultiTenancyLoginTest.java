@@ -16,8 +16,11 @@
 
 package com.haulmont.addon.sdbmt;
 
+import com.haulmont.addon.sdbmt.config.TenantConfig;
 import com.haulmont.addon.sdbmt.core.MultiTenancyTestContainer;
 import com.haulmont.addon.sdbmt.core.MultiTenancyUserSessionSource;
+import com.haulmont.addon.sdbmt.entity.Tenant;
+import com.haulmont.bali.util.ParamsMap;
 import com.haulmont.cuba.core.EntityManager;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.global.*;
@@ -25,7 +28,6 @@ import com.haulmont.cuba.security.auth.AuthenticationManager;
 import com.haulmont.cuba.security.auth.Credentials;
 import com.haulmont.cuba.security.auth.LoginPasswordCredentials;
 import com.haulmont.cuba.security.entity.Group;
-import com.haulmont.cuba.security.entity.Tenant;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.entity.UserRole;
 import com.haulmont.cuba.security.global.LoginException;
@@ -44,6 +46,8 @@ import static org.junit.Assert.*;
 public class MultiTenancyLoginTest {
     @ClassRule
     public static MultiTenancyTestContainer cont = MultiTenancyTestContainer.Common.INSTANCE;
+
+    protected TenantConfig tenantConfig = AppBeans.get(Configuration.class).getConfig(TenantConfig.class);
 
     public static final String PASSWORD = "password";
 
@@ -112,7 +116,7 @@ public class MultiTenancyLoginTest {
 
     @After
     public void tearDown() {
-        cont.deleteRecord("SEC_TENANT", tenantA.getId(), tenantB.getId());
+        cont.deleteRecord("CUBASDBMT_TENANT", tenantA.getId(), tenantB.getId());
 
         for (UserRole userRole : userA.getUserRoles()) {
             cont.deleteRecord("SEC_USER_ROLE", userRole.getId());
@@ -155,7 +159,8 @@ public class MultiTenancyLoginTest {
     @Test
     public void testUserLoginWithTenant() throws LoginException {
         AuthenticationManager lw = AppBeans.get(AuthenticationManager.NAME);
-        Credentials credentials = new LoginPasswordCredentials("userA", PASSWORD, Locale.getDefault(), "tenant-a");
+        Credentials credentials = new LoginPasswordCredentials("userA", PASSWORD, Locale.getDefault(),
+                ParamsMap.of(tenantConfig.getTenantIdUrlParamName(), "tenant-a"));
         UserSession userSession = lw.login(credentials).getSession();
 
         assertNotNull(userSession);
