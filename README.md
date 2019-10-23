@@ -7,15 +7,15 @@
 
 - [Overview](#overview)
 - [Installation](#installation)
- - [From the Marketplace](#from-the-marketplace)
- - [By Coordinates](#by-coordinates)
+  - [From the Marketplace](#from-the-marketplace)
+  - [By Coordinates](#by-coordinates)
 - [Setting](#setting)
- - [CUBA System Tenant-Specific Entities](#cuba-system-tenant-specific-entities)
+  - [CUBA System Tenant-Specific Entities](#cuba-system-tenant-specific-entities)
 - [Managing Tenants](#managing-tenants)
 - [Tenant Permissions](#tenant-permissions)
 - [Common and Tenant-Specific Data](#common-and-tenant-specific-data)
- - [Common Data](#common-data)
- - [Tenant-Specific Data](#tenant-specific-data)
+  - [Common Data](#common-data)
+  - [Tenant-Specific Data](#tenant-specific-data)
 
 # Overview
 
