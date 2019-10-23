@@ -3,6 +3,20 @@
     <a href="https://travis-ci.org/cuba-platform/multitenancy-addon"><img src="https://travis-ci.org/cuba-platform/multitenancy-addon.svg?branch=master" alt="Build Status" title=""></a>
 </p>
 
+# Multitenancy
+
+- [Overview](#overview)
+- [Installation](#installation)
+ - [From the Marketplace](#from-the-marketplace)
+ - [By Coordinates](#by-coordinates)
+- [Setting](#setting)
+ - [CUBA System Tenant-Specific Entities](#cuba-system-tenant-specific-entities)
+- [Managing Tenants](#managing-tenants)
+- [Tenant Permissions](#tenant-permissions)
+- [Common and Tenant-Specific Data](#common-and-tenant-specific-data)
+ - [Common Data](#common-data)
+ - [Tenant-Specific Data](#tenant-specific-data)
+
 # Overview
 
 The component implements a single database multi-tenancy support for CUBA applications.
@@ -19,37 +33,52 @@ All tenants have their own admin users which can create tenant users and assign 
 
 <!--All tenant-specific entities implement `HasTenant` interface, which simply states that an entity should have getter and setter for tenant id attribute.-->
 
-See [sample application](https://github.com/cuba-platform/multitenancy-addon-demo), using this component.
+See [sample application](https://github.com/cuba-platform/multitenancy-addon-demo) using this component.
 
 # Installation
 
-1. Open your application in CUBA Studio.
+The add-on can be added to your project in one of the ways described below. Installation from the Marketplace is the simplest way. The last version of the add-on compatible with the used version of the platform will be installed.
+Also, you can install the add-on by coordinates choosing the required version of the add-on from the table.
 
-2. Edit *Project properties*.
+In case you want to install the add-on by manual editing or by building from sources see the complete add-ons installation guide in [CUBA Platform documentation](https://doc.cuba-platform.com/manual-latest/manual.html#app_components_usage).
 
-3. Click the *Plus* button in the *App components* section of the *Main* tab.
+## From the Marketplace
 
-    ![Adding custom component1](img/adding_component1.png)
+1. Open your application in CUBA Studio. Check the latest version of CUBA Studio on the [CUBA Platform site](https://www.cuba-platform.com/download/previous-studio/).
+2. Go to *CUBA -> Marketplace* in the main menu.
 
-4. Specify the coordinates of the component in the corresponding field as follows: group:name:version.
+ ![marketplace](img/marketplace.png)
 
-   ![Adding component2](img/adding_component2.png)
+3. Find the Multitenancy add-on there.
 
-   * Artifact group: *com.haulmont.addon.sdbmt*
-   * Artifact name: *sdbmt-global*
-   * Version: *add-on version*
+ ![addons](img/addons.png)
 
-  When specifying the component version, you should select the one, which is compatible with the platform version used in your project.
+4. Click *Install* and apply the changes.
+The add-on corresponding to the used platform version will be installed.
 
-| Platform Version  | Component Version |
-|-------------------|-------------------|
+## By coordinates
+
+1. Open your application in CUBA Studio. Check the latest version of CUBA Studio on the [CUBA Platform site](https://www.cuba-platform.com/download/previous-studio/).
+2. Go to *CUBA -> Marketplace* in the main menu.
+3. Click the icon in the upper-right corner.
+
+ ![by-coordinates](img/by-coordinates.png)
+
+4. Paste the add-on coordinates in the corresponding field as follows:
+
+ `com.haulmont.addon.sdbmt:sdbmt-global:<add-on version>`
+
+ where `<add-on version>` is compatible with the used version of the CUBA platform.
+
+ | Platform Version | Add-on Version |
+|------------------|----------------|
 | 7.1.x             | 1.4.0             |
 | 7.0.x             | 1.3.2             |
 | 6.10.x            | 1.2.1             |
 | 6.9.x             | 1.1.1             |
 | 6.8.x             | 1.0.0             |
 
-5. Click *OK* to confirm the operation.
+5. Click *Install* and apply the changes. The add-on will be installed to your project.
 
 # Setting
 
@@ -65,7 +94,7 @@ Use one of the following two ways to make your entities tenant-specific:
 
 **Note**. Tenants don't have write access to entities without the `tenantId` attribute. It is also true for CUBA system entities.
 
-## CUBA system tenant-specific entities
+## CUBA System Tenant-Specific Entities
 
 Some of CUBA system entities are important for proper user experience: roles and permissions, filters on screens, files in the file storage, emails, search folders.
 You can make them tenant-specific simply by extending the entity and implementing `HasTenant` interface in child classes.
@@ -131,8 +160,7 @@ Note that this is a non-persistent entity, so the definition of `TenantId` entit
  <bean id="cuba_DynamicAttributesGuiTools" class="com.haulmont.addon.sdbmt.gui.dynamicattributes.MultiTenancyDynamicAttributesGuiTools"/>
  ```
 
-
-# Managing tenants
+# Managing Tenants
 
 To manage tenants go to *Tenant management -> Tenants* screen.
 
@@ -145,7 +173,7 @@ Tenant root access group can't be a parent of any other tenant's group, that is 
 
 Creating tenants use tenant admin access group which is the same as *Root Access Group*. In the next versions of the add-on this preconditions will be set automatically.
 
-# Tenant permissions
+# Tenant Permissions
 
 Tenant permissions are handled by CUBA security subsystem. Tenant permissions are compiled at runtime during user login and being stored in the user session. For implementation see `LoginEventListener` and `MultiTenancySecurityHandler`.
 
@@ -158,14 +186,14 @@ Tenants can create their own user roles, so role editor has been modified. Addit
 Meaning if the user has read-only access to some entity, he can't permit other users to modify it, however, he can prohibit users from reading it.  
 **Specific** and **UI** permissions have been hidden from tenants.
 
-# Common and Tenant-specific data
+# Common and Tenant-Specific Data
 
 ## Common Data
 
 Tenants have read-only access to all persistent entities that don't implement the `HasTenant` interface.  
 This is implemented via Cuba security subsystem and compiled at runtime.
 
-## Tenant-specific Data
+## Tenant-Specific Data
 
 All tenant-specific tables have additional column `TENANT_ID` to specify the owner of data.
 
