@@ -46,6 +46,6 @@ public class SdbmtSessionBrowser extends SessionBrowser {
     }
 
     protected boolean hasTenantIdOfCurrentUser(String tenantId, UserSessionEntity e) {
-        return tenantId.equals(e.getTenantId()) || tenantId.equals(TenantProvider.TENANT_ADMIN);
+        return tenantId.equals(e.getTenantId()) || tenantId.equals(TenantProvider.NO_TENANT);
     }
 }

@@ -25,8 +25,7 @@
     <bean name="cuba_TenantProvider" class="com.haulmont.addon.sdbmt.core.app.multitenancy.MultiTenantProviderBean"/>
 
     <!-- -->
-    <bean name="cuba_RememberMeAuthenticationProvider" class="com.haulmont.addon.sdbmt.security.auth.providers.MultiTenancyLoginPasswordAuthenticationProvider"/>
-    <bean name="cuba_LoginPasswordAuthenticationProvider" class="com.haulmont.addon.sdbmt.security.auth.providers.MultiTenancyRememberMeAuthenticationProvider"/>
-    <bean name="cuba_AnonymousAuthenticationProvider" class="com.haulmont.addon.sdbmt.security.auth.providers.MultiTenancyAnonymousAuthenticationProvider"/>
+    <bean name="cuba_LoginPasswordAuthenticationProvider"
+          class="com.haulmont.addon.sdbmt.security.auth.providers.MultiTenancyLoginPasswordAuthenticationProvider"/>
 
 </beans>

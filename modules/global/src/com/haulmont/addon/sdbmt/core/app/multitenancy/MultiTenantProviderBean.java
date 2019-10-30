@@ -32,13 +32,13 @@ public class MultiTenantProviderBean implements TenantProvider {
     /**
      * Returns the tenant ID of a logged in user.
      *
-     * @return tenant ID of a logged in user, 'tenant_admin' if the user doesn't have a tenant ID
+     * @return tenant ID of a logged in user, 'no_tenant' if the user doesn't have a tenant ID
      */
     @Override
     public String getTenantId() {
         if (userSessionSource.checkCurrentUserSession() && userSessionSource.getUserSession().getAttribute(TENANT_ID_ATTRIBUTE_NAME) != null) {
             return userSessionSource.getUserSession().getAttribute(TENANT_ID_ATTRIBUTE_NAME);
         }
-        return TENANT_ADMIN;
+        return NO_TENANT;
     }
 }

@@ -47,7 +47,7 @@ public class SdbmtUserEditorDelegate<T extends User & HasTenant> {
             userScreen.getUser().setTenantId(tenantId);
         }
 
-        if (!tenantId.equals(TenantProvider.TENANT_ADMIN)) {
+        if (!tenantId.equals(TenantProvider.NO_TENANT)) {
             userScreen.getTenantField().setVisible(false);
             return; //do not init tenant ID field if the current user is also a tenant
         }

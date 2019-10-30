@@ -45,7 +45,7 @@ public class HasTenantAdditionalCriteriaProvider implements AdditionalCriteriaPr
 
     @Override
     public String getAdditionalCriteria() {
-        return String.format("(CAST(:tenantId VARCHAR(255)) = '%s' or this.tenantId = :tenantId)", TenantProvider.TENANT_ADMIN);
+        return String.format("(CAST(:tenantId VARCHAR(255)) = '%s' or this.tenantId = :tenantId)", TenantProvider.NO_TENANT);
     }
 
     @Nullable

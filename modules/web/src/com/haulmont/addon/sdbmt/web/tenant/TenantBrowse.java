@@ -61,6 +61,6 @@ public class TenantBrowse extends AbstractLookup {
     }
 
     protected boolean isTenantsRemovingAllowed(Collection<String> tenants) {
-        return !tenants.contains(TenantProvider.TENANT_ADMIN);
+        return !tenants.contains(TenantProvider.NO_TENANT);
     }
 }

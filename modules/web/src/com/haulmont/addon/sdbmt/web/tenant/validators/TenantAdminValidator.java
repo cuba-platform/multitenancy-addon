@@ -43,7 +43,7 @@ public class TenantAdminValidator implements Consumer<HasTenant> {
         }
 
         String adminTenantId = value.getTenantId();
-        if (adminTenantId != null && !adminTenantId.equals(TenantProvider.TENANT_ADMIN) && !Objects.equals(adminTenantId, tenantDs.getItem().getTenantId())) {
+        if (adminTenantId != null && !adminTenantId.equals(TenantProvider.NO_TENANT) && !Objects.equals(adminTenantId, tenantDs.getItem().getTenantId())) {
             throw new ValidationException(messages.getMessage(TenantAdminValidator.class, "validation.userBelongsToDifferentTenant"));
         }
     }

@@ -48,7 +48,7 @@ public class TenantRootAccessGroupValidator implements Consumer<Group> {
         DataManager dm = AppBeans.get(DataManager.class);
         Group group = dm.reload(value, "group-tenant-and-hierarchy");
         Tenant groupTenant = getTenantGroup(group);
-        if (group.getTenantId() != null && groupTenant != null && !groupTenant.equals(tenant) && !group.getTenantId().equals(TenantProvider.TENANT_ADMIN)) {
+        if (group.getTenantId() != null && groupTenant != null && !groupTenant.equals(tenant) && !group.getTenantId().equals(TenantProvider.NO_TENANT)) {
             throw new ValidationException(messages.getMessage(TenantRootAccessGroupValidator.class, "validation.hasTenant"));
         } else if (isRootGroup(group)) {
             throw new ValidationException(messages.getMessage(TenantRootAccessGroupValidator.class, "validation.rootGroup"));
