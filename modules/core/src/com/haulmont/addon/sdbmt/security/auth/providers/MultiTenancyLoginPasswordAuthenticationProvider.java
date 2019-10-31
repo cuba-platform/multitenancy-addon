@@ -20,7 +20,6 @@ import com.haulmont.addon.sdbmt.config.TenantConfig;
 import com.haulmont.cuba.core.EntityManager;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Query;
-import com.haulmont.cuba.core.global.GlobalConfig;
 import com.haulmont.cuba.core.global.Messages;
 import com.haulmont.cuba.security.auth.AuthenticationDetails;
 import com.haulmont.cuba.security.auth.Credentials;
@@ -34,17 +33,19 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class MultiTenancyLoginPasswordAuthenticationProvider extends LoginPasswordAuthenticationProvider {
 
     private final Logger log = LoggerFactory.getLogger(MultiTenancyLoginPasswordAuthenticationProvider.class);
 
-    protected Map<String, Object> params;
+    protected ConcurrentMap<String, Object> params;
 
     @Inject
     protected TenantConfig tenantConfig;
 
+    @Inject
     public MultiTenancyLoginPasswordAuthenticationProvider(Persistence persistence, Messages messages) {
         super(persistence, messages);
     }
@@ -52,7 +53,7 @@ public class MultiTenancyLoginPasswordAuthenticationProvider extends LoginPasswo
     @Override
     public AuthenticationDetails authenticate(Credentials credentials) throws LoginException {
         LoginPasswordCredentials loginPasswordCredentials = (LoginPasswordCredentials) credentials;
-        params = loginPasswordCredentials.getParams();
+        params = new ConcurrentHashMap<>(loginPasswordCredentials.getParams());
         return super.authenticate(credentials);
     }
 
