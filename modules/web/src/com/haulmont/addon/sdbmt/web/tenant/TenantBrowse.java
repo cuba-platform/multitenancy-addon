@@ -17,7 +17,7 @@ package com.haulmont.addon.sdbmt.web.tenant;
 
 import com.haulmont.addon.sdbmt.config.TenantConfig;
 import com.haulmont.addon.sdbmt.entity.Tenant;
-import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.gui.components.AbstractLookup;
 import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.gui.components.actions.RemoveAction;

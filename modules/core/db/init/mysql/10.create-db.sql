@@ -7,6 +7,7 @@ create table CUBASDBMT_TENANT (
     UPDATE_TS datetime(3),
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
+    DELETE_TS_NN datetime(3) not null default '1000-01-01 00:00:00.000',
     DELETED_BY varchar(50),
     TENANT_ID varchar(255),
     --

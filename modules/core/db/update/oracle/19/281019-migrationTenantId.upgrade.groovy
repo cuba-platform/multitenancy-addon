@@ -19,18 +19,18 @@ import java.sql.SQLException
 def sql = new Sql(ds)
 try {
     sql.withTransaction {
-        sql.executeUpdate("update SEC_USER set CUBA_TENANT_ID = TENANT_ID where TENANT_ID is not null")
+        sql.executeUpdate("update SEC_USER set SYS_TENANT_ID = TENANT_ID where TENANT_ID is not null")
         sql.executeUpdate("update SEC_USER set DTYPE = 'sec\$User' where DTYPE = 'cubasdbmt\$TenantUser'")
     }
 } catch (SQLException ex) {
-    log.warn("Could not migrate data from column TENANT_ID to CUBA_TENANT_ID for table SEC_USER")
+    log.warn("Could not migrate data from column TENANT_ID to SYS_TENANT_ID for table SEC_USER")
 }
 
 try {
     sql.withTransaction {
-        sql.executeUpdate("update SEC_GROUP set CUBA_TENANT_ID = TENANT_ID where TENANT_ID is not null")
+        sql.executeUpdate("update SEC_GROUP set SYS_TENANT_ID = TENANT_ID where TENANT_ID is not null")
         sql.executeUpdate("update SEC_GROUP set DTYPE = 'sec\$Group' where DTYPE = 'cubasdbmt\$TenantGroup'")
     }
 } catch (SQLException ex) {
-    log.warn("Could not migrate data from column TENANT_ID to CUBA_TENANT_ID for table SEC_GROUP")
+    log.warn("Could not migrate data from column TENANT_ID to SYS_TENANT_ID for table SEC_GROUP")
 }

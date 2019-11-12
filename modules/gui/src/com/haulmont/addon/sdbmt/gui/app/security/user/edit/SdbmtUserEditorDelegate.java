@@ -17,14 +17,13 @@
 package com.haulmont.addon.sdbmt.gui.app.security.user.edit;
 
 import com.haulmont.addon.sdbmt.entity.Tenant;
-import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.core.entity.HasTenant;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.PersistenceHelper;
 import com.haulmont.cuba.gui.components.OptionsField;
 import com.haulmont.cuba.security.entity.User;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;

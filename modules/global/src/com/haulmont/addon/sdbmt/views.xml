@@ -44,13 +44,14 @@
           extends="_local"
           name="group-tenant-and-hierarchy">
         <property name="parent"
-                  view="_minimal"/>
+                  view="group-with-tenantId"/>
         <property name="hierarchyList"
                   view="_minimal">
             <property name="group"
                       view="_minimal"/>
             <property name="parent"
                       view="_minimal"/>
+            <property name="tenantId"/>
         </property>
     </view>
     <view class="com.haulmont.cuba.security.entity.Group"

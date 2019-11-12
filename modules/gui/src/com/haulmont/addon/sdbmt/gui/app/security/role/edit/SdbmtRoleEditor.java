@@ -15,7 +15,7 @@
  */
 package com.haulmont.addon.sdbmt.gui.app.security.role.edit;
 
-import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.gui.app.security.role.edit.RoleEditor;
 import com.haulmont.cuba.gui.components.LookupField;
 import com.haulmont.cuba.gui.components.TabSheet;

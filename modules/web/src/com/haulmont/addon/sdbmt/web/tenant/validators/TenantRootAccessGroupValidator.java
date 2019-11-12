@@ -17,7 +17,7 @@
 package com.haulmont.addon.sdbmt.web.tenant.validators;
 
 import com.haulmont.addon.sdbmt.entity.Tenant;
-import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
@@ -82,14 +82,11 @@ public class TenantRootAccessGroupValidator implements Consumer<Group> {
     }
 
     private Tenant getTenantGroup(Group group) {
-        try {
-            return dataManager.load(Tenant.class)
-                    .query("select e from cubasdbmt$Tenant e where e.tenantId = :tenantId")
-                    .parameter("tenantId", group.getTenantId())
-                    .one();
-        } catch (Exception e) {
-            return null;
-        }
+        return dataManager.load(Tenant.class)
+                .query("select e from cubasdbmt$Tenant e where :tenantId is not null and e.tenantId = :tenantId")
+                .parameter("tenantId", group.getTenantId())
+                .optional()
+                .orElse(null);
     }
 
     private boolean isRootGroup(Group group) {

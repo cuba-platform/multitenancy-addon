@@ -14,15 +14,29 @@
  * limitations under the License.
  */
 
-package com.haulmont.addon.sdbmt.entity;
+package com.haulmont.addon.sdbmt.core.app.multitenancy;
 
 /**
- * Interface to be implemented by entities that have to be tenant-specific
- *
- * @deprecated Use {@link com.haulmont.cuba.core.entity.HasTenant} instead
+ * Provides the current tenant id.
  */
-@Deprecated
-public interface HasTenant {
+public interface TenantProvider {
+
+    String NAME = "cuba_TenantProvider";
+
+    /**
+     * The name attribute of a user's session to save the Tenant ID.
+     */
+    String TENANT_ID_ATTRIBUTE_NAME = "tenantAttrId";
+
+    /**
+     * Constant attribute user session for global visibility of all objects, regardless of the value of tenant.
+     */
+    String NO_TENANT = "no_tenant";
+
+    /**
+     * Provides the current tenant id for save to user session.
+     *
+     * @return the current tenant id.
+     */
     String getTenantId();
-    void setTenantId(String tenantId);
 }

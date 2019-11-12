@@ -21,11 +21,10 @@
     <!-- Annotation-based beans -->
     <context:component-scan base-package="com.haulmont.addon.sdbmt"/>
 
-    <!-- -->
-    <bean name="cuba_TenantProvider" class="com.haulmont.addon.sdbmt.core.app.multitenancy.MultiTenantProviderBean"/>
-
-    <!-- -->
     <bean name="cuba_LoginPasswordAuthenticationProvider"
           class="com.haulmont.addon.sdbmt.security.auth.providers.MultiTenancyLoginPasswordAuthenticationProvider"/>
+
+    <bean name="cuba_UserSessionManager"
+          class="com.haulmont.addon.sdbmt.security.sys.MultiTenancyUserSessionManager"/>
 
 </beans>

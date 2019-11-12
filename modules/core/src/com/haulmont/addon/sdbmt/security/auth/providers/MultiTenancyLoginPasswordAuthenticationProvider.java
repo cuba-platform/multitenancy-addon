@@ -21,9 +21,6 @@ import com.haulmont.cuba.core.EntityManager;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Query;
 import com.haulmont.cuba.core.global.Messages;
-import com.haulmont.cuba.security.auth.AuthenticationDetails;
-import com.haulmont.cuba.security.auth.Credentials;
-import com.haulmont.cuba.security.auth.LoginPasswordCredentials;
 import com.haulmont.cuba.security.auth.providers.LoginPasswordAuthenticationProvider;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.LoginException;
@@ -33,14 +30,11 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Map;
 
 public class MultiTenancyLoginPasswordAuthenticationProvider extends LoginPasswordAuthenticationProvider {
 
     private final Logger log = LoggerFactory.getLogger(MultiTenancyLoginPasswordAuthenticationProvider.class);
-
-    protected ConcurrentMap<String, Object> params;
 
     @Inject
     protected TenantConfig tenantConfig;
@@ -50,16 +44,9 @@ public class MultiTenancyLoginPasswordAuthenticationProvider extends LoginPasswo
         super(persistence, messages);
     }
 
-    @Override
-    public AuthenticationDetails authenticate(Credentials credentials) throws LoginException {
-        LoginPasswordCredentials loginPasswordCredentials = (LoginPasswordCredentials) credentials;
-        params = new ConcurrentHashMap<>(loginPasswordCredentials.getParams());
-        return super.authenticate(credentials);
-    }
-
     @Nullable
     @Override
-    protected User loadUser(String login) throws LoginException {
+    protected User loadUser(String login, Map<String, Object> params) throws LoginException {
         if (login == null) {
             throw new IllegalArgumentException("Login is null");
         }

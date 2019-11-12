@@ -16,7 +16,7 @@
 
 package com.haulmont.addon.sdbmt.core.sys.persistence;
 
-import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.core.entity.HasTenant;
 import com.haulmont.cuba.core.sys.persistence.AdditionalCriteriaProvider;
 import org.springframework.stereotype.Component;
@@ -45,7 +45,7 @@ public class HasTenantAdditionalCriteriaProvider implements AdditionalCriteriaPr
 
     @Override
     public String getAdditionalCriteria() {
-        return String.format("(CAST(:tenantId CHAR(255)) = '%s' or this.tenantId = :tenantId)", TenantProvider.NO_TENANT);
+        return String.format("(:tenantId = '%s' or this.tenantId = :tenantId)", TenantProvider.NO_TENANT);
     }
 
     @Nullable

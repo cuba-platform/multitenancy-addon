@@ -16,7 +16,7 @@
 package com.haulmont.addon.sdbmt.gui.app.security.session.browse;
 
 import com.google.common.base.Strings;
-import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.gui.app.security.session.browse.SessionBrowser;
 import com.haulmont.cuba.gui.app.security.session.browse.UserSessionsDatasource;
 import com.haulmont.cuba.security.entity.UserSessionEntity;

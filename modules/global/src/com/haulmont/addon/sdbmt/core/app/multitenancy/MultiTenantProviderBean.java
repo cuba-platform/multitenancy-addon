@@ -16,14 +16,15 @@
 
 package com.haulmont.addon.sdbmt.core.app.multitenancy;
 
-import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.core.global.UserSessionSource;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 
 /**
  * The implementation {@link TenantProvider} for Multitenancy.
  */
+@Component(TenantProvider.NAME)
 public class MultiTenantProviderBean implements TenantProvider {
 
     @Inject

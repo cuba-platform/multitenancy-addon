@@ -143,18 +143,4 @@ public class TenantEdit extends AbstractEditor<Tenant> {
                 .setParameter("name", groupName);
         return dataManager.getCount(ctx) > 0;
     }
-
-    @Override
-    protected boolean preCommit() {
-        String tenantId = tenantDs.getItem().getTenantId();
-
-        User admin = tenantDs.getItem().getAdmin();
-        Group group = tenantDs.getItem().getGroup();
-
-        admin.setTenantId(tenantId);
-        group.setTenantId(tenantId);
-
-        dataManager.commit(admin, group);
-        return true;
-    }
 }

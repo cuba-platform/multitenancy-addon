@@ -17,7 +17,7 @@
 package com.haulmont.addon.sdbmt.gui.dynamicattributes;
 
 import com.haulmont.chile.core.model.MetaClass;
-import com.haulmont.cuba.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.core.entity.CategoryAttribute;
 import com.haulmont.cuba.core.entity.HasTenant;
 import com.haulmont.cuba.gui.dynamicattributes.DynamicAttributesGuiTools;

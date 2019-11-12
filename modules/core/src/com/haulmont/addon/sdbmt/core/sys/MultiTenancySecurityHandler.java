@@ -129,13 +129,10 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         if (tenantGroup.getTenantId() == null && tenantGroup.getParent() != null) {
             return getGroupTenant(tenantGroup.getParent());
         }
-        try {
-            return dataManager.load(Tenant.class)
-                    .query("select e from cubasdbmt$Tenant e where e.tenantId = :tenantId")
-                    .parameter("tenantId", group.getTenantId())
-                    .one();
-        } catch (Exception e) {
-            return null;
-        }
+        return dataManager.load(Tenant.class)
+                .query("select e from cubasdbmt$Tenant e where e.tenantId = :tenantId")
+                .parameter("tenantId", group.getTenantId())
+                .optional()
+                .orElse(null);
     }
 }
