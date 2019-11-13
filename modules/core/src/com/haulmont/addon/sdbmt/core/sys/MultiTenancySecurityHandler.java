@@ -66,6 +66,9 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
     }
 
     public void compileSessionAttributes(UserSession session) {
+        Preconditions.checkNotNullArgument(session);
+        Preconditions.checkNotNullArgument(session.getUser());
+
         setTenantIdAttribute(session, session.getUser());
     }
 
