@@ -16,7 +16,9 @@
 
 package com.haulmont.addon.sdbmt.core.sys;
 
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.addon.sdbmt.entity.Tenant;
+import com.haulmont.bali.util.Preconditions;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
@@ -63,20 +65,31 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         // do nothing
     }
 
+    public void compileSessionAttributes(UserSession session) {
+        setTenantIdAttribute(session, session.getUser());
+    }
+
+    public void setTenantIdAttribute(UserSession userSession, User user) {
+        userSession.setAttribute(TenantProvider.TENANT_ID_ATTRIBUTE_NAME, getTenantIdAttribute(user));
+    }
+
+    protected String getTenantIdAttribute(User user) {
+        return user.getTenantId() == null
+                ? TenantProvider.NO_TENANT
+                : user.getTenantId();
+    }
+
     public void compilePermissions(UserSession session) {
         compileTenantPermissions(session);
     }
 
     protected void compileTenantPermissions(UserSession session) {
-        if (!groupHasTenant(session.getUser().getGroup())) {
+        Tenant tenant = getGroupTenant(session.getUser().getGroup());
+        if (tenant == null) {
             return;
         }
 
         createEntityWritePermissions(session);
-    }
-
-    protected boolean groupHasTenant(Group group) {
-        return findGroupTenant(group) != null;
     }
 
     protected void createEntityWritePermissions(UserSession session) {
@@ -116,10 +129,6 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         session.addPermission(PermissionType.ENTITY_OP,
                 metaClass.getName() + Permission.TARGET_PATH_DELIMETER + entityOp.getId(),
                 null, PERMISSON_PROHIBIT);
-    }
-
-    protected Tenant findGroupTenant(Group group) {
-        return getGroupTenant(group);
     }
 
     protected Tenant getGroupTenant(Group group) {

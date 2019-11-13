@@ -24,7 +24,4 @@
     <bean name="cuba_LoginPasswordAuthenticationProvider"
           class="com.haulmont.addon.sdbmt.security.auth.providers.MultiTenancyLoginPasswordAuthenticationProvider"/>
 
-    <bean name="cuba_UserSessionManager"
-          class="com.haulmont.addon.sdbmt.security.sys.MultiTenancyUserSessionManager"/>
-
 </beans>

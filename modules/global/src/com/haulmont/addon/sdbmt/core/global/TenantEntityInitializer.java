@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.haulmont.addon.sdbmt.core.sys.initializer;
+package com.haulmont.addon.sdbmt.core.global;
 
 import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.entity.HasTenant;
-import com.haulmont.cuba.core.sys.initializer.EntityInitializer;
+import com.haulmont.cuba.core.global.EntityInitializer;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;

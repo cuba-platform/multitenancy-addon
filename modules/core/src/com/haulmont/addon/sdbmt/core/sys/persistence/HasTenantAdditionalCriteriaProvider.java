@@ -37,14 +37,13 @@ public class HasTenantAdditionalCriteriaProvider implements AdditionalCriteriaPr
     @Inject
     protected TenantProvider tenantProvider;
 
-
     @Override
     public boolean requiresAdditionalCriteria(Class entityClass) {
         return HasTenant.class.isAssignableFrom(entityClass);
     }
 
     @Override
-    public String getAdditionalCriteria() {
+    public String getAdditionalCriteria(Class entityClass) {
         return String.format("(:tenantId = '%s' or this.tenantId = :tenantId)", TenantProvider.NO_TENANT);
     }
 

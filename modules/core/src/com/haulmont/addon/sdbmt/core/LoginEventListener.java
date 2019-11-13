@@ -34,6 +34,7 @@ public class LoginEventListener implements ApplicationListener<UserLoggedInEvent
     public void onApplicationEvent(UserLoggedInEvent event) {
         UserSession userSession = event.getUserSession();
         if (userSession != null) {
+            multiTenancySecurityHandler.compileSessionAttributes(userSession);
             multiTenancySecurityHandler.compilePermissions(userSession);
         }
     }
