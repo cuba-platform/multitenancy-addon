@@ -16,6 +16,7 @@
 
 package com.haulmont.addon.sdbmt.gui.app.security.user.edit;
 
+import com.haulmont.addon.sdbmt.core.tools.MultiTenancyHelperService;
 import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.core.entity.HasTenant;
@@ -33,6 +34,9 @@ import java.util.Optional;
 
 @Component
 public class SdbmtUserEditorDelegate<T extends User & HasTenant> {
+
+    @Inject
+    protected MultiTenancyHelperService multiTenancyHelper;
 
     @Inject
     private TenantProvider tenantProvider;
@@ -54,10 +58,11 @@ public class SdbmtUserEditorDelegate<T extends User & HasTenant> {
         initTenantField(userScreen.getTenantField(), userScreen.getUser());
     }
 
-    private void initTenantField(OptionsField<Tenant,Tenant> tenantField, T user) {
+    private void initTenantField(OptionsField<Tenant, Tenant> tenantField, T user) {
         List<Tenant> tenants = createOptionList();
         tenantField.setOptionsList(tenants);
         tenantField.setValue(findTenantByTenantId(tenants, user.getTenantId()));
+        tenantField.setEditable(isEditableTenant(user));
 
         tenantField.addValueChangeListener(v -> {
             Tenant tenant = v.getValue();
@@ -66,6 +71,10 @@ public class SdbmtUserEditorDelegate<T extends User & HasTenant> {
                 user.setGroup(tenant.getGroup());
             }
         });
+    }
+
+    private boolean isEditableTenant(T user) {
+        return !multiTenancyHelper.isSystemLogin(user.getLogin());
     }
 
     private List<Tenant> createOptionList() {

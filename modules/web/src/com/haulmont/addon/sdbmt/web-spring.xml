@@ -24,4 +24,14 @@
     <gui:screens base-packages="com.haulmont.addon.sdbmt.web"/>
 
     <bean name="cuba_TenantProvider" class="com.haulmont.addon.sdbmt.core.app.multitenancy.MultiTenantProviderBean"/>
+
+    <bean id="cubasdbmt_proxyCreator" class="com.haulmont.cuba.web.sys.remoting.WebRemoteProxyBeanCreator">
+        <property name="serverSelector" ref="cuba_ServerSelector"/>
+        <property name="remoteServices">
+            <map>
+                <entry key="cubasdbmt_MultiTenancyHelperService" value="com.haulmont.addon.sdbmt.core.tools.MultiTenancyHelperService"/>
+            </map>
+        </property>
+    </bean>
+
 </beans>

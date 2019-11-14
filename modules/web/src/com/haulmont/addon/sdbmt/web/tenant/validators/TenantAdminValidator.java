@@ -16,6 +16,7 @@
 
 package com.haulmont.addon.sdbmt.web.tenant.validators;
 
+import com.haulmont.addon.sdbmt.core.tools.MultiTenancyHelperService;
 import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.core.entity.HasTenant;
@@ -24,12 +25,14 @@ import com.haulmont.cuba.core.global.Messages;
 import com.haulmont.cuba.gui.components.ValidationException;
 import com.haulmont.cuba.gui.data.Datasource;
 
+import javax.inject.Inject;
 import java.util.Objects;
 import java.util.function.Consumer;
 
 public class TenantAdminValidator implements Consumer<HasTenant> {
 
     private Messages messages = AppBeans.get(Messages.class);
+    private MultiTenancyHelperService multiTenancyHelper = AppBeans.get(MultiTenancyHelperService.class);
     private Datasource<Tenant> tenantDs;
 
     public TenantAdminValidator(Datasource<Tenant> tenantDs) {
@@ -40,6 +43,11 @@ public class TenantAdminValidator implements Consumer<HasTenant> {
     public void accept(HasTenant value) throws ValidationException {
         if (value == null) {
             return;
+        }
+
+        String login = tenantDs.getItem().getAdmin().getLogin();
+        if (multiTenancyHelper.isSystemLogin(login)) {
+            throw new ValidationException(messages.getMessage(TenantAdminValidator.class, "validation.userIsSystemUser"));
         }
 
         String adminTenantId = value.getTenantId();
