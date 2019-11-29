@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package com.haulmont.addon.sdbmt.gui.app.security.user.edit;
+package com.haulmont.addon.sdbmt.core;
 
-import com.haulmont.addon.sdbmt.entity.Tenant;
-import com.haulmont.cuba.core.entity.TenantEntity;
-import com.haulmont.cuba.gui.components.OptionsField;
-import com.haulmont.cuba.security.entity.User;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-public interface SdbmtUserScreen<T extends User & TenantEntity> {
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-    OptionsField<Tenant, Tenant> getTenantField();
-
-    T getUser();
-
+/**
+ * Tenant ID field marker
+ */
+@Target({FIELD})
+@Retention(RUNTIME)
+public @interface TenantId {
 }

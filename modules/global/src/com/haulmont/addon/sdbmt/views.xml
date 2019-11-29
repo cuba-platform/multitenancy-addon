@@ -51,17 +51,17 @@
                       view="_minimal"/>
             <property name="parent"
                       view="_minimal"/>
-            <property name="tenantId"/>
+            <property name="sysTenantId"/>
         </property>
     </view>
     <view class="com.haulmont.cuba.security.entity.Group"
           extends="_minimal"
           name="group-with-tenantId">
-        <property name="tenantId"/>
+        <property name="sysTenantId"/>
     </view>
     <view class="com.haulmont.cuba.security.entity.User"
           extends="_minimal"
           name="user-with-tenantId">
-        <property name="tenantId"/>
+        <property name="sysTenantId"/>
     </view>
 </views>

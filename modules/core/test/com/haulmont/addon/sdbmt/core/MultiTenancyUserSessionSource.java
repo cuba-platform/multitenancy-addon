@@ -50,7 +50,7 @@ public class MultiTenancyUserSessionSource extends AbstractUserSessionSource {
         if (session == null) {
             User user = new User();
             user.setId(UUID.fromString(USER_ID));
-            user.setTenantId("tenant-a");
+            user.setSysTenantId("tenant-a");
             user.setLogin("userA");
             user.setName("Tenant A");
             user.setPassword(DigestUtils.md5Hex("password"));

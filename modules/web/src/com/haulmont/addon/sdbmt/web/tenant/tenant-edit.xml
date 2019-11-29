@@ -26,7 +26,7 @@
                     class="com.haulmont.addon.sdbmt.entity.Tenant"
                     view="tenant-edit"/>
     </dsContext>
-    <dialogMode width="600px"
+    <dialogMode width="610px"
                 forceDialog="true"/>
     <layout expand="windowActions"
             spacing="true">
@@ -37,17 +37,17 @@
             </columns>
             <rows>
                 <row>
-                    <label value="msg://Tenant.name" align="MIDDLE_LEFT"/>
+                    <label value="msg://com.haulmont.addon.sdbmt.entity/Tenant.name" align="MIDDLE_LEFT"/>
                     <textField id="nameField" datasource="tenantDs" property="name" width="100%"/>
                 </row>
                 <row>
-                    <label value="msg://Tenant.tenantId" align="MIDDLE_LEFT"/>
+                    <label value="msg://com.haulmont.addon.sdbmt.entity/Tenant.tenantId" align="MIDDLE_LEFT"/>
                     <textField id="tenantIdField" datasource="tenantDs" property="tenantId" width="100%">
                         <validator class="com.haulmont.addon.sdbmt.web.tenant.validators.TenantIdValidator"/>
                     </textField>
                 </row>
                 <row>
-                    <label value="msg://Tenant.group" align="MIDDLE_LEFT"/>
+                    <label value="msg://com.haulmont.addon.sdbmt.entity/Tenant.group" align="MIDDLE_LEFT"/>
                     <hbox spacing="true">
                         <pickerField id="groupField" datasource="tenantDs" property="group" width="100%"/>
                         <button id="createGroupButton" caption="msg://createTenantRootGroupButton.caption"
@@ -55,7 +55,7 @@
                     </hbox>
                 </row>
                 <row>
-                    <label value="msg://Tenant.admin" align="MIDDLE_LEFT"/>
+                    <label value="msg://com.haulmont.addon.sdbmt.entity/Tenant.admin" align="MIDDLE_LEFT"/>
                     <pickerField id="adminField" datasource="tenantDs" property="admin" width="100%"/>
                 </row>
             </rows>

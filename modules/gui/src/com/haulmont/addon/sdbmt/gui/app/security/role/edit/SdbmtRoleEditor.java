@@ -45,7 +45,7 @@ public class SdbmtRoleEditor extends RoleEditor {
     }
 
     protected void applyTenantChanges() {
-        String tenantId = tenantProvider.getTenantId();
+        String tenantId = tenantProvider.getCurrentUserTenantId();
         if (tenantId != null) {
             permissionsTabsheet.getTab(SPECIFIC_PERMISSIONS_TAB).setVisible(false);
             permissionsTabsheet.getTab(UI_PERMISSIONS_TAB).setVisible(false);

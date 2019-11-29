@@ -16,10 +16,11 @@
 
 package com.haulmont.addon.sdbmt.gui.dynamicattributes;
 
-import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.core.global.TenantEntityOperation;
+import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.cuba.core.entity.CategoryAttribute;
-import com.haulmont.cuba.core.entity.HasTenant;
+import com.haulmont.cuba.core.entity.TenantEntity;
 import com.haulmont.cuba.gui.dynamicattributes.DynamicAttributesGuiTools;
 
 import javax.annotation.Nullable;
@@ -35,6 +36,9 @@ public class MultiTenancyDynamicAttributesGuiTools extends DynamicAttributesGuiT
     @Inject
     protected TenantProvider tenantProvider;
 
+    @Inject
+    protected TenantEntityOperation tenantEntityOperation;
+
     @Override
     public Set<CategoryAttribute> getAttributesToShowOnTheScreen(MetaClass metaClass, String screen, @Nullable String component) {
         Set<CategoryAttribute> attributesToShow = super.getAttributesToShowOnTheScreen(metaClass, screen, component);
@@ -46,7 +50,7 @@ public class MultiTenancyDynamicAttributesGuiTools extends DynamicAttributesGuiT
             return attributesToShow;
         }
 
-        String tenantId = tenantProvider.getTenantId();
+        String tenantId = tenantProvider.getCurrentUserTenantId();
         return attributesToShow.stream()
                 .filter(a -> sameTenant(a, tenantId))
                 .collect(Collectors.toSet());
@@ -54,11 +58,11 @@ public class MultiTenancyDynamicAttributesGuiTools extends DynamicAttributesGuiT
 
     private boolean isCategoryAttributeTenantSpecific() {
         Class categoryAttributeActualClass = metadata.getClassNN(SYS_CATEGORY_ATTRIBUTE).getJavaClass();
-        return HasTenant.class.isAssignableFrom(categoryAttributeActualClass);
+        return TenantEntity.class.isAssignableFrom(categoryAttributeActualClass);
     }
 
     protected boolean sameTenant(CategoryAttribute attribute, String tenantId) {
-        String attrTenantId = ((HasTenant) attribute).getTenantId();
+        String attrTenantId = tenantEntityOperation.getTenantId(attribute);
         return Objects.equals(tenantId, attrTenantId);
     }
 }

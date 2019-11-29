@@ -27,7 +27,6 @@ import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 
-@Deprecated
 @Component("cubasdbmt_SdbmtUserEntityListener")
 public class SdbmtUserEntityListener implements BeforeInsertEntityListener<User> {
 
@@ -39,7 +38,7 @@ public class SdbmtUserEntityListener implements BeforeInsertEntityListener<User>
 
     @Override
     public void onBeforeInsert(User user, EntityManager entityManager) {
-        if (user.getTenantId() != null) {
+        if (user.getSysTenantId() != null) {
             Role tenantDefaultRole = tenantConfig.getDefaultTenantRole();
             if (tenantDefaultRole == null) {
                 return;

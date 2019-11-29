@@ -16,7 +16,7 @@
 package com.haulmont.addon.sdbmt.gui.app.security.user.edit;
 
 import com.haulmont.addon.sdbmt.entity.Tenant;
-import com.haulmont.cuba.core.entity.HasTenant;
+import com.haulmont.cuba.core.entity.TenantEntity;
 import com.haulmont.cuba.gui.app.security.user.edit.UserEditor;
 import com.haulmont.cuba.gui.components.LookupField;
 import com.haulmont.cuba.gui.components.OptionsField;
@@ -24,7 +24,7 @@ import com.haulmont.cuba.security.entity.User;
 
 import javax.inject.Inject;
 
-public class SdbmtUserEditor<T extends User & HasTenant> extends UserEditor implements SdbmtUserScreen<T> {
+public class SdbmtUserEditor<T extends User & TenantEntity> extends UserEditor implements SdbmtUserScreen<T> {
 
     @Inject
     private SdbmtUserEditorDelegate<T> sdbmtUserEditorDelegate;

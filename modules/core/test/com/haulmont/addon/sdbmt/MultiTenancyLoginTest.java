@@ -70,12 +70,12 @@ public class MultiTenancyLoginTest {
 
             groupA = new Group();
             groupA.setName("group-tenant-a");
-            groupA.setTenantId("tenant-a");
+            groupA.setSysTenantId("tenant-a");
             em.persist(groupA);
 
             groupB = new Group();
             groupB.setName("group-tenant-b");
-            groupB.setTenantId("tenant-b");
+            groupB.setSysTenantId("tenant-b");
             em.persist(groupB);
 
             userA = new User();
@@ -83,7 +83,7 @@ public class MultiTenancyLoginTest {
             userA.setLogin("userA");
             userA.setPassword(passwordEncryption.getPasswordHash(userA.getId(), PASSWORD));
             userA.setGroup(groupA);
-            userA.setTenantId("tenant-a");
+            userA.setSysTenantId("tenant-a");
             em.persist(userA);
 
             userB = new User();
@@ -91,7 +91,7 @@ public class MultiTenancyLoginTest {
             userB.setLogin("userB");
             userB.setPassword(passwordEncryption.getPasswordHash(userB.getId(), PASSWORD));
             userB.setGroup(groupB);
-            userB.setTenantId("tenant-b");
+            userB.setSysTenantId("tenant-b");
             em.persist(userB);
 
             tenantA = new Tenant();

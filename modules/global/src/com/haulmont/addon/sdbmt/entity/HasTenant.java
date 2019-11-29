@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-package com.haulmont.addon.sdbmt.gui.app.security.user.edit;
+package com.haulmont.addon.sdbmt.entity;
 
-import com.haulmont.addon.sdbmt.entity.Tenant;
-import com.haulmont.cuba.core.entity.TenantEntity;
-import com.haulmont.cuba.gui.components.OptionsField;
-import com.haulmont.cuba.security.entity.User;
+/**
+ * Interface to be implemented by entities that have to be tenant-specific
+ */
+@Deprecated
+public interface HasTenant {
+    String getTenantId();
 
-public interface SdbmtUserScreen<T extends User & TenantEntity> {
-
-    OptionsField<Tenant, Tenant> getTenantField();
-
-    T getUser();
-
+    void setTenantId(String tenantId);
 }

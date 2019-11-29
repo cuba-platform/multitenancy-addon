@@ -17,12 +17,12 @@
 package com.haulmont.addon.sdbmt.core.sys;
 
 import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.entity.HasTenant;
 import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
-import com.haulmont.cuba.core.entity.HasTenant;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.sys.AppContext;
@@ -69,7 +69,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         Preconditions.checkNotNullArgument(session);
         Preconditions.checkNotNullArgument(session.getUser());
 
-        setTenantIdAttribute(session, session.getUser());
+        setTenantIdAttribute(session, session.getCurrentOrSubstitutedUser());
     }
 
     public void setTenantIdAttribute(UserSession userSession, User user) {
@@ -77,9 +77,9 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
     }
 
     protected String getTenantIdAttribute(User user) {
-        return user.getTenantId() == null
+        return user.getSysTenantId() == null
                 ? TenantProvider.NO_TENANT
-                : user.getTenantId();
+                : user.getSysTenantId();
     }
 
     public void compilePermissions(UserSession session) {
@@ -138,12 +138,12 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         //to prevent user from having to create a new Group view that includes Tenant
         Group tenantGroup = persistence.createTransaction().execute((Transaction.Callable<Group>) em ->
                 em.find(Group.class, group.getId(), "group-tenant-and-hierarchy"));
-        if (tenantGroup.getTenantId() == null && tenantGroup.getParent() != null) {
+        if (tenantGroup.getSysTenantId() == null && tenantGroup.getParent() != null) {
             return getGroupTenant(tenantGroup.getParent());
         }
         return dataManager.load(Tenant.class)
                 .query("select e from cubasdbmt$Tenant e where e.tenantId = :tenantId")
-                .parameter("tenantId", group.getTenantId())
+                .parameter("tenantId", group.getSysTenantId())
                 .optional()
                 .orElse(null);
     }

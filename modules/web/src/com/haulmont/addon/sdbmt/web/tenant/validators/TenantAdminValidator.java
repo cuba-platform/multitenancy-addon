@@ -16,23 +16,24 @@
 
 package com.haulmont.addon.sdbmt.web.tenant.validators;
 
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.core.global.TenantEntityOperation;
 import com.haulmont.addon.sdbmt.core.tools.MultiTenancyHelperService;
 import com.haulmont.addon.sdbmt.entity.Tenant;
-import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
-import com.haulmont.cuba.core.entity.HasTenant;
+import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.Messages;
 import com.haulmont.cuba.gui.components.ValidationException;
 import com.haulmont.cuba.gui.data.Datasource;
 
-import javax.inject.Inject;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class TenantAdminValidator implements Consumer<HasTenant> {
+public class TenantAdminValidator implements Consumer<Entity> {
 
     private Messages messages = AppBeans.get(Messages.class);
     private MultiTenancyHelperService multiTenancyHelper = AppBeans.get(MultiTenancyHelperService.class);
+    private TenantEntityOperation tenantEntityOperation = AppBeans.get(TenantEntityOperation.class);
     private Datasource<Tenant> tenantDs;
 
     public TenantAdminValidator(Datasource<Tenant> tenantDs) {
@@ -40,7 +41,7 @@ public class TenantAdminValidator implements Consumer<HasTenant> {
     }
 
     @Override
-    public void accept(HasTenant value) throws ValidationException {
+    public void accept(Entity value) throws ValidationException {
         if (value == null) {
             return;
         }
@@ -50,7 +51,7 @@ public class TenantAdminValidator implements Consumer<HasTenant> {
             throw new ValidationException(messages.getMessage(TenantAdminValidator.class, "validation.userIsSystemUser"));
         }
 
-        String adminTenantId = value.getTenantId();
+        String adminTenantId = tenantEntityOperation.getTenantId(value);
         if (adminTenantId != null && !adminTenantId.equals(TenantProvider.NO_TENANT) && !Objects.equals(adminTenantId, tenantDs.getItem().getTenantId())) {
             throw new ValidationException(messages.getMessage(TenantAdminValidator.class, "validation.userBelongsToDifferentTenant"));
         }

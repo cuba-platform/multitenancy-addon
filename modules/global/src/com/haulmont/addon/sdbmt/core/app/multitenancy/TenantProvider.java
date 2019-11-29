@@ -38,5 +38,5 @@ public interface TenantProvider {
      *
      * @return the current tenant id.
      */
-    String getTenantId();
+    String getCurrentUserTenantId();
 }

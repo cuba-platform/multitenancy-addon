@@ -17,7 +17,10 @@
 package com.haulmont.addon.sdbmt.core.sys.persistence;
 
 import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
-import com.haulmont.cuba.core.entity.HasTenant;
+import com.haulmont.addon.sdbmt.core.global.TenantEntityOperation;
+import com.haulmont.addon.sdbmt.entity.HasTenant;
+import com.haulmont.chile.core.model.MetaProperty;
+import com.haulmont.cuba.core.entity.TenantEntity;
 import com.haulmont.cuba.core.sys.persistence.AdditionalCriteriaProvider;
 import org.springframework.stereotype.Component;
 
@@ -37,21 +40,25 @@ public class HasTenantAdditionalCriteriaProvider implements AdditionalCriteriaPr
     @Inject
     protected TenantProvider tenantProvider;
 
+    @Inject
+    protected TenantEntityOperation tenantEntityOperation;
+
     @Override
     public boolean requiresAdditionalCriteria(Class entityClass) {
-        return HasTenant.class.isAssignableFrom(entityClass);
+        return TenantEntity.class.isAssignableFrom(entityClass) || HasTenant.class.isAssignableFrom(entityClass);
     }
 
     @Override
     public String getAdditionalCriteria(Class entityClass) {
-        return String.format("(:tenantId = '%s' or this.tenantId = :tenantId)", TenantProvider.NO_TENANT);
+        MetaProperty metaProperty = tenantEntityOperation.getTenantMetaProperty(entityClass);
+        return String.format("(:tenantId = '%s' or this.%s = :tenantId)", TenantProvider.NO_TENANT, metaProperty.getName());
     }
 
     @Nullable
     @Override
     public Map<String, Object> getCriteriaParameters() {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put(TENANT_ID, tenantProvider.getTenantId());
+        parameters.put(TENANT_ID, tenantProvider.getCurrentUserTenantId());
         return parameters;
     }
 }

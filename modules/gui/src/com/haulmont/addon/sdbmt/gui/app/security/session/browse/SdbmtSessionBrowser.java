@@ -39,13 +39,13 @@ public class SdbmtSessionBrowser extends SessionBrowser {
     }
 
     protected void applyTenantChanges() {
-        String tenantId = tenantProvider.getTenantId();
+        String tenantId = tenantProvider.getCurrentUserTenantId();
         if (!Strings.isNullOrEmpty(tenantId)) {
             sessionsDs.setSessionFilter(e -> hasTenantIdOfCurrentUser(tenantId, e));
         }
     }
 
     protected boolean hasTenantIdOfCurrentUser(String tenantId, UserSessionEntity e) {
-        return tenantId.equals(e.getTenantId()) || tenantId.equals(TenantProvider.NO_TENANT);
+        return tenantId.equals(e.getSysTenantId()) || tenantId.equals(TenantProvider.NO_TENANT);
     }
 }
