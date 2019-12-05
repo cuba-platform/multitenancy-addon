@@ -51,14 +51,7 @@ public class MultiTenancyLoginPasswordAuthenticationProvider extends LoginPasswo
             throw new IllegalArgumentException("Login is null");
         }
 
-        Object tenantId = params.get(tenantConfig.getTenantIdUrlParamName());
-
-        EntityManager em = persistence.getEntityManager();
-        String queryStr = "select u from sec$User u where ((:tenantId is null and u.sysTenantId is null) or u.sysTenantId = :tenantId) and u.loginLowerCase = :login and (u.active = true or u.active is null)";
-
-        Query q = em.createQuery(queryStr);
-        q.setParameter("tenantId", tenantId);
-        q.setParameter("login", login.toLowerCase());
+        Query q = createQuery(login, params);
 
         List list = q.getResultList();
         if (list.isEmpty()) {
@@ -69,5 +62,25 @@ public class MultiTenancyLoginPasswordAuthenticationProvider extends LoginPasswo
             User user = (User) list.get(0);
             return user;
         }
+    }
+
+    private Query createQuery(String login, Map<String, Object> params) {
+        EntityManager em = persistence.getEntityManager();
+
+        Query q;
+        if (tenantConfig.getTenantIdUrlParamEnabled()) {
+            Object tenantId = params.get(tenantConfig.getTenantIdUrlParamName());
+            String queryStr = "select u from sec$User u where ((:tenantId is null and u.sysTenantId is null) or u.sysTenantId = :tenantId) and u.loginLowerCase = :login and (u.active = true or u.active is null)";
+
+            q = em.createQuery(queryStr);
+            q.setParameter("tenantId", tenantId);
+            q.setParameter("login", login.toLowerCase());
+        } else {
+            String queryStr = "select u from sec$User u where u.loginLowerCase = :login and (u.active = true or u.active is null)";
+
+            q = em.createQuery(queryStr);
+            q.setParameter("login", login.toLowerCase());
+        }
+        return q;
     }
 }

@@ -21,6 +21,7 @@ import com.haulmont.cuba.core.config.Property;
 import com.haulmont.cuba.core.config.Source;
 import com.haulmont.cuba.core.config.SourceType;
 import com.haulmont.cuba.core.config.defaults.Default;
+import com.haulmont.cuba.core.config.defaults.DefaultBoolean;
 import com.haulmont.cuba.core.config.defaults.DefaultString;
 import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.cuba.security.entity.Role;
@@ -76,4 +77,14 @@ public interface TenantConfig extends Config {
     Group getDefaultTenantParentGroup();
 
     void setDefaultTenantParentGroup(Group group);
+
+    /**
+     * @return Whether to enable the tenant id URL parameter.
+     */
+    @Property("cubasdbmt.tenantIdUrlParamEnabled")
+    @Source(type = SourceType.APP)
+    @DefaultBoolean(false)
+    boolean getTenantIdUrlParamEnabled();
+
+    void setTenantIdUrlParamEnabled();
 }
