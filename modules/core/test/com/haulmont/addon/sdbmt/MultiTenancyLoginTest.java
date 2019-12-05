@@ -17,11 +17,12 @@
 package com.haulmont.addon.sdbmt;
 
 import com.haulmont.addon.sdbmt.config.TenantConfig;
+import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.addon.sdbmt.core.MultiTenancyTestContainer;
 import com.haulmont.addon.sdbmt.core.MultiTenancyUserSessionSource;
-import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.bali.util.ParamsMap;
 import com.haulmont.cuba.core.EntityManager;
+import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.global.*;
 import com.haulmont.cuba.security.auth.AuthenticationManager;
@@ -37,6 +38,7 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,12 +46,16 @@ import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.*;
 
 public class MultiTenancyLoginTest {
+
     @ClassRule
     public static MultiTenancyTestContainer cont = MultiTenancyTestContainer.Common.INSTANCE;
 
     protected TenantConfig tenantConfig = AppBeans.get(Configuration.class).getConfig(TenantConfig.class);
 
     public static final String PASSWORD = "password";
+
+    private Persistence persistence;
+    private Metadata metadata;
 
     private User userA;
     private User userB;
@@ -63,45 +69,48 @@ public class MultiTenancyLoginTest {
     @Before
     public void setUp() {
         passwordEncryption = AppBeans.get(PasswordEncryption.class);
+        persistence = cont.persistence();
+        metadata = cont.metadata();
 
-        Transaction tx = cont.persistence().createTransaction();
-        try {
-            EntityManager em = cont.persistence().getEntityManager();
+        try (Transaction tx = persistence.createTransaction()) {
+            EntityManager em = persistence.getEntityManager();
 
-            groupA = new Group();
+            groupA = metadata.create(Group.class);
             groupA.setName("group-tenant-a");
             groupA.setSysTenantId("tenant-a");
             em.persist(groupA);
 
-            groupB = new Group();
+            groupB = metadata.create(Group.class);
             groupB.setName("group-tenant-b");
             groupB.setSysTenantId("tenant-b");
             em.persist(groupB);
 
-            userA = new User();
+            userA = metadata.create(User.class);
             userA.setName("User A");
             userA.setLogin("userA");
             userA.setPassword(passwordEncryption.getPasswordHash(userA.getId(), PASSWORD));
             userA.setGroup(groupA);
             userA.setSysTenantId("tenant-a");
+            userA.setUserRoles(new ArrayList<>());
             em.persist(userA);
 
-            userB = new User();
+            userB = metadata.create(User.class);
             userB.setName("User B");
             userB.setLogin("userB");
             userB.setPassword(passwordEncryption.getPasswordHash(userB.getId(), PASSWORD));
             userB.setGroup(groupB);
             userB.setSysTenantId("tenant-b");
+            userB.setUserRoles(new ArrayList<>());
             em.persist(userB);
 
-            tenantA = new Tenant();
+            tenantA = metadata.create(Tenant.class);
             tenantA.setName("Tenant A");
             tenantA.setGroup(groupA);
             tenantA.setAdmin(userA);
             tenantA.setTenantId("tenant-a");
             em.persist(tenantA);
 
-            tenantB = new Tenant();
+            tenantB = metadata.create(Tenant.class);
             tenantB.setName("tenant-b");
             tenantB.setGroup(groupB);
             tenantB.setAdmin(userB);
@@ -109,8 +118,6 @@ public class MultiTenancyLoginTest {
             em.persist(tenantB);
 
             tx.commit();
-        } finally {
-            tx.end();
         }
     }
 
@@ -130,7 +137,9 @@ public class MultiTenancyLoginTest {
     }
 
     @Test
-    public void testAuthenticationWithTenant() {
+    public void testAuthenticationWithTenantIdUrlParam() {
+        tenantConfig.setTenantIdUrlParamEnabled(true);
+
         AuthenticationManager lw = AppBeans.get(AuthenticationManager.NAME);
         Credentials credentials = new LoginPasswordCredentials("userA", PASSWORD, Locale.ENGLISH);
         try {
@@ -139,6 +148,21 @@ public class MultiTenancyLoginTest {
         } catch (LoginException e) {
             assertThat(e.getMessage(), containsString("Unknown login name or bad password 'userA'"));
         }
+
+        tenantConfig.setTenantIdUrlParamEnabled(false);
+    }
+
+    @Test
+    public void testAuthenticationWithoutTenantIdUrlParam() {
+        tenantConfig.setTenantIdUrlParamEnabled(false);
+
+        AuthenticationManager lw = AppBeans.get(AuthenticationManager.NAME);
+        Credentials credentials = new LoginPasswordCredentials("userA", PASSWORD, Locale.ENGLISH);
+        UserSession userSession = lw.login(credentials).getSession();
+
+        assertNotNull(userSession);
+
+        tenantConfig.setTenantIdUrlParamEnabled(true);
     }
 
     @Test

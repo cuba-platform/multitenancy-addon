@@ -86,5 +86,5 @@ public interface TenantConfig extends Config {
     @DefaultBoolean(false)
     boolean getTenantIdUrlParamEnabled();
 
-    void setTenantIdUrlParamEnabled();
+    void setTenantIdUrlParamEnabled(boolean value);
 }
