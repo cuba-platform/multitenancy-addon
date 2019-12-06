@@ -25,6 +25,12 @@ import com.haulmont.cuba.security.entity.User;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+/**
+ * Added sysTenantId field to User entity, instead of tenantId.
+ * <p>
+ * Use {@link User} instead
+ */
+@Deprecated
 @Extends(User.class)
 @Entity(name = "cubasdbmt$TenantUser")
 @Listeners("cubasdbmt_SdbmtUserEntityListener")

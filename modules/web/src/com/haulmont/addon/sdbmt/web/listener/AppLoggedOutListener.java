@@ -40,7 +40,7 @@ public class AppLoggedOutListener implements ApplicationListener<AppLoggedOutEve
     @Override
     public void onApplicationEvent(AppLoggedOutEvent event) {
         String tenantId = event.getLoggedOutSession().getAttribute(TenantProvider.TENANT_ID_ATTRIBUTE_NAME);
-        if (tenantConfig.getTenantIdUrlParamEnabled() && tenantId != null && !tenantId.equals(TenantProvider.NO_TENANT)) {
+        if (tenantConfig.getLoginByTenantParamEnabled() && tenantId != null && !tenantId.equals(TenantProvider.NO_TENANT)) {
             NavigationState navigationState = urlTools.parseState(AppUI.getCurrent().getPage().getLocation().getRawFragment());
             NavigationState newNavigationState = new NavigationState(navigationState.getRoot(),
                     navigationState.getStateMark(),

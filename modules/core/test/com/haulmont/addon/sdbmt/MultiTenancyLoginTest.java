@@ -138,7 +138,7 @@ public class MultiTenancyLoginTest {
 
     @Test
     public void testAuthenticationWithTenantIdUrlParam() {
-        tenantConfig.setTenantIdUrlParamEnabled(true);
+        tenantConfig.setLoginByTenantParamEnabled(true);
 
         AuthenticationManager lw = AppBeans.get(AuthenticationManager.NAME);
         Credentials credentials = new LoginPasswordCredentials("userA", PASSWORD, Locale.ENGLISH);
@@ -149,12 +149,12 @@ public class MultiTenancyLoginTest {
             assertThat(e.getMessage(), containsString("Unknown login name or bad password 'userA'"));
         }
 
-        tenantConfig.setTenantIdUrlParamEnabled(false);
+        tenantConfig.setLoginByTenantParamEnabled(false);
     }
 
     @Test
     public void testAuthenticationWithoutTenantIdUrlParam() {
-        tenantConfig.setTenantIdUrlParamEnabled(false);
+        tenantConfig.setLoginByTenantParamEnabled(false);
 
         AuthenticationManager lw = AppBeans.get(AuthenticationManager.NAME);
         Credentials credentials = new LoginPasswordCredentials("userA", PASSWORD, Locale.ENGLISH);
@@ -162,7 +162,7 @@ public class MultiTenancyLoginTest {
 
         assertNotNull(userSession);
 
-        tenantConfig.setTenantIdUrlParamEnabled(true);
+        tenantConfig.setLoginByTenantParamEnabled(true);
     }
 
     @Test

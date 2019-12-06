@@ -18,3 +18,11 @@ create table CUBASDBMT_TENANT (
     constraint IDX_CUBASDBMT_TENANT_UNIQ_TENANT_ID unique (TENANT_ID, DELETE_TS)
 )^
 -- end CUBASDBMT_TENANT
+-- begin SEC_USER
+alter table SEC_GROUP add column TENANT_ID varchar(255)^
+alter table SEC_GROUP add column DTYPE varchar(100)^
+-- end SEC_USER
+-- begin SEC_GROUP
+alter table SEC_USER add column TENANT_ID varchar(255)^
+alter table SEC_USER add column DTYPE varchar(100)^
+-- end SEC_GROUP

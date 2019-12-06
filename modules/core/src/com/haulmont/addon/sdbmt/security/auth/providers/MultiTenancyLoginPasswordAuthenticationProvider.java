@@ -68,7 +68,7 @@ public class MultiTenancyLoginPasswordAuthenticationProvider extends LoginPasswo
         EntityManager em = persistence.getEntityManager();
 
         Query q;
-        if (tenantConfig.getTenantIdUrlParamEnabled()) {
+        if (tenantConfig.getLoginByTenantParamEnabled()) {
             Object tenantId = params.get(tenantConfig.getTenantIdUrlParamName());
             String queryStr = "select u from sec$User u where ((:tenantId is null and u.sysTenantId is null) or u.sysTenantId = :tenantId) and u.loginLowerCase = :login and (u.active = true or u.active is null)";
 

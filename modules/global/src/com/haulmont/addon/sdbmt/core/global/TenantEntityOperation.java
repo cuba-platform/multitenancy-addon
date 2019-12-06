@@ -21,7 +21,6 @@ import com.haulmont.addon.sdbmt.entity.HasTenant;
 import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.chile.core.model.MetaProperty;
-import com.haulmont.chile.core.model.MetaPropertyPath;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.entity.TenantEntity;
 import com.haulmont.cuba.core.global.DataManager;
@@ -62,10 +61,9 @@ public class TenantEntityOperation {
         }
 
         if (TenantEntity.class.isAssignableFrom(entityClass) || HasTenant.class.isAssignableFrom(entityClass)) {
-            MetaPropertyPath sysTenantIdProperty = metadata.getTools().resolveMetaPropertyPath(metaClass, SYS_TENANT_ID);
-
+            MetaProperty sysTenantIdProperty = metaClass.getProperty(SYS_TENANT_ID);
             if (sysTenantIdProperty != null) {
-                return sysTenantIdProperty.getMetaProperty();
+                return sysTenantIdProperty;
             }
 
             MetaProperty tenantIdProperty = metaClass.getProperties().stream()

@@ -17,3 +17,11 @@ create table CUBASDBMT_TENANT (
     primary key nonclustered (ID)
 )^
 -- end CUBASDBMT_TENANT
+-- begin SEC_USER
+alter table SEC_USER add TENANT_ID varchar(255)^
+alter table SEC_USER add DTYPE varchar(100)^
+-- end SEC_USER
+-- begin SEC_GROUP
+alter table SEC_GROUP add TENANT_ID varchar(255) ^
+alter table SEC_GROUP add DTYPE varchar(100)^
+-- end SEC_GROUP

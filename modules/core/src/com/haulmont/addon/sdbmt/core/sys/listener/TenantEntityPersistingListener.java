@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 import javax.inject.Inject;
 
 @Component("cubasdbmt_EntityChangedListener")
-public class EntityPersistenceListener {
+public class TenantEntityPersistingListener {
 
     @Inject
     protected TenantProvider tenantProvider;

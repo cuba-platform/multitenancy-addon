@@ -81,10 +81,10 @@ public interface TenantConfig extends Config {
     /**
      * @return Whether to enable the tenant id URL parameter.
      */
-    @Property("cubasdbmt.tenantIdUrlParamEnabled")
+    @Property("cubasdbmt.loginByTenantParamEnabled")
     @Source(type = SourceType.APP)
     @DefaultBoolean(false)
-    boolean getTenantIdUrlParamEnabled();
+    boolean getLoginByTenantParamEnabled();
 
-    void setTenantIdUrlParamEnabled(boolean value);
+    void setLoginByTenantParamEnabled(boolean value);
 }

@@ -25,6 +25,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
+/**
+ * Added sysTenantId field to Group entity, instead of tenantId.
+ * <p>
+ * Use {@link Group} instead
+ */
+@Deprecated
 @Extends(Group.class)
 @Entity(name = "cubasdbmt$TenantGroup")
 public class TenantGroup extends Group implements HasTenant {
