@@ -20,8 +20,10 @@ create table CUBASDBMT_TENANT (
 -- begin SEC_USER
 alter table SEC_USER add (TENANT_ID varchar2(255 char))^
 alter table SEC_USER add (DTYPE varchar2(100 char))^
+update SEC_USER set DTYPE = 'cubasdbmt$TenantUser' where DTYPE is null^
 -- end SEC_USER
 -- begin SEC_GROUP
 alter table SEC_GROUP add (TENANT_ID varchar2(255 char))^
 alter table SEC_GROUP add (DTYPE varchar2(100 char))^
+update SEC_GROUP set DTYPE = 'cubasdbmt$TenantGroup' where DTYPE is null^
 -- end SEC_GROUP

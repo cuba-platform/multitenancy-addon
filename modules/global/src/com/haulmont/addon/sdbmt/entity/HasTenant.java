@@ -18,6 +18,8 @@ package com.haulmont.addon.sdbmt.entity;
 
 /**
  * Interface to be implemented by entities that have to be tenant-specific
+ * <p>
+ * Use {@link com.haulmont.cuba.core.entity.TenantEntity} instead
  */
 @Deprecated
 public interface HasTenant {

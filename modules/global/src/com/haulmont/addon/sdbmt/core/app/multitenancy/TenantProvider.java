@@ -21,7 +21,7 @@ package com.haulmont.addon.sdbmt.core.app.multitenancy;
  */
 public interface TenantProvider {
 
-    String NAME = "cuba_TenantProvider";
+    String NAME = "cubasdbmt_TenantProvider";
 
     /**
      * The name attribute of a user's session to save the Tenant ID.
