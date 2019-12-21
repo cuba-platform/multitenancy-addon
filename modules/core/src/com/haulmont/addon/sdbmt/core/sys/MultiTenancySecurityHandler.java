@@ -17,12 +17,15 @@
 package com.haulmont.addon.sdbmt.core.sys;
 
 import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.core.global.TenantEntityOperation;
 import com.haulmont.addon.sdbmt.entity.HasTenant;
 import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.chile.core.model.MetaClass;
+import com.haulmont.chile.core.model.MetaProperty;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
+import com.haulmont.cuba.core.entity.TenantEntity;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.sys.AppContext;
@@ -41,6 +44,7 @@ import java.util.stream.Collectors;
 public class MultiTenancySecurityHandler implements AppContext.Listener {
 
     public static final int PERMISSON_PROHIBIT = 0;
+    public static final int PERMISSON_HIDE = 0;
 
     @Inject
     protected Metadata metadata;
@@ -50,6 +54,9 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
 
     @Inject
     protected DataManager dataManager;
+
+    @Inject
+    protected TenantEntityOperation tenantEntityOperation;
 
     @PostConstruct
     public void init() {
@@ -93,6 +100,27 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         }
 
         createEntityWritePermissions(session);
+        createTenantIdPermissions(session);
+    }
+
+    protected void createTenantIdPermissions(UserSession session) {
+        Collection<MetaClass> entitiesWithTenant = getEntitiesWithTenant();
+        for (MetaClass e : entitiesWithTenant) {
+            addHideTenantIdPermission(session, e);
+        }
+    }
+
+    protected void addHideTenantIdPermission(UserSession session, MetaClass metaClass) {
+        MetaProperty property = tenantEntityOperation.getTenantMetaProperty(metaClass.getJavaClass());
+
+        MetaClass originalMetaClass = metadata.getExtendedEntities().getOriginalMetaClass(metaClass);
+        if (originalMetaClass != null) {
+            metaClass = originalMetaClass;
+        }
+
+        session.addPermission(PermissionType.ENTITY_ATTR,
+                metaClass.getName() + Permission.TARGET_PATH_DELIMETER + property.getName(),
+                null, PERMISSON_HIDE);
     }
 
     protected void createEntityWritePermissions(UserSession session) {
@@ -104,6 +132,14 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
         }
     }
 
+    protected Collection<MetaClass> getEntitiesWithTenant() {
+        Collection<MetaClass> allEntities = metadata.getClasses();
+        return allEntities.stream()
+                .filter(this::isEntityWithTenantId)
+                .filter(e -> e.getJavaClass().getAnnotation(Entity.class) != null)
+                .collect(Collectors.toCollection(LinkedList::new));
+    }
+
     protected Collection<MetaClass> getEntitiesWithoutTenant() {
         Collection<MetaClass> allEntities = metadata.getClasses();
         return allEntities.stream()
@@ -113,7 +149,7 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
     }
 
     protected boolean isEntityWithTenantId(MetaClass metaClass) {
-        return HasTenant.class.isAssignableFrom(metaClass.getJavaClass());
+        return HasTenant.class.isAssignableFrom(metaClass.getJavaClass()) || TenantEntity.class.isAssignableFrom(metaClass.getJavaClass());
     }
 
     protected void addProhibitEntityUpdatePermission(UserSession session, MetaClass metaClass) {
