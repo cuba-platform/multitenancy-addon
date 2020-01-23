@@ -59,7 +59,7 @@ apply(plugin: 'addon-gradle-plugin')
 cuba {
     artifact {
         group = 'com.haulmont.addon.sdbmt'
-        version = "1.4"
+        version = "2.0"
         isSnapshot = true
     }
     tomcat {
