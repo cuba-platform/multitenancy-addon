@@ -25,52 +25,43 @@
                   view="_minimal"/>
     </view>
     <view class="com.haulmont.addon.sdbmt.entity.Tenant"
-          extends="_local"
-          name="tenant-edit">
+          name="tenant-edit"
+          extends="_local">
         <property name="group"
-                  view="_minimal">
-            <property name="tenant"
-                      view="_minimal"/>
+                  view="_local">
             <property name="parent"
-                      view="_minimal"/>
+                      view="_local"/>
         </property>
         <property name="admin"
-                  view="_minimal"/>
+                  view="_local"/>
     </view>
     <view class="com.haulmont.addon.sdbmt.entity.Tenant"
           extends="_local"
           name="tenant-with-group">
         <property name="group" view="_minimal"/>
     </view>
-        <view class="com.haulmont.cuba.security.entity.Group"
+    <view class="com.haulmont.cuba.security.entity.Group"
           extends="_local"
           name="group-tenant-and-hierarchy">
-        <property name="tenant"
-                  view="_minimal"/>
         <property name="parent"
-                  view="_minimal"/>
+                  view="group-with-tenantId"/>
         <property name="hierarchyList"
                   view="_minimal">
             <property name="group"
                       view="_minimal"/>
             <property name="parent"
-                      view="group-with-tenant"/>
+                      view="_minimal"/>
+            <property name="sysTenantId"/>
         </property>
     </view>
     <view class="com.haulmont.cuba.security.entity.Group"
           extends="_minimal"
-          name="group-with-tenant">
-        <property name="tenant"
-                  view="_minimal"/>
-    </view>
-    <view class="com.haulmont.cuba.security.entity.Group"
-          extends="_minimal"
           name="group-with-tenantId">
-        <property name="tenantId"/>
+        <property name="sysTenantId"/>
     </view>
     <view class="com.haulmont.cuba.security.entity.User"
           extends="_minimal"
           name="user-with-tenantId">
-        <property name="tenantId"/>
+        <property name="sysTenantId"/>
     </view>
 </views>

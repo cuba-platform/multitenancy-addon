@@ -16,11 +16,12 @@
 
 package com.haulmont.addon.sdbmt.gui.dynamicattributes;
 
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.core.global.TenantEntityOperation;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.cuba.core.entity.CategoryAttribute;
+import com.haulmont.cuba.core.entity.TenantEntity;
 import com.haulmont.cuba.gui.dynamicattributes.DynamicAttributesGuiTools;
-import com.haulmont.addon.sdbmt.MultiTenancyTools;
-import com.haulmont.addon.sdbmt.entity.HasTenant;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -30,8 +31,13 @@ import java.util.stream.Collectors;
 
 public class MultiTenancyDynamicAttributesGuiTools extends DynamicAttributesGuiTools {
 
+    public static final String SYS_CATEGORY_ATTRIBUTE = "sys$CategoryAttribute";
+
     @Inject
-    protected MultiTenancyTools multiTenancyTools;
+    protected TenantProvider tenantProvider;
+
+    @Inject
+    protected TenantEntityOperation tenantEntityOperation;
 
     @Override
     public Set<CategoryAttribute> getAttributesToShowOnTheScreen(MetaClass metaClass, String screen, @Nullable String component) {
@@ -44,19 +50,19 @@ public class MultiTenancyDynamicAttributesGuiTools extends DynamicAttributesGuiT
             return attributesToShow;
         }
 
-        String tenantId = multiTenancyTools.getCurrentUserTenantId();
+        String tenantId = tenantProvider.getCurrentUserTenantId();
         return attributesToShow.stream()
                 .filter(a -> sameTenant(a, tenantId))
                 .collect(Collectors.toSet());
     }
 
     private boolean isCategoryAttributeTenantSpecific() {
-        Class categoryAttributeActualClass = metadata.getClassNN("sys$CategoryAttribute").getJavaClass();
-        return HasTenant.class.isAssignableFrom(categoryAttributeActualClass);
+        Class categoryAttributeActualClass = metadata.getClassNN(SYS_CATEGORY_ATTRIBUTE).getJavaClass();
+        return TenantEntity.class.isAssignableFrom(categoryAttributeActualClass);
     }
 
     protected boolean sameTenant(CategoryAttribute attribute, String tenantId) {
-        String attrTenantId = ((HasTenant) attribute).getTenantId();
+        String attrTenantId = tenantEntityOperation.getTenantId(attribute);
         return Objects.equals(tenantId, attrTenantId);
     }
 }

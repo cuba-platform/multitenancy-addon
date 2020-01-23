@@ -16,6 +16,7 @@
 
 package com.haulmont.addon.sdbmt;
 
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.UserSessionSource;
 import org.junit.Before;
@@ -46,6 +47,6 @@ public abstract class MultiTenancyBaseTest {
 
         UserSessionSource uss = AppBeans.get(UserSessionSource.NAME);
         //actual id value doesn't matter
-        uss.getUserSession().setAttribute("tenant_id", "tenant1");
+        uss.getUserSession().setAttribute(TenantProvider.TENANT_ID_ATTRIBUTE_NAME, "tenant1");
     }
 }

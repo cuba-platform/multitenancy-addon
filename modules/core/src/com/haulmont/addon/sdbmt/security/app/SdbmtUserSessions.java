@@ -16,16 +16,16 @@
 
 package com.haulmont.addon.sdbmt.security.app;
 
+import com.haulmont.addon.sdbmt.config.TenantConfig;
 import com.haulmont.cuba.security.app.UserSessions;
 import com.haulmont.cuba.security.entity.UserSessionEntity;
-import com.haulmont.addon.sdbmt.config.TenantConfig;
-import com.haulmont.addon.sdbmt.entity.HasTenant;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+@Deprecated
 public class SdbmtUserSessions extends UserSessions {
 
     @Inject
@@ -37,7 +37,7 @@ public class SdbmtUserSessions extends UserSessions {
         for (UserSessionInfo nfo : cache.values()) {
             UserSessionEntity use = createUserSessionEntity(nfo.getSession(), nfo.getSince(), nfo.getLastUsedTs());
             String tenantId = nfo.getSession().getAttribute(tenantConfig.getTenantIdName());
-            ((HasTenant) use).setTenantId(tenantId);
+            use.setSysTenantId(tenantId);
             sessionInfoList.add(use);
         }
         return sessionInfoList;

@@ -27,7 +27,7 @@
                     <row id="propertiesRow">
                         <fieldGroup id="fieldGroupRight">
                             <column>
-                                <field id="tenantIdField" caption="msg://tenant.caption" ext:index="0">
+                                <field id="tenantIdField" caption="msg://com.haulmont.addon.sdbmt.entity/Tenant.tenantId" ext:index="0">
                                     <lookupField id="tenantId"/>
                                 </field>
                             </column>

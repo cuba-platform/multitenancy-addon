@@ -24,7 +24,7 @@
         <groupTable id="usersTable">
             <buttonsPanel alwaysVisible="true"/>
             <columns>
-                <column id="tenantId"/>
+                <column id="sysTenantId" caption="msg://com.haulmont.addon.sdbmt.entity/Tenant.tenantId"/>
             </columns>
         </groupTable>
     </layout>

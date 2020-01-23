@@ -16,6 +16,8 @@
 
 package com.haulmont.addon.sdbmt.core.sys.listener;
 
+import com.haulmont.addon.sdbmt.config.TenantConfig;
+import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.cuba.core.EntityManager;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.listener.BeforeInsertEntityListener;
@@ -24,9 +26,6 @@ import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.cuba.security.entity.Role;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.entity.UserRole;
-import com.haulmont.addon.sdbmt.entity.HasTenant;
-import com.haulmont.addon.sdbmt.entity.Tenant;
-import com.haulmont.addon.sdbmt.config.TenantConfig;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -56,7 +55,7 @@ public class TenantListener implements BeforeUpdateEntityListener<Tenant>, Befor
         User admin = tenant.getAdmin();
         if (admin != null) {
             admin = em.reloadNN(admin, "user.edit");
-            ((HasTenant)admin).setTenantId(tenant.getTenantId());
+            admin.setSysTenantId(tenant.getTenantId());
             assignDefaultTenantRole(admin, em);
             tenant.setAdmin(admin);
         }
@@ -81,7 +80,7 @@ public class TenantListener implements BeforeUpdateEntityListener<Tenant>, Befor
         if (tenant.getGroup() != null) {
             Group accessGroup = em.reload(tenant.getGroup(), "group-with-tenantId");
             if (accessGroup != null) {
-                ((HasTenant)accessGroup).setTenantId(tenant.getTenantId());
+                accessGroup.setSysTenantId(tenant.getTenantId());
             }
         }
     }

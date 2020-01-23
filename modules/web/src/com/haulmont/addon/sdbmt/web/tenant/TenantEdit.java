@@ -18,7 +18,6 @@ package com.haulmont.addon.sdbmt.web.tenant;
 import com.google.common.base.Strings;
 import com.haulmont.addon.sdbmt.config.TenantConfig;
 import com.haulmont.addon.sdbmt.entity.Tenant;
-import com.haulmont.addon.sdbmt.entity.TenantUser;
 import com.haulmont.addon.sdbmt.web.tenant.validators.TenantAdminValidator;
 import com.haulmont.addon.sdbmt.web.tenant.validators.TenantRootAccessGroupValidator;
 import com.haulmont.cuba.core.global.DataManager;
@@ -30,6 +29,7 @@ import com.haulmont.cuba.gui.components.PickerField;
 import com.haulmont.cuba.gui.components.TextField;
 import com.haulmont.cuba.gui.data.Datasource;
 import com.haulmont.cuba.security.entity.Group;
+import com.haulmont.cuba.security.entity.User;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
@@ -50,7 +50,7 @@ public class TenantEdit extends AbstractEditor<Tenant> {
     private PickerField<Group> groupField;
 
     @Inject
-    private PickerField<TenantUser> adminField;
+    private PickerField<User> adminField;
 
     @Inject
     private TextField<String> tenantIdField;

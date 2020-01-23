@@ -7,6 +7,7 @@ create table CUBASDBMT_TENANT (
     UPDATE_TS datetime(3),
     UPDATED_BY varchar(50),
     DELETE_TS datetime(3),
+    DELETE_TS_NN datetime(3) not null default '1000-01-01 00:00:00.000',
     DELETED_BY varchar(50),
     TENANT_ID varchar(255),
     --
@@ -18,12 +19,12 @@ create table CUBASDBMT_TENANT (
 )^
 -- end CUBASDBMT_TENANT
 -- begin SEC_USER
-alter table SEC_USER add column TENANT_ID varchar(255) ^
-alter table SEC_USER add column DTYPE varchar(100) ^
-update SEC_USER set DTYPE = 'cubasdbmt$TenantUser' where DTYPE is null ^
+alter table SEC_USER add column TENANT_ID varchar(255)^
+alter table SEC_USER add column DTYPE varchar(100)^
+update SEC_USER set DTYPE = 'cubasdbmt$TenantUser' where DTYPE is null^
 -- end SEC_USER
 -- begin SEC_GROUP
-alter table SEC_GROUP add column TENANT_ID varchar(255) ^
-alter table SEC_GROUP add column DTYPE varchar(100) ^
-update SEC_GROUP set DTYPE = 'cubasdbmt$TenantGroup' where DTYPE is null ^
+alter table SEC_GROUP add column TENANT_ID varchar(255)^
+alter table SEC_GROUP add column DTYPE varchar(100)^
+update SEC_GROUP set DTYPE = 'cubasdbmt$TenantGroup' where DTYPE is null^
 -- end SEC_GROUP

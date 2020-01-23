@@ -22,6 +22,12 @@ import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.cuba.core.entity.annotation.Extends;
 import com.haulmont.cuba.security.entity.UserSessionEntity;
 
+/**
+ * Added sysTenantId field to UserSessionEntity entity, instead of tenantId.
+ * <p>
+ * Use {@link UserSessionEntity} instead
+ */
+@Deprecated
 @Extends(UserSessionEntity.class)
 @MetaClass(name = "cubasdbmt$TenantUserSessionEntity")
 public class TenantUserSessionEntity extends UserSessionEntity implements HasTenant {

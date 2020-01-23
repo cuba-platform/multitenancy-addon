@@ -16,14 +16,13 @@
 
 package com.haulmont.addon.sdbmt.security.listener;
 
+import com.haulmont.addon.sdbmt.config.TenantConfig;
 import com.haulmont.cuba.core.EntityManager;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.listener.BeforeInsertEntityListener;
 import com.haulmont.cuba.security.entity.Role;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.entity.UserRole;
-import com.haulmont.addon.sdbmt.entity.HasTenant;
-import com.haulmont.addon.sdbmt.config.TenantConfig;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -39,7 +38,7 @@ public class SdbmtUserEntityListener implements BeforeInsertEntityListener<User>
 
     @Override
     public void onBeforeInsert(User user, EntityManager entityManager) {
-        if (((HasTenant)user).getTenantId() != null) {
+        if (user.getSysTenantId() != null) {
             Role tenantDefaultRole = tenantConfig.getDefaultTenantRole();
             if (tenantDefaultRole == null) {
                 return;

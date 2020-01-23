@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package com.haulmont.addon.sdbmt.entity;
+package com.haulmont.addon.sdbmt.core.tools;
 
-/**
- * Interface for entities that have tenant instance.
- * Implementing this interface doesn't make entities tenant-specific, use {@link HasTenant} for that.
- */
-public interface HasTenantInstance {
-    void setTenant(Tenant tenant);
-    Tenant getTenant();
+public interface MultiTenancyHelperService {
+
+    String NAME = "cubasdbmt_MultiTenancyHelperService";
+
+    boolean isSystemLogin(String login);
 }

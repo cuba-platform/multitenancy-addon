@@ -16,7 +16,7 @@
 
 package com.haulmont.addon.sdbmt.web.tenant.validators;
 
-import com.haulmont.addon.sdbmt.entity.HasTenantInstance;
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DataManager;
@@ -47,8 +47,8 @@ public class TenantRootAccessGroupValidator implements Consumer<Group> {
 
         DataManager dm = AppBeans.get(DataManager.class);
         Group group = dm.reload(value, "group-tenant-and-hierarchy");
-        Tenant groupTenant = ((HasTenantInstance) group).getTenant();
-        if (groupTenant != null && !groupTenant.equals(tenant)) {
+        Tenant groupTenant = getTenantGroup(group);
+        if (group.getSysTenantId() != null && groupTenant != null && !groupTenant.equals(tenant) && !group.getSysTenantId().equals(TenantProvider.NO_TENANT)) {
             throw new ValidationException(messages.getMessage(TenantRootAccessGroupValidator.class, "validation.hasTenant"));
         } else if (isRootGroup(group)) {
             throw new ValidationException(messages.getMessage(TenantRootAccessGroupValidator.class, "validation.rootGroup"));
@@ -63,7 +63,7 @@ public class TenantRootAccessGroupValidator implements Consumer<Group> {
 
     private boolean hasOtherTenantSubgroups(Group group) {
         LoadContext<Group> ctx = new LoadContext<>(Group.class);
-        ctx.setQueryString("select e.group from sec$GroupHierarchy e where e.parent = :group and e.group.tenant is not null")
+        ctx.setQueryString("select e.group from sec$GroupHierarchy e where e.parent = :group and e.group.sysTenantId is not null")
                 .setParameter("group", group);
 
         return dataManager.getCount(ctx) > 0;
@@ -72,12 +72,21 @@ public class TenantRootAccessGroupValidator implements Consumer<Group> {
     private boolean subgroupOfOtherTenantGroup(Group group) {
         List<GroupHierarchy> hierarchyList = group.getHierarchyList();
         for (GroupHierarchy hierarchy : hierarchyList) {
-            Tenant groupTenant = ((HasTenantInstance)hierarchy.getParent()).getTenant();
-            if (groupTenant != null && !groupTenant.equals(tenant)) {
+            Tenant groupTenant = getTenantGroup(hierarchy.getParent());
+
+            if (group.getSysTenantId() != null && groupTenant != null && !groupTenant.equals(tenant)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private Tenant getTenantGroup(Group group) {
+        return dataManager.load(Tenant.class)
+                .query("select e from cubasdbmt$Tenant e where :tenantId is not null and e.tenantId = :tenantId")
+                .parameter("tenantId", group.getSysTenantId())
+                .optional()
+                .orElse(null);
     }
 
     private boolean isRootGroup(Group group) {

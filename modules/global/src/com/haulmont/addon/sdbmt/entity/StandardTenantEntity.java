@@ -16,14 +16,23 @@
 
 package com.haulmont.addon.sdbmt.entity;
 
-import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.addon.sdbmt.core.TenantId;
+import com.haulmont.chile.core.annotations.MetaClass;
+import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.cuba.core.entity.TenantEntity;
+import com.haulmont.cuba.core.entity.annotation.UnavailableInSecurityConstraints;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+/**
+ * The base class for the implementation of the Multitenant. <br>
+ * Optimistically locked, implements Updatable, SoftDelete and HasTenant.
+ */
 @MappedSuperclass
-public abstract class StandardTenantEntity extends StandardEntity implements HasTenant {
+@MetaClass(name = "cubasdbmt$StandardTenantEntity")
+@UnavailableInSecurityConstraints
+public abstract class StandardTenantEntity extends StandardEntity implements HasTenant, TenantEntity {
     private static final long serialVersionUID = -1215037188627831268L;
 
     @TenantId

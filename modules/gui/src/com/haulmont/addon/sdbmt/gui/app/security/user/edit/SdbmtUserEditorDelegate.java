@@ -16,9 +16,10 @@
 
 package com.haulmont.addon.sdbmt.gui.app.security.user.edit;
 
-import com.haulmont.addon.sdbmt.MultiTenancyTools;
-import com.haulmont.addon.sdbmt.entity.HasTenant;
+import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
+import com.haulmont.addon.sdbmt.core.tools.MultiTenancyHelperService;
 import com.haulmont.addon.sdbmt.entity.Tenant;
+import com.haulmont.cuba.core.entity.TenantEntity;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.PersistenceHelper;
@@ -32,21 +33,24 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Component
-public class SdbmtUserEditorDelegate<T extends User & HasTenant> {
+public class SdbmtUserEditorDelegate<T extends User & TenantEntity> {
 
     @Inject
-    private MultiTenancyTools multiTenancyTools;
+    protected MultiTenancyHelperService multiTenancyHelper;
+
+    @Inject
+    private TenantProvider tenantProvider;
 
     @Inject
     private DataManager dataManager;
 
     public void ready(SdbmtUserScreen<T> userScreen) {
-        String tenantId = multiTenancyTools.getCurrentUserTenantId();
-        if (PersistenceHelper.isNew(userScreen.getUser())) {
-            userScreen.getUser().setTenantId(tenantId);
+        String tenantId = tenantProvider.getCurrentUserTenantId();
+        if (PersistenceHelper.isNew(userScreen.getUser()) && !tenantId.equals(TenantProvider.NO_TENANT)) {
+            userScreen.getUser().setSysTenantId(tenantId);
         }
 
-        if (tenantId != null) {
+        if (!tenantId.equals(TenantProvider.NO_TENANT)) {
             userScreen.getTenantField().setVisible(false);
             return; //do not init tenant ID field if the current user is also a tenant
         }
@@ -54,18 +58,23 @@ public class SdbmtUserEditorDelegate<T extends User & HasTenant> {
         initTenantField(userScreen.getTenantField(), userScreen.getUser());
     }
 
-    private void initTenantField(OptionsField<Tenant,Tenant> tenantField, T user) {
+    private void initTenantField(OptionsField<Tenant, Tenant> tenantField, T user) {
         List<Tenant> tenants = createOptionList();
         tenantField.setOptionsList(tenants);
-        tenantField.setValue(findTenantByTenantId(tenants, user.getTenantId()));
+        tenantField.setValue(findTenantByTenantId(tenants, user.getSysTenantId()));
+        tenantField.setEditable(isEditableTenant(user));
 
         tenantField.addValueChangeListener(v -> {
             Tenant tenant = v.getValue();
-            user.setTenantId(Optional.ofNullable(tenant).map(Tenant::getTenantId).orElse(null));
+            user.setSysTenantId(Optional.ofNullable(tenant).map(Tenant::getTenantId).orElse(null));
             if (tenant != null) {
                 user.setGroup(tenant.getGroup());
             }
         });
+    }
+
+    private boolean isEditableTenant(T user) {
+        return !multiTenancyHelper.isSystemLogin(user.getLogin());
     }
 
     private List<Tenant> createOptionList() {

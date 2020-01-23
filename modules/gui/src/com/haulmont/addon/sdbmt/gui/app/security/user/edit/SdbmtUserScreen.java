@@ -16,14 +16,14 @@
 
 package com.haulmont.addon.sdbmt.gui.app.security.user.edit;
 
-import com.haulmont.addon.sdbmt.entity.HasTenant;
 import com.haulmont.addon.sdbmt.entity.Tenant;
+import com.haulmont.cuba.core.entity.TenantEntity;
 import com.haulmont.cuba.gui.components.OptionsField;
 import com.haulmont.cuba.security.entity.User;
 
-public interface SdbmtUserScreen<T extends User & HasTenant> {
+public interface SdbmtUserScreen<T extends User & TenantEntity> {
 
-    OptionsField<Tenant,Tenant> getTenantField();
+    OptionsField<Tenant, Tenant> getTenantField();
 
     T getUser();
 
