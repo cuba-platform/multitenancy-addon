@@ -118,8 +118,8 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
             metaClass = originalMetaClass;
         }
 
-        session.addPermission(PermissionType.ENTITY_ATTR,
-                metaClass.getName() + Permission.TARGET_PATH_DELIMETER + property.getName(), PERMISSON_HIDE);
+        session.getJoinedRole().entityAttributePermissions().getExplicitPermissions()
+                .put(metaClass.getName() + Permission.TARGET_PATH_DELIMETER + property.getName(), EntityAttrAccess.DENY.getId());
     }
 
     protected void createEntityWritePermissions(UserSession session) {
@@ -164,8 +164,8 @@ public class MultiTenancySecurityHandler implements AppContext.Listener {
     }
 
     protected void createEntityOpProhibitPermission(UserSession session, MetaClass metaClass, EntityOp entityOp) {
-        session.addPermission(PermissionType.ENTITY_OP,
-                metaClass.getName() + Permission.TARGET_PATH_DELIMETER + entityOp.getId(), PERMISSON_PROHIBIT);
+        session.getJoinedRole().entityAttributePermissions().getExplicitPermissions()
+                .put(metaClass.getName() + Permission.TARGET_PATH_DELIMETER + entityOp.getId(), EntityAttrAccess.DENY.getId());
     }
 
     protected Tenant getGroupTenant(Group group) {
