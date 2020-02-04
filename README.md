@@ -155,7 +155,7 @@ Meaning if the user has read-only access to some entity, he can't permit other u
 
 You can create users with equal logins for different tenants, using a URL parameter.
 
-To enable this option add the following parameters to the `app. properties.xml` and `web-app.properties.xml` in the `core` and `web` modules:
+To enable this option add the following parameters to the `app.properties` and `web-app.properties` in the `core` and `web` modules:
 
 * `cubasdbmt.loginByTenantParamEnabled`. Set it in `true`.
 * `cubasdbmt.tenantIdUrlParamName`. Set the tenant ID in this parameter.
@@ -228,7 +228,7 @@ Constants:
 
 # Appendix B. Application Properties
 
-The following properties should be set in the `app. properties.xml` and `web-app.properties.xml` files in the `core` and `web` modules.
+The following properties should be set in the `app.properties` and `web-app.properties` files in the `core` and `web` modules.
 
 **cubasdbmt.adminUser**
 
