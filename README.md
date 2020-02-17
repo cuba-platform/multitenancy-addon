@@ -28,7 +28,7 @@ The component implements a single database multitenancy support for CUBA applica
 It enables using a single application instance to serve multiple tenants - groups of users that are invisible to each other and do not share any data they have write access to.
 
 The component supports two types of data:
-* common data - shared across tenants. Tenants have read-only  access to this type of data;
+* common data - shared across tenants. Tenants have read-only access to this type of data;
 * tenant-specific data - not accessible to other tenants. Tenants have full access to this type of data.
 
 All tenants have their own admin users which can create tenant users and assign tenant-specific roles and permissions.
@@ -70,20 +70,20 @@ The add-on corresponding to the used platform version will be installed.
 
  where `<add-on version>` is compatible with the used version of the CUBA platform.
 
- | Platform Version | Add-on Version |
+ | Platform Version| Add-on Version |
 |------------------|----------------|
-| 7.2.x             | 2.0.0             |
-| 7.1.x             | 1.4.0             |
-| 7.0.x             | 1.3.2             |
-| 6.10.x            | 1.2.1             |
-| 6.9.x             | 1.1.1             |
-| 6.8.x             | 1.0.0             |
+| 7.2.x            | 2.0.0          |
+| 7.1.x            | 1.4.0          |
+| 7.0.x            | 1.3.2          |
+| 6.10.x           | 1.2.1          |
+| 6.9.x            | 1.1.1          |
+| 6.8.x            | 1.0.0          |
 
 5. Click *Install* and apply the changes. The add-on will be installed to your project.
 
 # Setting
 
-Tenant-specific tables must have an additional column `TENANT_ID` to specify the owner of data.
+Tenant-specific tables must have an additional column `TENANT_ID` to specify the owner of the data.
 Note, that the following standard CUBA entities already have an additional column `SYS_TENANT_ID` to support multitenancy:
 
 * FileDescriptor
@@ -108,7 +108,7 @@ Note, that the following standard CUBA entities already have an additional colum
 
 Use one of the following ways to make your own entities tenant-specific:
 
-1. Extent `StandardTenantEntity` instead of the `StandardEntity` class. `StandardTenantEntity` is the equivalent of the `StandardEntity`class but with an additional `TENANT_ID` column.
+1. Extend `StandardTenantEntity` instead of the `StandardEntity` class. `StandardTenantEntity` is the equivalent of the `StandardEntity`class but with an additional `TENANT_ID` column.
 
 2. Implement `TenantEntity` interface and add the `@TenantId` annotation to the column containing the tenant ID manually.
 
@@ -116,9 +116,9 @@ Use one of the following ways to make your own entities tenant-specific:
 
 # Components Compatibility
 
-[Reports](https://github.com/cuba-platform/reports) and [REST API](https://github.com/cuba-platform/restapi) addons support multitenancy.
+[Reports](https://github.com/cuba-platform/reports) and [REST API](https://github.com/cuba-platform/restapi) add-ons support multitenancy.
 
-In the **Reports** add-on an additional attribute `SYS_TENANT_ID` is added to the following entities:
+In the **Reports** add-on an additional `SYS_TENANT_ID` attribute is added to the following entities:
 
 * Report
 * ReportGroup
@@ -127,35 +127,35 @@ The ability to log in using TenantId as a parameter is added to the **Rest API**
 
 # Managing Tenants
 
-To manage tenants go to *Tenant management -> Tenants* screen.
+To manage tenants go to the *Tenant management -> Tenants* screen.
 
-Tenants are created and managed by global admins - users that don't belong to any tenant.  
+Tenants are created and managed by global admins - users that don't belong to any tenant.
 
-Each tenant must have unique *Tenant Id*, *Root Access Group* and default administrator assigned.
+Each tenant must have a unique *Tenant Id*, *Root Access Group* and a default administrator assigned.
 
-Tenant access group serves the role of a root access group for tenant admins. Think **Company** access group, but for tenants. Tenant root access group can't be a parent of any other tenant's group, that is **sub-tenants are not supported**.
+The tenant access group serves the role of a root access group for tenant admins. Think the **Company** access group, but for tenants. The tenant root access group can't be a parent of any other tenant's group, that is **sub-tenants are not supported**.
 
-Creating tenants use tenant admin access group which is the same as *Root Access Group*. In the next versions of the add-on this preconditions will be set automatically.
+Creating tenants, use the tenant admin access group which is the same as *Root Access Group*. In the next versions of the add-on, these preconditions will be set automatically.
 
 # Tenant Permissions
 
-Tenant permissions are handled by [CUBA security subsystem](https://doc.cuba-platform.com/manual-latest/security_subsystem.html). Tenant permissions are compiled at runtime during user login and being stored in the user session. For implementation see `LoginEventListener` and `MultiTenancySecurityHandler`.
+Tenant permissions are handled by the [CUBA security subsystem](https://doc.cuba-platform.com/manual-latest/security_subsystem.html). Tenant permissions are compiled at runtime during the user logs in and stored in the user session. For implementation, see `LoginEventListener` and `MultiTenancySecurityHandler`.
 
-All tenants are implicitly assigned with a *Tenant Default Role*. The purpose of the role is to hide system functionality which must not be accessible to other tenants (JMX console, Server log and so on).
+All tenants are implicitly assigned the *Tenant Default Role*. The purpose of the role is to hide system functionality which should not be accessible to other tenants (JMX console, Server log and so on).
 
-Default tenant role is specified in `TenantConfig` (`cubasdbmt.defaultTenantRole`). It is assigned to all tenant users automatically in `SdbmtUserEntityListener`.
+The default tenant role is specified in `TenantConfig` (`cubasdbmt.defaultTenantRole`). It is assigned to all tenant users automatically in `SdbmtUserEntityListener`.
 
-Tenants can create their own user roles, so role editor has been modified. Additionally to CUBA requirement for users to have access to Permission entity, the system now allows the user to give only those permissions which he owns himself.  
+Tenants can create their own user roles, so the role editor has been modified. Additionally to the CUBA requirement for users to have access to the Permission entity, the system now allows users to only give those permissions that they own.
 
-Meaning if the user has read-only access to some entity, he can't permit other users to modify it, however, he can prohibit users from reading it. 
+This means that if a user has read-only access to an entity, so the user can't permit other users to modify it, but can prohibit users to read the entity. 
  
 **Specific** and **UI** permissions have been hidden from tenants.
 
 # Authorization using the URL parameter
 
-You can create users with equal logins for different tenants, using a URL parameter.
+You can create users with the equal logins for different tenants, using a URL parameter.
 
-To enable this option add the following parameters to the `app.properties` and `web-app.properties` in the `core` and `web` modules:
+To enable this option add the following parameters to the `app.properties` and `web-app.properties` files in the `core` and `web` modules:
 
 * `cubasdbmt.loginByTenantParamEnabled`. Set it in `true`.
 * `cubasdbmt.tenantIdUrlParamName`. Set the tenant ID in this parameter.
@@ -165,13 +165,13 @@ Then add the `tenantId` parameter to the URL when log in, for example:
 
 ![tenantid-login](img/tenantid-login.png)
 
-Use the same way to get a token when you authorize with REST API, for example:
+Use the same way to get a token when you authorize with the **REST API**, for example:
 
 `http://localhost:8080/sdbmt/rest/v2/oauth/token?grant_type=password&username=some_user&password=user&tenantId=some_tenant`.
 
 # Migration
 
-The data filtering mechanism depending on the tenant ID is changed in 2.0 version of the add-on. 
+The data filtering mechanism depending on the tenant ID has changed in 2.0 version of the add-on. 
 
 To switch to the new mechanism of data filtering, do the followings:
 
@@ -191,17 +191,17 @@ Tenants have read-only access to all persistent entities that don't implement th
 
 ## Tenant-Specific Data
 
-All user tenant-specific tables have an additional column `TENANT_ID` to specify the owner of data. The basis tenant-specific entities have the `SYS_TENANT_ID` column.
+All user tenant-specific tables have an additional `TENANT_ID` column to specify the owner of data. The basis tenant-specific entities have the `SYS_TENANT_ID` column.
 
-To be tenant-specific an entity must implement the `TenantEntity` interface. To make CUBA entity tenant-specific a developer should extend it in the project and make it implementing `TenantEntity` interface. SQL update scripts can be generated either by CUBA Studio or manually.
+To be tenant-specific, an entity must implement the `TenantEntity` interface. To make CUBA entity tenant-specific a developer should extend it in the project and make it implementing `TenantEntity` interface. SQL update scripts can be generated either by CUBA Studio or manually.
 
 Every time a tenant user reads tenant-specific data, the system adds **where** condition on `TENANT_ID` to JPQL query in order to read the data of the current tenant only. Data with no `TENANT_ID` or with different `TENANT_ID` will be omitted.
 
-**There is no automatic filtering for native SQL so tenants should not have access to any functionality giving access to write native SQL or Groovy code (JMX Console, SQL/Groovy bands in reports etc.)**.
+**There is no automatic filtering for native SQL, so tenants should not have access to any functionality that provides access to writing native SQL or Groovy code (JMX Console, SQL/Groovy bands in reports etc.)**.
 
-There is no need to assign a tenant ID to entities manually - it is being handled automatically. During login, tenant user session receives the tenant ID from the tenant entity. Whenever a tenant user creates a tenant-specific entity system assigns the tenant ID to the newly created entity automatically. For implementation see `TenantEntityPersistingListener`.
+There is no need to assign a tenant ID to entities manually - it is being handled automatically. During login, the tenant user session receives the tenant ID from the tenant entity. Whenever a tenant user creates a tenant-specific entity, the system assigns the tenant ID to the newly created entity automatically. For implementation, see `TenantEntityPersistingListener`.
 
-A developer can add the tenant ID attribute to tenant-specific entities screens, which can be useful for QA and global administrators. `TENANT_ID` column/field will be hidden from tenant users as long as the tenant ID attribute is marked with the `@TenantId` annotation in the entity code.
+A developer can add the tenant ID attribute to tenant-specific entities screens, which can be useful for QA and global administrators. The `TENANT_ID` column/field will be hidden from tenant users as long as the tenant ID attribute is marked with the `@TenantId` annotation in the entity code.
 
 # Appendix A. Multitenancy API
 
@@ -257,5 +257,5 @@ The following properties should be set in the `app.properties` and `web-app.prop
 
 **cubasdbmt.loginByTenantParamEnabled**
 
-* Enables using URL parameter for a tenant ID.
+* Enables using the URL parameter for the tenant ID.
 * Default value: `false`.
