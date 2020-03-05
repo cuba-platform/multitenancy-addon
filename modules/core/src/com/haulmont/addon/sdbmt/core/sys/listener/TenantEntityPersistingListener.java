@@ -37,7 +37,7 @@ public class TenantEntityPersistingListener {
     protected TenantEntityOperation tenantEntityOperation;
 
     @EventListener
-    public void beforePersist(EntityPersistingEvent<Entity> event) {
+    public void beforePersist(EntityPersistingEvent event) {
         Entity entity = event.getEntity();
         String tenantId = tenantProvider.getCurrentUserTenantId();
         if ((entity instanceof HasTenant || entity instanceof TenantEntity) && !tenantId.equals(TenantProvider.NO_TENANT)) {
