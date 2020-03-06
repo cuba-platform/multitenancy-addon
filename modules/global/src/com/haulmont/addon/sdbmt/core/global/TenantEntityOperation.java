@@ -41,6 +41,11 @@ public class TenantEntityOperation {
      */
     public static final String SYS_TENANT_ID = "sysTenantId";
 
+    /**
+     * Tenant id name attribute
+     */
+    public static final String TENANT_ID = "tenantId";
+
     @Inject
     protected Metadata metadata;
 
@@ -61,15 +66,13 @@ public class TenantEntityOperation {
         }
 
         if (TenantEntity.class.isAssignableFrom(entityClass) || HasTenant.class.isAssignableFrom(entityClass)) {
-            MetaProperty sysTenantIdProperty = metaClass.getProperty(SYS_TENANT_ID);
-            if (sysTenantIdProperty != null) {
-                return sysTenantIdProperty;
-            }
-
             MetaProperty tenantIdProperty = metaClass.getProperties().stream()
-                    .filter(property -> property.getAnnotatedElement().getAnnotation(TenantId.class) != null)
+                    .filter(property -> property.getAnnotatedElement().getAnnotation(TenantId.class) != null || property.getName().equals(TENANT_ID))
                     .findFirst().orElse(null);
 
+            if (tenantIdProperty == null) {
+                tenantIdProperty = metaClass.getProperty(SYS_TENANT_ID);
+            }
             checkNotFoundTenantIdProperty(entityClass, tenantIdProperty);
             return tenantIdProperty;
         } else {

@@ -19,8 +19,10 @@ package com.haulmont.addon.sdbmt.core.sys.persistence;
 import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.addon.sdbmt.core.global.TenantEntityOperation;
 import com.haulmont.addon.sdbmt.entity.HasTenant;
+import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.chile.core.model.MetaProperty;
 import com.haulmont.cuba.core.entity.TenantEntity;
+import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.sys.persistence.AdditionalCriteriaProvider;
 import org.springframework.stereotype.Component;
 
@@ -43,9 +45,17 @@ public class HasTenantAdditionalCriteriaProvider implements AdditionalCriteriaPr
     @Inject
     protected TenantEntityOperation tenantEntityOperation;
 
+    @Inject
+    protected Metadata metadata;
+
     @Override
     public boolean requiresAdditionalCriteria(Class entityClass) {
-        return TenantEntity.class.isAssignableFrom(entityClass) || HasTenant.class.isAssignableFrom(entityClass);
+        MetaClass metaClass = metadata.getClass(entityClass);
+        if (metaClass != null && entityClass.equals(metaClass.getJavaClass())) {
+            return TenantEntity.class.isAssignableFrom(entityClass) || HasTenant.class.isAssignableFrom(entityClass);
+        } else {
+            return false;
+        }
     }
 
     @Override
