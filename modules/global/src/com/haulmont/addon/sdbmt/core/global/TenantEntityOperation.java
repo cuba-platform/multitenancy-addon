@@ -17,8 +17,7 @@
 package com.haulmont.addon.sdbmt.core.global;
 
 import com.haulmont.addon.sdbmt.core.TenantId;
-import com.haulmont.addon.sdbmt.entity.HasTenant;
-import com.haulmont.addon.sdbmt.entity.Tenant;
+import com.haulmont.addon.sdbmt.entity.*;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.chile.core.model.MetaProperty;
 import com.haulmont.cuba.core.entity.Entity;
@@ -65,7 +64,13 @@ public class TenantEntityOperation {
             throw new IllegalArgumentException(String.format("MetaClass not found for %s", entityClass.getName()));
         }
 
-        if (TenantEntity.class.isAssignableFrom(entityClass) || HasTenant.class.isAssignableFrom(entityClass)) {
+        if (TenantUser.class.isAssignableFrom(metaClass.getJavaClass())
+                || TenantGroup.class.isAssignableFrom(metaClass.getJavaClass())
+                || TenantUserSessionEntity.class.isAssignableFrom(metaClass.getJavaClass())) {
+            return metaClass.getProperty(SYS_TENANT_ID);
+        }
+
+        if (TenantEntity.class.isAssignableFrom(metaClass.getJavaClass()) || HasTenant.class.isAssignableFrom(metaClass.getJavaClass())) {
             MetaProperty tenantIdProperty = metaClass.getProperties().stream()
                     .filter(property -> property.getAnnotatedElement().getAnnotation(TenantId.class) != null || property.getName().equals(TENANT_ID))
                     .findFirst().orElse(null);
