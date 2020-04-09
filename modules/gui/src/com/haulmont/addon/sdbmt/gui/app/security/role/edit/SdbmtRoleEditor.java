@@ -15,43 +15,12 @@
  */
 package com.haulmont.addon.sdbmt.gui.app.security.role.edit;
 
-import com.haulmont.addon.sdbmt.core.app.multitenancy.TenantProvider;
 import com.haulmont.cuba.gui.app.security.role.edit.RoleEditor;
-import com.haulmont.cuba.gui.components.LookupField;
-import com.haulmont.cuba.gui.components.TabSheet;
-import com.haulmont.cuba.security.entity.RoleType;
-
-import javax.inject.Inject;
-import java.util.Arrays;
 
 public class SdbmtRoleEditor extends RoleEditor {
-
-    public static final String SPECIFIC_PERMISSIONS_TAB = "specificPermissionsTab";
-    public static final String UI_PERMISSIONS_TAB = "uiPermissionsTab";
-
-    @Inject
-    protected TenantProvider tenantProvider;
-
-    @Inject
-    private TabSheet permissionsTabsheet;
-
-    @Inject
-    private LookupField<RoleType> securityScopeLookup;
 
     @Override
     protected void postInit() {
         super.postInit();
-        applyTenantChanges();
-    }
-
-    protected void applyTenantChanges() {
-        String tenantId = tenantProvider.getCurrentUserTenantId();
-        if (!tenantId.equals(TenantProvider.NO_TENANT)) {
-            permissionsTabsheet.getTab(SPECIFIC_PERMISSIONS_TAB).setVisible(false);
-            permissionsTabsheet.getTab(UI_PERMISSIONS_TAB).setVisible(false);
-
-            //do not allow tenants to create Super users
-            securityScopeLookup.setOptionsList(Arrays.asList(RoleType.STANDARD, RoleType.READONLY, RoleType.DENYING));
-        }
     }
 }
