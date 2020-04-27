@@ -114,6 +114,11 @@ Use one of the following ways to make your own entities tenant-specific:
 
 **Note**. Tenants don't have write access to entities without the `tenantId` attribute. It is also true for CUBA system entities.
 
+# Predefined roles
+
+- **tenant-admin-role** - allows user to configure tenants
+- **default-tenant-role** - default tenant user role
+
 # Components Compatibility
 
 [Reports](https://github.com/cuba-platform/reports) and [REST API](https://github.com/cuba-platform/restapi) add-ons support multitenancy.
