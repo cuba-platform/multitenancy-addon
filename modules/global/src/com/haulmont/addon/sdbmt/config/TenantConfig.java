@@ -64,10 +64,20 @@ public interface TenantConfig extends Config {
      * @return This default tenant role.
      */
     @Property("cubasdbmt.defaultTenantRole")
-    @Default("sec$Role-6ebff3a8-2179-b2a0-f2f3-b0f766680a67")
+    @Deprecated
     Role getDefaultTenantRole();
 
+    @Deprecated
     void setDefaultTenantRole(Role role);
+
+    /**
+     * @return This default tenant role name. Supports DB and predefined roles
+     */
+    @Property("cubasdbmt.defaultTenantRoleName")
+    @Default("default-tenant-role")
+    String getDefaultTenantRoleName();
+
+    void setDefaultTenantRoleName(Role role);
 
     /**
      * @return This default tenant parent group.

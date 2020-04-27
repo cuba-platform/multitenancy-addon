@@ -19,13 +19,19 @@ package com.haulmont.addon.sdbmt.core.sys.listener;
 import com.haulmont.addon.sdbmt.config.TenantConfig;
 import com.haulmont.addon.sdbmt.entity.Tenant;
 import com.haulmont.cuba.core.EntityManager;
+import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.Metadata;
+import com.haulmont.cuba.core.global.View;
 import com.haulmont.cuba.core.listener.BeforeInsertEntityListener;
 import com.haulmont.cuba.core.listener.BeforeUpdateEntityListener;
+import com.haulmont.cuba.security.app.role.PredefinedRoleDefinitionRepository;
+import com.haulmont.cuba.security.app.role.RolesHelper;
 import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.cuba.security.entity.Role;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.entity.UserRole;
+import com.haulmont.cuba.security.role.RoleDefinition;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -38,6 +44,15 @@ public class TenantListener implements BeforeUpdateEntityListener<Tenant>, Befor
 
     @Inject
     protected Metadata metadata;
+
+    @Inject
+    protected PredefinedRoleDefinitionRepository predefinedRoleDefinitionRepository;
+
+    @Inject
+    protected RolesHelper rolesHelper;
+
+    @Inject
+    protected DataManager dataManager;
 
     @Override
     public void onBeforeInsert(Tenant tenant, EntityManager entityManager) {
@@ -62,7 +77,7 @@ public class TenantListener implements BeforeUpdateEntityListener<Tenant>, Befor
     }
 
     protected void assignDefaultTenantRole(User user, EntityManager em) {
-        Role tenantDefaultRole = tenantConfig.getDefaultTenantRole();
+        Role tenantDefaultRole = getDefaultTenantRole();
         if (tenantDefaultRole == null) {
             throw new RuntimeException("Default tenant role not found");
         }
@@ -70,9 +85,33 @@ public class TenantListener implements BeforeUpdateEntityListener<Tenant>, Befor
         if (!userHasRole(user, tenantDefaultRole)) {
             UserRole userRole = metadata.create(UserRole.class);
             userRole.setUser(user);
-            userRole.setRole(tenantDefaultRole);
+            if (tenantDefaultRole.isPredefined()) {
+                userRole.setRoleName(tenantDefaultRole.getName());
+            } else {
+                userRole.setRole(tenantDefaultRole);
+            }
             em.persist(userRole);
             user.getUserRoles().add(userRole);
+        }
+    }
+
+    private Role getDefaultTenantRole() {
+        if (tenantConfig.getDefaultTenantRole() != null) {
+            return tenantConfig.getDefaultTenantRole();
+        }
+        String roleName = tenantConfig.getDefaultTenantRoleName();
+        RoleDefinition predefinedRole = predefinedRoleDefinitionRepository.getRoleDefinitionByName(roleName);
+        if (predefinedRole != null) {
+            return rolesHelper.transformToRole(predefinedRole);
+        } else {
+            LoadContext<Role> loadContext = new LoadContext<>(Role.class);
+            loadContext
+                    .setView(View.LOCAL)
+                    .setQueryString("select r from sec$Role r where r.name=:name")
+                    .setParameter("name", roleName)
+                    .setMaxResults(1);
+            return dataManager.load(loadContext);
+
         }
     }
 

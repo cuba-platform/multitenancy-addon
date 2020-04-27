@@ -143,7 +143,7 @@ Tenant permissions are handled by the [CUBA security subsystem](https://doc.cuba
 
 All tenants are implicitly assigned the *Tenant Default Role*. The purpose of the role is to hide system functionality which should not be accessible to other tenants (JMX console, Server log and so on).
 
-The default tenant role is specified in `TenantConfig` (`cubasdbmt.defaultTenantRole`). It is assigned to all tenant users automatically in `SdbmtUserEntityListener`.
+The default tenant role is specified in `TenantConfig` (`cubasdbmt.defaultTenantRoleName`). It is assigned to all tenant users automatically in `SdbmtUserEntityListener`.
 
 Tenants can create their own user roles, so the role editor has been modified. Additionally to the CUBA requirement for users to have access to the Permission entity, the system now allows users to only give those permissions that they own.
 
@@ -245,7 +245,7 @@ The following properties should be set in the `app.properties` and `web-app.prop
 * Defines a name of the URL parameter for the tenant ID.
 * Default value: `tenantId`.
 
-**cubasdbmt.defaultTenantRole**
+**cubasdbmt.defaultTenantRoleName**
 
 * Enables providing a default user role for tenants.
 * Default value: `false`.
