@@ -31,10 +31,10 @@ import java.util.function.Consumer;
 
 public class TenantAdminValidator implements Consumer<Entity> {
 
-    private Messages messages = AppBeans.get(Messages.class);
-    private MultiTenancyHelperService multiTenancyHelper = AppBeans.get(MultiTenancyHelperService.class);
-    private TenantEntityOperation tenantEntityOperation = AppBeans.get(TenantEntityOperation.class);
-    private Datasource<Tenant> tenantDs;
+    private final Messages messages = AppBeans.get(Messages.class);
+    private final MultiTenancyHelperService multiTenancyHelper = AppBeans.get(MultiTenancyHelperService.class);
+    private final TenantEntityOperation tenantEntityOperation = AppBeans.get(TenantEntityOperation.class);
+    private final Datasource<Tenant> tenantDs;
 
     public TenantAdminValidator(Datasource<Tenant> tenantDs) {
         this.tenantDs = tenantDs;
@@ -52,7 +52,8 @@ public class TenantAdminValidator implements Consumer<Entity> {
         }
 
         String adminTenantId = tenantEntityOperation.getTenantId(value);
-        if (adminTenantId != null && !adminTenantId.equals(TenantProvider.NO_TENANT) && !Objects.equals(adminTenantId, tenantDs.getItem().getTenantId())) {
+        if (adminTenantId != null && !adminTenantId.equals(TenantProvider.NO_TENANT)
+                && !Objects.equals(adminTenantId, tenantDs.getItem().getTenantId())) {
             throw new ValidationException(messages.getMessage(TenantAdminValidator.class, "validation.userBelongsToDifferentTenant"));
         }
     }

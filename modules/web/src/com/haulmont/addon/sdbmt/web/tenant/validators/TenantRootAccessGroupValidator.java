@@ -31,9 +31,9 @@ import java.util.function.Consumer;
 
 public class TenantRootAccessGroupValidator implements Consumer<Group> {
 
-    private Messages messages = AppBeans.get(Messages.class);
-    private DataManager dataManager = AppBeans.get(DataManager.class);
-    private Tenant tenant;
+    private final Messages messages = AppBeans.get(Messages.class);
+    private final DataManager dataManager = AppBeans.get(DataManager.class);
+    private final Tenant tenant;
 
     public TenantRootAccessGroupValidator(Tenant tenant) {
         this.tenant = tenant;
@@ -48,7 +48,8 @@ public class TenantRootAccessGroupValidator implements Consumer<Group> {
         DataManager dm = AppBeans.get(DataManager.class);
         Group group = dm.reload(value, "group-tenant-and-hierarchy");
         Tenant groupTenant = getTenantGroup(group);
-        if (group.getSysTenantId() != null && groupTenant != null && !groupTenant.equals(tenant) && !group.getSysTenantId().equals(TenantProvider.NO_TENANT)) {
+        if (group.getSysTenantId() != null && groupTenant != null && !groupTenant.equals(tenant)
+                && !group.getSysTenantId().equals(TenantProvider.NO_TENANT)) {
             throw new ValidationException(messages.getMessage(TenantRootAccessGroupValidator.class, "validation.hasTenant"));
         } else if (isRootGroup(group)) {
             throw new ValidationException(messages.getMessage(TenantRootAccessGroupValidator.class, "validation.rootGroup"));
