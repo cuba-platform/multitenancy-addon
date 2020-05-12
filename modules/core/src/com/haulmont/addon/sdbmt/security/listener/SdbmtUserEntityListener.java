@@ -26,6 +26,7 @@ import com.haulmont.cuba.security.entity.UserRole;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 
 @Component("cubasdbmt_SdbmtUserEntityListener")
 public class SdbmtUserEntityListener implements BeforeInsertEntityListener<User> {
@@ -49,6 +50,9 @@ public class SdbmtUserEntityListener implements BeforeInsertEntityListener<User>
                 userRole.setUser(user);
                 userRole.setRole(tenantDefaultRole);
                 entityManager.persist(userRole);
+                if (user.getUserRoles() == null) {
+                    user.setUserRoles(new ArrayList<>());
+                }
                 user.getUserRoles().add(userRole);
             }
         }
