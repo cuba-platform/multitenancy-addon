@@ -26,7 +26,7 @@
                     class="com.haulmont.addon.sdbmt.entity.Tenant"
                     view="tenant-edit"/>
     </dsContext>
-    <dialogMode width="610px"
+    <dialogMode width="AUTO"
                 forceDialog="true"/>
     <layout expand="windowActions"
             spacing="true">
