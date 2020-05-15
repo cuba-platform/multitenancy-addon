@@ -30,7 +30,7 @@
                 forceDialog="true"/>
     <layout expand="windowActions"
             spacing="true">
-        <grid id="grid" width="450px" spacing="true">
+        <grid id="grid" width="AUTO" spacing="true">
             <columns>
                 <column/>
                 <column flex="1"/>
