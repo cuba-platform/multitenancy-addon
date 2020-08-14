@@ -117,7 +117,7 @@ Use one of the following ways to make your own entities tenant-specific:
 # Predefined roles
 
 - **tenant-admin-role** - allows user to configure tenants
-- **default-tenant-role** - default tenant user role
+- **default-tenant-role** - default tenant user role. By default tenant role.
 
 # Components Compatibility
 
