@@ -10,6 +10,7 @@
   - [From the Marketplace](#from-the-marketplace)
   - [By Coordinates](#by-coordinates)
 - [Setting](#setting)
+- [Predefined Roles](#predefined-roles)
 - [Components Compatibility](#components-compatibility)
 - [Managing Tenants](#managing-tenants)
 - [Tenant Permissions](#tenant-permissions)
@@ -114,9 +115,9 @@ Use one of the following ways to make your own entities tenant-specific:
 
 **Note**. Tenants don't have write access to entities without the `tenantId` attribute. It is also true for CUBA system entities.
 
-# Predefined roles
+# Predefined Roles
 
-- **tenant-admin-role** - allows user to configure tenants
+- **tenant-admin-role** - allows user to configure tenants.
 - **default-tenant-role** - default tenant user role. By default tenant role.
 
 # Components Compatibility
