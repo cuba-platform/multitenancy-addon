@@ -22,10 +22,7 @@ import com.haulmont.cuba.security.app.role.annotation.EntityAccess;
 import com.haulmont.cuba.security.app.role.annotation.EntityAttributeAccess;
 import com.haulmont.cuba.security.app.role.annotation.Role;
 import com.haulmont.cuba.security.app.role.annotation.ScreenAccess;
-import com.haulmont.cuba.security.entity.EntityOp;
-import com.haulmont.cuba.security.entity.Group;
-import com.haulmont.cuba.security.entity.User;
-import com.haulmont.cuba.security.entity.UserRole;
+import com.haulmont.cuba.security.entity.*;
 import com.haulmont.cuba.security.role.EntityAttributePermissionsContainer;
 import com.haulmont.cuba.security.role.EntityPermissionsContainer;
 import com.haulmont.cuba.security.role.ScreenPermissionsContainer;
@@ -42,8 +39,16 @@ public class TenantsAdminRole extends AnnotatedRoleDefinition {
     @EntityAccess(entityClass = Tenant.class,
             operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
     @EntityAccess(entityClass = User.class,
-            operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE})
+            operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
     @EntityAccess(entityClass = UserRole.class,
+            operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
+    @EntityAccess(entityClass = Permission.class,
+            operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
+    @EntityAccess(entityName = "sec$Target",
+            operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
+    @EntityAccess(entityName = "sec$MultipleTarget",
+            operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
+    @EntityAccess(entityName = "sec$OperationTarget",
             operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
     @Override
     public EntityPermissionsContainer entityPermissions() {
@@ -55,6 +60,10 @@ public class TenantsAdminRole extends AnnotatedRoleDefinition {
     @EntityAttributeAccess(entityClass = Tenant.class, modify = "*")
     @EntityAttributeAccess(entityClass = User.class, modify = "*")
     @EntityAttributeAccess(entityClass = UserRole.class, modify = "*")
+    @EntityAttributeAccess(entityClass = Permission.class, modify = "*")
+    @EntityAttributeAccess(entityName = "sec$Target", modify = "*")
+    @EntityAttributeAccess(entityName = "sec$MultipleTarget", modify = "*")
+    @EntityAttributeAccess(entityName = "sec$OperationTarget", modify = "*")
     @Override
     public EntityAttributePermissionsContainer entityAttributePermissions() {
         return super.entityAttributePermissions();
@@ -63,6 +72,7 @@ public class TenantsAdminRole extends AnnotatedRoleDefinition {
     @ScreenAccess(screenIds = {"tenant-management",
             "cubasdbmt$Tenant.browse",
             "cubasdbmt$Tenant.edit",
+            "administration",
             "sec$Role.browse",
             "sec$Role.lookup",
             "sec$Role.edit",
