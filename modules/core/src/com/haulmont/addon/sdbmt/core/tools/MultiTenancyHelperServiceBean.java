@@ -17,7 +17,10 @@
 package com.haulmont.addon.sdbmt.core.tools;
 
 import com.haulmont.addon.sdbmt.config.TenantConfig;
+import com.haulmont.addon.sdbmt.core.global.TenantEntityOperation;
 import com.haulmont.cuba.core.app.ServerConfig;
+import com.haulmont.cuba.core.entity.Entity;
+import com.haulmont.cuba.core.global.UserSessionSource;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -31,12 +34,24 @@ public class MultiTenancyHelperServiceBean implements MultiTenancyHelperService 
     @Inject
     protected TenantConfig tenantConfig;
 
+    @Inject
+    protected UserSessionSource userSessionSource;
+
+    @Inject
+    protected TenantEntityOperation tenantEntityOperation;
+
     @Override
     public boolean isSystemLogin(String login) {
-        if(login == null) return false;
+        if (login == null) return false;
 
         return login.equals(tenantConfig.getAdminUser().getLogin())
                 || login.equals(tenantConfig.getAnonymousUser().getLogin())
                 || login.equals(serverConfig.getAnonymousLogin());
+    }
+
+    @Override
+    public boolean isAccessEntity(Entity entity) {
+        return tenantEntityOperation.getTenant(entity) == null
+                && userSessionSource.getUserSession().getUser().getSysTenantId() == null;
     }
 }

@@ -16,9 +16,13 @@
 
 package com.haulmont.addon.sdbmt.core.tools;
 
+import com.haulmont.cuba.core.entity.Entity;
+
 public interface MultiTenancyHelperService {
 
     String NAME = "cubasdbmt_MultiTenancyHelperService";
 
     boolean isSystemLogin(String login);
+
+    boolean isAccessEntity(Entity entity);
 }

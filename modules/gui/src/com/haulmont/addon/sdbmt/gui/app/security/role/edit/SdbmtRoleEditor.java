@@ -15,12 +15,41 @@
  */
 package com.haulmont.addon.sdbmt.gui.app.security.role.edit;
 
+import com.haulmont.addon.sdbmt.core.tools.MultiTenancyHelperService;
+import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.app.security.role.edit.RoleEditor;
+import com.haulmont.cuba.security.entity.Role;
+
+import javax.inject.Inject;
 
 public class SdbmtRoleEditor extends RoleEditor {
+
+    @Inject
+    protected Notifications notifications;
+
+    @Inject
+    protected MultiTenancyHelperService multiTenancyHelperService;
 
     @Override
     protected void postInit() {
         super.postInit();
+
+        if (!multiTenancyHelperService.isAccessEntity(getItem())) {
+            restrictAccessForPredefinedRole();
+
+            screensTabFrame.setEditable(false);
+        }
+    }
+
+    @Override
+    public boolean preCommit() {
+        Role role = getItem();
+        if (!multiTenancyHelperService.isAccessEntity(role) && !role.isPredefined()) {
+            notifications.create(Notifications.NotificationType.WARNING)
+                    .withCaption(getMessage("notEditableGlobalRole.message"))
+                    .show();
+            return false;
+        }
+        return super.preCommit();
     }
 }

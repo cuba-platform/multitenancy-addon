@@ -18,6 +18,8 @@
 <screen-config xmlns="http://schemas.haulmont.com/cuba/screens.xsd">
     <screen id="sec$Role.edit"
             template="/com/haulmont/addon/sdbmt/gui/app/security/role/edit/role-edit.xml"/>
+    <screen id="sec$Role.browse"
+            template="/com/haulmont/addon/sdbmt/gui/app/security/role/browse/sdbmt-role-browse.xml"/>
     <screen id="sec$UserSessionEntity.browse"
             template="/com/haulmont/addon/sdbmt/gui/app/security/session/browse/sdbmt-session-browse.xml"/>
     <screen id="sec$User.edit"

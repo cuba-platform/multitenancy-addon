@@ -24,6 +24,7 @@ import com.haulmont.chile.core.model.MetaProperty;
 import com.haulmont.cuba.core.entity.TenantEntity;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.sys.persistence.AdditionalCriteriaProvider;
+import com.haulmont.cuba.security.entity.Role;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
@@ -61,6 +62,13 @@ public class HasTenantAdditionalCriteriaProvider implements AdditionalCriteriaPr
     @Override
     public String getAdditionalCriteria(Class entityClass) {
         MetaProperty metaProperty = tenantEntityOperation.getTenantMetaProperty(entityClass);
+
+        if (entityClass.equals(Role.class)) {
+            return String.format("(:tenantId = '%1$s' or this.%2$s = :tenantId or this.%2$s is null)",
+                    TenantProvider.NO_TENANT,
+                    metaProperty.getName());
+        }
+
         return String.format("(:tenantId = '%s' or this.%s = :tenantId)", TenantProvider.NO_TENANT, metaProperty.getName());
     }
 

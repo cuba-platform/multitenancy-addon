@@ -19,5 +19,24 @@
         class="com.haulmont.addon.sdbmt.gui.app.security.role.edit.SdbmtRoleEditor"
         extends="/com/haulmont/cuba/gui/app/security/role/edit/role-edit.xml"
         messagesPack="com.haulmont.addon.sdbmt.gui.app.security.role.edit">
-    <layout/>
+
+    <layout>
+        <tabSheet id="permissionsTabsheet">
+            <tab id="specificPermissionsTab">
+                <frame id="specificTabFrame" src="/com/haulmont/addon/sdbmt/gui/app/security/role/edit/tabs/sdbmt-specific-permission-tab.xml"/>
+            </tab>
+            <tab id="entityPermissionsTab">
+                <frame src="/com/haulmont/addon/sdbmt/gui/app/security/role/edit/tabs/sdbmt-entities-permission-tab.xml"
+                       id="entitiesTabFrame"/>
+            </tab>
+            <tab id="propertyPermissionsTab">
+                <frame src="/com/haulmont/addon/sdbmt/gui/app/security/role/edit/tabs/sdbmt-attributes-permission-tab.xml"
+                       id="attributesTabFrame"/>
+            </tab>
+            <tab id="uiPermissionsTab">
+                <frame src="/com/haulmont/addon/sdbmt/gui/app/security/role/edit/tabs/sdbmt-ui-permission-tab.xml"
+                       id="uiTabFrame"/>
+            </tab>
+        </tabSheet>
+    </layout>
 </window>
