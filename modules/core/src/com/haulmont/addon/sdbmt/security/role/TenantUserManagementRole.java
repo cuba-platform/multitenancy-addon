@@ -11,10 +11,10 @@ import com.haulmont.cuba.security.role.EntityAttributePermissionsContainer;
 import com.haulmont.cuba.security.role.EntityPermissionsContainer;
 import com.haulmont.cuba.security.role.ScreenPermissionsContainer;
 
-@Role(name = TenantUserManagerRole.ROLE_NAME)
-public class TenantUserManagerRole extends AnnotatedRoleDefinition {
+@Role(name = TenantUserManagementRole.ROLE_NAME)
+public class TenantUserManagementRole extends AnnotatedRoleDefinition {
 
-    public static final String ROLE_NAME = "tenant-user-manager";
+    public static final String ROLE_NAME = "tenant-user-management-role";
 
     @EntityAccess(entityClass = Group.class,
             operations = {EntityOp.CREATE, EntityOp.READ, EntityOp.UPDATE, EntityOp.DELETE})
