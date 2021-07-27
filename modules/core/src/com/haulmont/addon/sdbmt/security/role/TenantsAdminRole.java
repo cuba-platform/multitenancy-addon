@@ -30,6 +30,11 @@ import com.haulmont.cuba.security.role.EntityAttributePermissionsContainer;
 import com.haulmont.cuba.security.role.EntityPermissionsContainer;
 import com.haulmont.cuba.security.role.ScreenPermissionsContainer;
 
+/**
+ * @deprecated Use {@link com.haulmont.addon.sdbmt.security.role.TenantUserManagementRole} instead
+ */
+
+@Deprecated
 @Role(name = TenantsAdminRole.ROLE_NAME)
 public class TenantsAdminRole extends AnnotatedRoleDefinition {
 
