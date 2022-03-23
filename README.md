@@ -236,16 +236,6 @@ Constants:
 
 The following properties should be set in the `app.properties` and `web-app.properties` files in the `core` and `web` modules.
 
-**cubasdbmt.adminUser**
-
-* Enables an administrator of the system.
-* Default value: `false`.
-
-**cubasdbmt.anonymousUser**
-
-* Enables an anonymous user of the system.
-* Default value: `false`.
-
 **cubasdbmt.tenantIdUrlParamName**
 
 * Defines a name of the URL parameter for the tenant ID.
